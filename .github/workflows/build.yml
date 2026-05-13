@@ -27,11 +27,11 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            -t ghcr.io/ltdogfish/portfoliosite:latest \
-            -t ghcr.io/ltdogfish/portfoliosite:${{ github.sha }} \
+            -t ghcr.io/lt-dogfish/portfoliosite:latest \
+            -t ghcr.io/lt-dogfish/portfoliosite:${{ github.sha }} \
             .
 
       - name: Push image
         run: |
-          docker push ghcr.io/ltdogfish/portfoliosite:latest
-          docker push ghcr.io/ltdogfish/portfoliosite:${{ github.sha }}
+          docker push ghcr.io/lt-dogfish/portfoliosite:latest
+          docker push ghcr.io/lt-dogfish/portfoliosite:${{ github.sha }}
