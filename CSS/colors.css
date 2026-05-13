@@ -1,0 +1,44 @@
+:root
+{
+	--gray: rgb(96, 96, 96);
+	--gray-light: rgb(236, 236, 236);
+	--gray-mid: rgb(149, 149, 149);
+	--gray-darker: rgb(68, 68, 68);
+	--white: rgb(255, 255, 255);
+	--cream: var(--color1);
+	--black: rgb(0, 0, 0);
+
+
+
+	--bg: var(--white);
+	--bg-inverted: var(--black);
+
+	--text: var(--black);
+	--text-hover: var(--black);
+	--text-clicked: var(--white);
+	--text-selected: var(--gray-black);
+	--text-innactive: var(--gray-light);
+	--text-important: rgb(176, 255, 50);
+
+	--name: var(--black);
+	--name-shadow: var(--white);
+
+	/*
+	--text: var(--gray);
+		--text-hover: var(--gray-darker);
+		--text-clicked: var(--color2);
+		--text-selected: var(--gray);
+		--text-innactive: var(--gray-light);
+	*/
+	--border: var(--black);
+	--border-selected: var(--black);
+
+	--berzier1: cubic-bezier(.51, .32, 0, .98);
+
+
+	--color1: rgb(247, 243, 237);
+	--color2: rgb(255, 207, 86);
+	--color3: rgb(252, 111, 83);
+	--color4: rgb(220, 247, 144);
+	--color5: rgb(147, 196, 166);
+}
