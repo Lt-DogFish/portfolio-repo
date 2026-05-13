@@ -17,6 +17,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set version
+        id: version
+        run: |
+          echo "version=v${{ github.run_number }}" >> $GITHUB_OUTPUT
+
       - name: Log into GHCR
         uses: docker/login-action@v3
         with:
@@ -28,10 +33,10 @@ jobs:
         run: |
           docker build \
             -t ghcr.io/lt-dogfish/portfoliosite:latest \
-            -t ghcr.io/lt-dogfish/portfoliosite:${{ github.sha }} \
+            -t ghcr.io/lt-dogfish/portfoliosite:${{ steps.version.outputs.version }} \
             .
 
       - name: Push image
         run: |
           docker push ghcr.io/lt-dogfish/portfoliosite:latest
-          docker push ghcr.io/lt-dogfish/portfoliosite:${{ github.sha }}
+          docker push ghcr.io/lt-dogfish/portfoliosite:${{ steps.version.outputs.version }}
