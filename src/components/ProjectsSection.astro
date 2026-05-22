@@ -1,9 +1,88 @@
+---
+
+const projects = ["Headphone", "Laptop", "Monitor", "Mouse", "Keyboard"];
+
+---
+
+
 <section class="projects">
 	<h2>Projects</h2>
   
-	<ul>
-	  <li><a href="/projects/project-1">Project One</a></li>
-	  <li><a href="/projects/project-2">Project Two</a></li>
-	  <li><a href="/projects/project-3">Project Three</a></li>
-	</ul>
-  </section>
+	<div class="projects-list">
+		{projects.map(project =>
+		(
+			<div class="project">
+				<a href={"/projects/${project}"}> {project} </a>
+				<div class="project-description">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.
+				</div>
+			</div>
+		))}
+	</div>
+</section>
+
+<style>
+	.projects
+	{
+		background: var(--black);
+
+		display: flex;
+		flex-direction: column;
+
+		height: max-content;
+	}
+
+	.projects .projects-list
+	{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		align-items: center;
+
+		width: 100%;
+		height: 100%;
+	}
+
+	.projects .projects-list .project
+	{
+		width: 100%;
+		height: max-content;
+
+		text-align: center;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.projects .projects-list .project a
+	{
+		width: fit-content;
+		height: 100%;
+
+		border: 2px solid white;
+
+		color: white;
+		text-decoration: none;
+		text-align: center;
+	}
+
+	.projects .projects-list .project .project-description
+	{
+		width: max-content;
+		padding: 8px;
+
+		border: 2px solid white;
+
+
+		opacity: 0;
+  		transform: translateX(-8px);
+  		transition: opacity 0.4s ease, transform 0.4s ease;
+	}
+
+	.projects .projects-list .project:hover .project-description
+	{
+		opacity: 1;
+  		transform: translateX(0);
+	}
+</style>

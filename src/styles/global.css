@@ -5,6 +5,8 @@
 	--beige: #e7e4e0;
 	--neon: #fafd05;
 	--lightgreen: #b8f160;
+
+
 }
 
 
@@ -34,23 +36,6 @@ section
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-}
-
-.projects
-{
-	background: var(--black);
-}
-
-.projects ul
-{
-	list-style: disc;
-	padding-left: 2rem;
-}
-
-.projects a
-{
-	color: white;
-	text-decoration: none;
 }
 
 .footer
