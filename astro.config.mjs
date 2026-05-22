@@ -5,6 +5,6 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	server: {
 	  host: true,
-	  allowedHosts: ['astro.ravijey.com']
+	  allowedHosts: ['astro.ravijey.com','astro2.ravijey.com']
 	}
   });
