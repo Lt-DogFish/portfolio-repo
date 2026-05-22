@@ -1,3 +1,13 @@
+:root
+{
+	--white: #e4e4e4;
+	--black: #111111;
+	--beige: #e7e4e0;
+	--neon: #fafd05;
+	--lightgreen: #b8f160;
+}
+
+
 html
 {
 	scroll-behavior: smooth;
@@ -7,7 +17,7 @@ body
 {
 	margin: 0;
 	font-family: sans-serif;
-	background: #111;
+	background: var(--black);
 	color: white;
 }
 
@@ -28,7 +38,7 @@ section
 
 .projects
 {
-	background: #181818;
+	background: var(--black);
 }
 
 .projects ul
@@ -50,5 +60,5 @@ section
 	gap: 2rem;
 	align-items: center;
 	justify-content: center;
-	background: black;
+	background: var(--neon);
 }
