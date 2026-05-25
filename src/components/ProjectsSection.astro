@@ -1,14 +1,58 @@
 ---
-const projects = {"Proj_1":"", "drone_simulation":"", "4_legged_inversekinematics":"", "robust_character_controller":"", "personal_k3s_cluster":"", "portfolio_site":"", "microntrollers_RTOS":""};
+const projects = {
+	"001": 
+	{
+		title: "Proj_1",
+		caption: "Description for project 1",
+		imgname: "Proj_1.jpeg"
+	},
+	"002": 
+	{
+		title: "drone_simulation",
+		caption: "Advanced drone physics simulation",
+		imgname: "Proj_2.jpeg"
+	},
+	"003": 
+	{
+		title: "4_legged_inversekinematics",
+		caption: "Procedural IK walking system",
+		imgname: "Proj_3.jpeg"
+	},
+	"004": 
+	{
+		title: "robust_character_controller",
+		caption: "Physics-based movement controller",
+		imgname: "Proj_4.jpeg"
+	},
+	"005": 
+	{
+		title: "personal_k3s_cluster",
+		caption: "Self-hosted Kubernetes cluster",
+		imgname: "Proj_5.jpeg"
+	},
+	"006": 
+	{
+		title: "portfolio_site",
+		caption: "My personal portfolio website",
+		imgname: "Proj_6.jpeg"
+	},
+	"007": 
+	{
+		title: "microcontrollers_RTOS",
+		caption: "Embedded RTOS experiments",
+		imgname: "IMG_3919.jpeg"
+	}
+};
 
-const imgs = import.meta.glob("../assets/Reference images/*.jpeg", { eager: true }) as Record<string, { default: string }>;
 
-const imgsUrls = Object.fromEntries
-(
+const imgs = import.meta.glob("../assets/Reference images/*.jpeg", { eager: true }) as Record<string, { default: string } | { default: { src: string } }>;
+const imgsUrls = Object.fromEntries(
 	Object.entries(imgs).map(([path, mod]) => 
 	[
-		path.split("/").pop()?.replace(".jpeg", ""),
-		mod.default
+		path.split("/").pop(),
+		typeof mod.default === "string"
+			? mod.default
+			: mod.default.src
 	])
 );
 ---
@@ -16,20 +60,144 @@ const imgsUrls = Object.fromEntries
 
 <section class="projects">
 	<div class="projects-list">
-		{Object.entries(projects).map(([project, description]) =>
-		(
-			<a class="project-title" data-projectName={project} href={`/projects/${project}`}>
-				{project.split("").map((char, i) => <span data-letter={char} style={`--i: ${i}`}>{char}</span>)}
-			</a>
-		))}
+		{Object.entries(projects).map(([project, description]) => 
+		{
+			const title = description.title;
+			const length = Math.max(project.length, title.length);
+		
+			return(
+				<a
+					class="project"
+					data-projectname={project}
+					data-caption={description.caption}
+					data-image={imgsUrls[description.imgname]}
+					href={`/projects/${project}`}
+				>
+
+					{Array.from({ length }).map((_, i) => (
+						<span data-letter={title[i] || ""} style={`--i: ${i}`}>{project[length-1-i] || "."} </span>
+					))}
+				</a>
+			);
+		})}
 	</div>
-	<div class="project-description">
-		{/* <img src={imgsUrls[project]} loading="lazy"/> */}
-		<span class="project-description-caption"> Lorem ipsum dolor sit amet consectetur </span>
+	<div class="project-description-container">
+		<div class="hover-box"></div>
 	</div>
 </section>
 
-<style>
+<script is:inline>
+	window.addEventListener("DOMContentLoaded", () => 
+	{
+		const container = document.querySelector(".hover-box");
+
+		document.querySelectorAll(".project").forEach(project => 
+		{
+			let hovered = false;
+
+			const getCard = () => container.querySelector(`.project-description[data-project="${project.dataset.projectname}"]`);
+
+			project.addEventListener("mouseenter", (e) => 
+			{
+				hovered = true;
+
+				const src = project.dataset.image;
+				if(src)
+				{
+					const img = new Image();
+					img.src = src;
+				}
+
+				let card = getCard();
+
+				if(!card)
+				{
+					card = document.createElement("div");
+					card.className = "project-description";
+					card.dataset.project = project.dataset.projectname || "";
+
+					card.innerHTML = `
+						<img class="project-description-image" src="${project.dataset.image || ""}">
+						<span class="project-description-caption">${project.dataset.caption || ""}</span>`;
+
+					container.appendChild(card);
+				}
+
+
+				const top = e.top - 50;
+				
+				requestAnimationFrame(() =>
+				{
+					container.top = `${top}px`;
+				});
+
+				void card.offsetWidth;
+				card.classList.add("show");
+			});
+
+			project.addEventListener("mouseleave", () =>
+			{
+				hovered = false;
+
+				const card = getCard();
+				if(!card) return;
+
+				card.classList.remove("show");
+
+				if(hovered) return;
+				card.remove();
+			});
+		});
+	});
+
+	const boxes = document.querySelectorAll(".prdoject");
+
+	document.addEventListener("mousemove", (e) => 
+	{
+		const mouseX = e.clientX;
+		const mouseY = e.clientY;
+
+		boxes.forEach(box => 
+		{
+			const rect = box.getBoundingClientRect();
+
+			const boxX = rect.right;
+			const boxY = rect.top + rect.height / 2;
+
+			const dx = mouseX - boxX;
+			const dy = mouseY - boxY;
+
+			const distance = Math.sqrt(dx * dx + dy * dy);
+
+			const maxDistance = 100;
+
+			if (distance < maxDistance)
+			{
+				// strength increases when closer
+				const force = (maxDistance - distance) / maxDistance;
+
+				// normalize direction
+				const angleX = dx / distance;
+				const angleY = dy / distance;
+
+				// move AWAY from mouse
+				const moveX = angleX * force * 50;
+				const moveY = angleY * force * 50;
+
+				box.style.transform = `translate(${moveX}px, ${moveY}px)`;
+			}
+			else
+			{
+			box.style.transform = `translate(0px, 0px)`;
+			}
+		});
+	});
+
+
+	
+</script>
+
+<style is:global>
 	.projects
 	{
 		display: flex;
@@ -40,49 +208,60 @@ const imgsUrls = Object.fromEntries
 
 		height: max-content;
 		width: 100%;
+
+		border-bottom: 1px solid var(--sunset);
 	}
 
 	.projects-list
 	{
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		align-items: flex-end;
 
 		width: 50%;
 	}
 
-	.project-title
+	.project
 	{
 		position: relative;
 		z-index: 1;
 
 		display: inline-block;
 		font-family: var(--font-bebas);
-		font-size: 4em;
+		font-size: 3.4em;
 
-		color: var(--txt);
+
 
 		overflow: hidden;
 		text-decoration: none;
 	}
 
-	.project-title span
+
+	.project span
 	{
 		display: inline-block;
 		position: relative;
+		min-width: 1ch;
+		text-align: right;
 
 		transform: translateY(0%);
+		color: var(--txt);
 
 		transition: transform 0.2s cubic-bezier(.77,.12,.16,.95);
 		transition-delay: calc(var(--i) * 0.01s); 
 	}
 
-	.project-title:hover span
+
+	.project:hover span
 	{
 		transform: translateY(-100%);
+		color: var(--neon);
+
+		
 	}
 
-	.project-title span:after
+	.project span:after
 	{
 		content: attr(data-letter);
 		position: absolute;
@@ -91,65 +270,79 @@ const imgsUrls = Object.fromEntries
   		top: 100%;
 
 		transform: translateY(100%);
+		color: var(--neon);
 
 		transition: transform 0.5s cubic-bezier(.77,.12,.16,.95);
 		transition-delay: calc(var(--i) * 0.01s); 
 	}
 
-	.project-title:hover span:after
+
+	.project:hover span:after
 	{
 		transform: translateY(0%);
 	}
 
-	.project-description
+	.project-description-container
 	{
 		position: relative;
+
 		width: 50%;
+		height: 100%;
 	}
 
-	{/*  
-	.project-description img
-	{
-		width: 15%;
-		height: auto;
-	}
-	*/}
-
-	.project-description-caption,
-	.project-description-caption:after
+	.hover-box
 	{
 		position: absolute;
-		/* 		
-		left: 50%;
-		top: 0;
 
+		top: 0;
+		left: 0;
+
+		width: 50%;
+		height: 100%;
+	}
+
+	.project-description
+	{
+		position: absolute;
+
+		left: 0;
 		width: 100%;
 
 		display: flex;
+		flex-direction: column;
 
-		color: var(--txt);
+		opacity: 0;
+		filter: blur(20px);
 
-		opacity: 1;
-		filter: blur(0);
-
-		transition: 
-			opacity 0.4s cubic-bezier(.98,0,.06,.96),
-			filter 0.4s cubic-bezier(.98,0,.06,.96);
+		transition:
+			opacity 0.3s cubic-bezier(.98,0,.06,.96),
+			filter 0.6s cubic-bezier(.98,0,.06,.96);
 
 		pointer-events: none;
-		*/
 	}
 
-	.projects:has(.project-title:hover) .project-description-caption:after,
-	.projects:has(.project-title:focus-visible) .project-description-caption:after
+	.project-description.show
 	{
-		
-		content: none;
-		/*
 		opacity: 1;
 		filter: blur(0);
-		pointer-events: auto; */
 
+		pointer-events: auto;
+	}
+
+	.project-description-image
+	{
+		width: 100%;
+		height: auto;
+
+		border-radius: 30px;
+
+		box-shadow: 10px 10px 50px rgba(149, 149, 149, 1);
+	}
+
+	.project-description-caption
+	{
+		font-size: 1rem;
+		color: var(--txt);
 	}
 
 </style>
