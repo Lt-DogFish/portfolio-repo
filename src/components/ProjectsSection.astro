@@ -16,7 +16,7 @@ const imgsUrls = Object.fromEntries
 
 <section class="projects">
 	<div class="projects-list">
-		{Object.entries(projects).forEach(([project, description]) =>
+		{Object.entries(projects).map(([project, description]) =>
 		(
 			<a class="project-title" data-projectName={project} href={`/projects/${project}`}>
 				{project.split("").map((char, i) => <span data-letter={char} style={`--i: ${i}`}>{char}</span>)}

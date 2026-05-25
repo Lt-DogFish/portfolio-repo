@@ -1,6 +1,6 @@
 <footer class="footer">
-	<h1 class="raj">Raj</h1>
-	<h1 class="jeyaram">Jeyaram</h1>
+	<h1 class="raj">Raj Jeyaram</h1>
+	<!--h1 class="jeyaram">.</h1-->
 	<!--a href="https://portfolio.ravijey.com">RajvigneshJeyaram</a-->
 	<!--a href="https://twitter.com/yourname">Twitter</a-->
 	<!--a href="https://your-other-domain.com">Other Site</a-->
@@ -9,20 +9,27 @@
 <style>	
 	.footer
 	{
-		min-height: 50vh;
-		display: flex;
-		gap: 2rem;
-		align-items: left;
-		justify-content: left;
-		background: var(--bg-op);
-
-		
+		border-top: 2px dashed var(--midnight);
+		height: fit-content;
+		background: var(--sunset);
 	}
 	.footer h1
-	{
-		font-family: var(--font-melo);
-		font-size: 20em;
+	{	
+		white-space: nowrap;     /* Prevents text from wrapping to the next line */
+  		overflow: hidden;        /* Hides any text that goes beyond the container */
+  		text-overflow: clip;      /* Simply cuts the text off at the edge */
+
+
+		background: linear-gradient(to bottom, var(--txt) 0%, var(--txt-end) 70%);
+
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+
+		font-family: var(--font-anton);
+		font-size: 30em;
 		margin: 0;
+		margin-top: -0.2em;
+		margin-bottom: -0.5em;
 		padding: 0;
 	}
 

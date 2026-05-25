@@ -23,9 +23,18 @@
 	--sunset: #bf0603;
 	--sun: #8d0801;
 
+	/* Rainbow */
+	--rainbow-1: #360000;
+	--rainbow-2: #2e1700;
+	--rainbow-3: #3c3c00;
+	--rainbow-4: #1e3c00;
+	--rainbow-5: #002626;
+	--rainbow-6: #001831;
+	--rainbow-7: #17002e;
+
 	--bg: var(--beige);
 	--bg-light: var(--beige);
-	--bg-op: var(--darkgray);
+	--bg-op: var(--black);
 
 	--txt-special: var(--black);
 
@@ -35,7 +44,7 @@
 
 	--radial-inner: var(--beige);
 	--radial-middle: var(--beige);
-	--radial-outer: var(--gray);
+	--radial-outer: var(--white);
 
 }
 

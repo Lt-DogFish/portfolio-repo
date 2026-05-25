@@ -3,8 +3,9 @@
 	<!--p>Page loaded in: <span id="load-time">0</span> ms</p-->
 	  <h1 class="raj">Raj \</h1>
 	  <h1 class="jeyaram"> &#8203 &#8203 &#8203 Jeyaram</h1>
-	  <p>/// Simulate / Orchestrate / Innovate </p>
+	  <span class="slash">///</span> <span class="reg">Simulate</span> <span class="slash">/</span> <span class="reg">Orchestrate</span> <span class="slash">/</span> <span class="reg">Innovate</span>
 	</div>
+	<div class="semi-arrow"></div>
   </section>
 
 <style>
@@ -19,6 +20,23 @@
 		align-items: center;
 
 		height: 100vh;
+	}
+
+	.slash
+	{
+		color: var(--sunset);
+		font-size: 1.5rem;
+	}
+
+	.reg
+	{
+		background: linear-gradient(160deg, var(--txt) 10%, var(--txt-end) 50%, var(--txt-end) 100%);
+
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+
+		font-size: 1.5rem;
+		margin-top: -2em;
 	}
 
 	.hero h1
@@ -51,6 +69,58 @@
 		margin-top: -2em;
 		/*color: var(--txt);*/
 	}
+
+
+
+
+	/* Semicircle container */
+    .semi-arrow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 200px;
+	  backdrop-filter: blur(30px);
+      background: -webkit-backdrop-filter: blur(30px);
+      border-radius: 200px 200px 0 0;
+		border: 1px solid var(--sun);
+		border-bottom: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+	  opacity: 0;
+      animation: popUp 2s cubic-bezier(.98,0,.06,.96) forwards;
+    }
+
+    /* Arrow */
+    .semi-arrow::before {
+      content: "▼";
+      color: var(--sunset);
+      font-size: 100px;
+      margin-top: 0.3em;
+    }
+
+	@keyframes popUp {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(200px);
+      } 
+
+	  50% {
+		filter: blur(50px);
+        opacity: 0;
+        transform: translateX(-50%) translateY(200px);
+      } 
+
+
+      100% {
+		filter: blur(0px);
+        opacity: 1;
+        transform: translateX(-50%) translateY(0px);
+      }
+    }
 </style>
 
 <script>
@@ -66,5 +136,5 @@
 		// Display result
 		document.getElementById('load-time')!.textContent = loadTime;
 	});
-	</script>
+</script>
 
