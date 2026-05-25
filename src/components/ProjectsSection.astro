@@ -89,15 +89,16 @@ const imgsUrls = Object.fromEntries(
 <script is:inline>
 	window.addEventListener("DOMContentLoaded", () => 
 	{
-		const container = document.querySelector(".hover-box");
+		const hoverBox = document.querySelector(".hover-box");
+		const imgcontainer = document.querySelector(".project-description-image");
 
 		document.querySelectorAll(".project").forEach(project => 
 		{
 			let hovered = false;
 
-			const getCard = () => container.querySelector(`.project-description[data-project="${project.dataset.projectname}"]`);
+			const getCard = () => hoverBox.querySelector(`.project-description[data-project="${project.dataset.projectname}"]`);
 
-			project.addEventListener("mouseenter", (e) => 
+			project.addEventListener("mouseenter", () => 
 			{
 				hovered = true;
 
@@ -120,15 +121,28 @@ const imgsUrls = Object.fromEntries(
 						<img class="project-description-image" src="${project.dataset.image || ""}">
 						<span class="project-description-caption">${project.dataset.caption || ""}</span>`;
 
-					container.appendChild(card);
+					hoverBox.appendChild(card);
 				}
 
 
-				const top = e.top - 50;
-				
+				// Center the card vertically on the hovered project
+				/* const containerRect = document.querySelector(".project-description-container").getBoundingClientRect();
+				const projectRect = project.top;
+				const projectCenterY = projectRect.top + projectRect.height / 2; */
+
+				const projectListRect = document.querySelector(".projects-list").getBoundingClientRect();
+				const projectRect = project.getBoundingClientRect();
+
+				offset = projectRect.top - projectListRect.top - 200;
+				lerpvalue = 0.1;
+
+
 				requestAnimationFrame(() =>
 				{
-					container.top = `${top}px`;
+					const cardHeight = card.offsetHeight;
+					hoverBox.style.top = `${offset}px`;
+					hoverBox.style.left = `200px`;
+
 				});
 
 				void card.offsetWidth;
@@ -150,7 +164,7 @@ const imgsUrls = Object.fromEntries(
 		});
 	});
 
-	const boxes = document.querySelectorAll(".prdoject");
+	const boxes = document.querySelectorAll(".psroject");
 
 	document.addEventListener("mousemove", (e) => 
 	{
@@ -297,8 +311,8 @@ const imgsUrls = Object.fromEntries(
 		top: 0;
 		left: 0;
 
-		width: 50%;
-		height: 100%;
+		width: 80%;
+		height: fit-content;
 	}
 
 	.project-description
