@@ -82,85 +82,115 @@ const imgsUrls = Object.fromEntries(
 		})}
 	</div>
 	<div class="project-description-container">
-		<div class="hover-box"></div>
+		<div class="hover-box">
+			<div class="project-description show">
+				<img class="project-description-image" src="">
+				<span class="project-description-caption"></span>
+			</div>
+		</div>
 	</div>
 </section>
 
 <script is:inline>
-	window.addEventListener("DOMContentLoaded", () => 
+	window.addEventListener("DOMContentLoaded", () =>
 	{
 		const hoverBox = document.querySelector(".hover-box");
-		const imgcontainer = document.querySelector(".project-description-image");
+		const description = hoverBox.querySelector(".project-description");
+		const image = hoverBox.querySelector(".project-description-image");
+		const caption = hoverBox.querySelector(".project-description-caption");
+		const projectsList = document.querySelector(".projects-list");
 
-		document.querySelectorAll(".project").forEach(project => 
+		let activeProject = null;
+		let swapTimeout = null;
+
+		const hideHoverBox = () =>
 		{
-			let hovered = false;
+			activeProject = null;
 
-			const getCard = () => hoverBox.querySelector(`.project-description[data-project="${project.dataset.projectname}"]`);
+			hoverBox.classList.remove("visible");
+			description.classList.remove("show");
+		};
 
-			project.addEventListener("mouseenter", () => 
+		const showProject = (project) =>
+		{
+			if(activeProject === project) return;
+
+			activeProject = project;
+
+			const nextSrc = project.dataset.image || "";
+			const nextCaption = project.dataset.caption || "";
+
+			// preload image
+			const preload = new Image();
+			preload.src = nextSrc;
+
+			// show container
+			hoverBox.classList.add("visible");
+
+			// fade old content out
+			description.classList.remove("show");
+
+			// cancel previous queued swap
+			clearTimeout(swapTimeout);
+
+			// wait for fade-out
+			swapTimeout = setTimeout(() =>
 			{
-				hovered = true;
+				// user already moved to another project
+				if(activeProject !== project) return;
 
-				const src = project.dataset.image;
-				if(src)
+				preload.onload = () =>
 				{
-					const img = new Image();
-					img.src = src;
-				}
+					// ensure still active
+					if(activeProject !== project) return;
+				};
 
-				let card = getCard();
-
-				if(!card)
+				if(preload.complete)
 				{
-					card = document.createElement("div");
-					card.className = "project-description";
-					card.dataset.project = project.dataset.projectname || "";
+					image.src = nextSrc;
+					caption.textContent = nextCaption;
 
-					card.innerHTML = `
-						<img class="project-description-image" src="${project.dataset.image || ""}">
-						<span class="project-description-caption">${project.dataset.caption || ""}</span>`;
+					const projectListRect = projectsList.getBoundingClientRect();
+					const projectRect = project.getBoundingClientRect();
 
-					hoverBox.appendChild(card);
-				}
+					const offset = projectRect.top - projectListRect.top + projectRect.height / 2 - hoverBox.offsetHeight / 2;
 
-
-				// Center the card vertically on the hovered project
-				/* const containerRect = document.querySelector(".project-description-container").getBoundingClientRect();
-				const projectRect = project.top;
-				const projectCenterY = projectRect.top + projectRect.height / 2; */
-
-				const projectListRect = document.querySelector(".projects-list").getBoundingClientRect();
-				const projectRect = project.getBoundingClientRect();
-
-				offset = projectRect.top - projectListRect.top - 200;
-				lerpvalue = 0.1;
-
-
-				requestAnimationFrame(() =>
-				{
-					const cardHeight = card.offsetHeight;
 					hoverBox.style.top = `${offset}px`;
-					hoverBox.style.left = `200px`;
 
-				});
+					requestAnimationFrame(() =>
+					{
+						description.classList.add("show");
+					});
+				}
 
-				void card.offsetWidth;
-				card.classList.add("show");
-			});
+			}, 600);
+		};
 
-			project.addEventListener("mouseleave", () =>
+		document.querySelectorAll(".project").forEach(project =>
+		{
+			project.addEventListener("mouseenter", () =>
 			{
-				hovered = false;
-
-				const card = getCard();
-				if(!card) return;
-
-				card.classList.remove("show");
-
-				if(hovered) return;
-				card.remove();
+				showProject(project);
 			});
+
+			project.addEventListener("mouseleave", (e) =>
+			{
+				// still inside another project
+				const related = e.relatedTarget;
+
+				if(related && related.closest(".project"))
+				{
+					return;
+				}
+
+				hideHoverBox();
+			});
+		});
+
+		// hide if leaving project list entirely
+		projectsList.addEventListener("mouseleave", () =>
+		{
+			hideHoverBox();
 		});
 	});
 
@@ -271,8 +301,6 @@ const imgsUrls = Object.fromEntries(
 	{
 		transform: translateY(-100%);
 		color: var(--neon);
-
-		
 	}
 
 	.project span:after
@@ -312,14 +340,24 @@ const imgsUrls = Object.fromEntries(
 		left: 0;
 
 		width: 80%;
-		height: fit-content;
+		height: min-content;
+
+		opacity: 0;
+
+		border: 1px solid var(--sunset);
+
+		transition:
+			top 0.35s cubic-bezier(.77,.12,.16,.95),
+			opacity 0.25s ease;
+	}
+
+	.hover-box.visible
+	{
+		opacity: 1;
 	}
 
 	.project-description
 	{
-		position: absolute;
-
-		left: 0;
 		width: 100%;
 
 		display: flex;
@@ -329,18 +367,14 @@ const imgsUrls = Object.fromEntries(
 		filter: blur(20px);
 
 		transition:
-			opacity 0.3s cubic-bezier(.98,0,.06,.96),
+			opacity 0.6s cubic-bezier(.98,0,.06,.96),
 			filter 0.6s cubic-bezier(.98,0,.06,.96);
-
-		pointer-events: none;
 	}
 
 	.project-description.show
 	{
 		opacity: 1;
 		filter: blur(0);
-
-		pointer-events: auto;
 	}
 
 	.project-description-image
@@ -351,10 +385,14 @@ const imgsUrls = Object.fromEntries(
 		border-radius: 30px;
 
 		box-shadow: 10px 10px 50px rgba(149, 149, 149, 1);
+
+		transition: opacity 0.5s cubic-bezier(.98,0,.06,.96);
 	}
 
 	.project-description-caption
 	{
+		width: 100%;
+
 		font-size: 1rem;
 		color: var(--txt);
 	}
