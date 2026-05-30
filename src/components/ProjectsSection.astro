@@ -134,6 +134,7 @@ const imgsUrls = Object.fromEntries(
 			const hoverBoxHeight = window.innerWidth * (530/1920);
 			const hoverBoxWidth = window.innerWidth * (768/1920);
 
+			// hover box smooth movement
 			const topOffset = (projectRect.top - projectListRect.top) + projectRect.height / 2 - hoverBoxHeight / 2;
 
 			const newLeftOffset = (Math.floor(Math.random() * (((window.innerWidth/2) * 0.2) - 0 + 1)) + 0);
