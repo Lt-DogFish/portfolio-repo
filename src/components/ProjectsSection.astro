@@ -137,28 +137,28 @@ const imgsUrls = Object.fromEntries(
 			// hover box smooth movement
 			const topOffset = (projectRect.top - projectListRect.top) + projectRect.height / 2 - hoverBoxHeight / 2;
 
-			const newLeftOffset = (Math.floor(Math.random() * (((window.innerWidth/2) * 0.2) - 0 + 1)) + 0);
+			const newLeftOffset = (Math.floor(Math.random() * (((window.innerWidth/2) * 0.05) - 0 + 1)) + 100);
 
-			if(previousProjectNum < activeProjectNum)
-			{
-				hoverBox.style.height = `${hoverBoxHeight + projectRect.height}px`;
-			}
-			else if(previousProjectNum > activeProjectNum)
-			{
-				hoverBox.style.height = `${hoverBoxHeight + projectRect.height}px`;
-				hoverBox.style.top = `${topOffset}px`;
-			}
+			// if(previousProjectNum < activeProjectNum)
+			// {
+			// 	hoverBox.style.height = `${hoverBoxHeight + projectRect.height}px`;
+			// }
+			// else if(previousProjectNum > activeProjectNum)
+			// {
+			// 	hoverBox.style.height = `${hoverBoxHeight + projectRect.height}px`;
+			// 	hoverBox.style.top = `${topOffset}px`;
+			// }
 
-			if(previousLeftOffset < newLeftOffset)
-			{
-				hoverBox.style.width = `${hoverBoxWidth + (newLeftOffset - previousLeftOffset)}px`;
-			}
-			else if(previousLeftOffset > newLeftOffset)
-			{
-				hoverBox.style.width = `${hoverBoxWidth + (previousLeftOffset - newLeftOffset)}px`;
-				hoverBox.style.left = `${newLeftOffset}px`;	
-			}
-			previousLeftOffset = newLeftOffset;
+			// if(previousLeftOffset < newLeftOffset)
+			// {
+			// 	hoverBox.style.width = `${hoverBoxWidth + (newLeftOffset - previousLeftOffset)}px`;
+			// }
+			// else if(previousLeftOffset > newLeftOffset)
+			// {
+			// 	hoverBox.style.width = `${hoverBoxWidth + (previousLeftOffset - newLeftOffset)}px`;
+			// 	hoverBox.style.left = `${newLeftOffset}px`;	
+			// }
+			// previousLeftOffset = newLeftOffset;
 
 			setTimeout(() =>
 			{
@@ -196,7 +196,7 @@ const imgsUrls = Object.fromEntries(
 				} else {
 					preload.onload = applyContent;
 				}
-			}, 250);
+			}, 100);
 		};
 
 
@@ -375,17 +375,17 @@ const imgsUrls = Object.fromEntries(
 		width: 0px;
 		height: 0px;
 
-		border: 1px solid var(--sunset);
+		/*border: 1px solid var(--sunset);*/
 		border-radius: 30px;
 
 		opacity: 0;
 
 		transition:
-			opacity 0.25s cubic-bezier(.77,.12,.16,.95),
-			height 0.125s cubic-bezier(.77,.12,.16,.95),
-			width 0.125s cubic-bezier(.77,.12,.16,.95),
-			top 0.125s cubic-bezier(.77,.12,.16,.95),
-			left 0.125s cubic-bezier(.77,.12,.16,.95)
+			opacity 0s cubic-bezier(.77,.12,.16,.95),
+			height 0.5s cubic-bezier(.98,0,.06,.96),
+			width 0.5s cubic-bezier(.98,0,.06,.96),
+			top 0.5s cubic-bezier(.98,0,.06,.96),
+			left 0.5s cubic-bezier(.98,0,.06,.96);
 	}
 
 	.hover-box.show
@@ -405,7 +405,7 @@ const imgsUrls = Object.fromEntries(
 
 		transition:
 			opacity 0.25s cubic-bezier(.98,0,.06,.96),
-			filter 0.25s cubic-bezier(.98,0,.06,.96);
+			filter 0.5s cubic-bezier(.98,0,.06,.96);
 	}
 
 	.project-description.show
