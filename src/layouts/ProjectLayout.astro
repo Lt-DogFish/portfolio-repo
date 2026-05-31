@@ -12,22 +12,22 @@ const { title, time, learned, more } = Astro.props;
 ---
 
 
-<div id = "projectLayout">
-    <div id = "information">
-        <div id = `title    ${title}`   class="information-category">   <div class="information-category-name"> Title    </div>    <div class="information-category-content"> {title}   </div> </div>
-        <div id = "time"                class="information-category">   <div class="information-category-name"> Time     </div>    <div class="information-category-content"> {time}    </div> </div>
-        <div id = "learned"             class="information-category">   <div class="information-category-name"> Learned  </div>    <div class="information-category-content"> {learned} </div> </div>
-        <div id = "more"                class="information-category">   <div class="information-category-name"> More     </div>    <div class="information-category-content"> {more}    </div> </div>
+<div class = "projectLayout">
+    <div class = "information">
+        <div id = `${title}`    class="title    information-category">  <div class="information-category-name"> Title    </div>    <div class="information-category-content"> {title}   </div> </div>
+        <div id = `${time}`     class="time     information-category">  <div class="information-category-name"> Time     </div>    <div class="information-category-content"> {time}    </div> </div>
+        <div id = `${learned}`  class="learned  information-category">  <div class="information-category-name"> Learned  </div>    <div class="information-category-content"> {learned} </div> </div>
+        <div id = `${more}`     class="more     information-category">  <div class="information-category-name"> More     </div>    <div class="information-category-content"> {more}    </div> </div>
     </div>
 
-    <div id = "infographic"></div>
+    <div class = "infographic"></div>
 </div>
 
 <style>
-    #projectLayout
+    .projectLayout
     {
         width: 100%;
-        height: 100vh;
+        height: calc(100vh - 4rem - 4rem);
         display: flex;
         flex-direction: row;
 
@@ -36,7 +36,7 @@ const { title, time, learned, more } = Astro.props;
         padding-bottom: 4rem;
     }
 
-    #information
+    .information
     {
 
         width: 40%;
@@ -68,7 +68,7 @@ const { title, time, learned, more } = Astro.props;
     }
 
 
-    #infographic
+    .infographic
     {
         width: 60%;
         height: 100%;
@@ -80,11 +80,11 @@ const { title, time, learned, more } = Astro.props;
 </style>
 
 <script>
-    const projectLayout = document.querySelector('.projectLayout');
-    const projectLayoutPosition = projectLayout ? projectLayout.getBoundingClientRect().top + window.scrollY : 0;
-
+    const projectLayout = document.getElementById("projectLayout");
     window.addEventListener('scroll', () =>
     {
+        console.log(window.scrollY);
+
         const scrollTop = window.scrollY;
         const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
 

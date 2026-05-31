@@ -335,7 +335,7 @@ const imgsUrls = Object.fromEntries(
 
 		display: inline-block;
 		font-family: var(--font-bebas);
-		font-size: 3.4em;
+		font-size: 2em;
 
 
 
@@ -362,7 +362,8 @@ const imgsUrls = Object.fromEntries(
 	.project:hover span
 	{
 		transform: translateY(-100%);
-		color: var(--neon);
+		color: var(--sunset);
+		-webkit-text-stroke: 2px var(--black);
 	}
 
 	.project span:after
@@ -374,7 +375,8 @@ const imgsUrls = Object.fromEntries(
   		top: 100%;
 
 		transform: translateY(100%);
-		color: var(--neon);
+		color: var(--sunset);
+		-webkit-text-stroke: 1px var(--black);
 
 		transition: transform 0.5s cubic-bezier(.77,.12,.16,.95);
 		transition-delay: calc(var(--i) * 0.01s); 

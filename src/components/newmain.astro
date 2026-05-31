@@ -1,0 +1,277 @@
+<section class="main">
+		<div class="row top"> <span>/creating</span> <span>/iterating</span> <span>/scaling</span></div>
+		<div class = "row middle"> <span>/experimenting</span> <span>/solving</span> <span>/optimizing</span> </div>
+		<div class = "row bottom">  <span> R</span> <span>/inovating</span> <span>/transforming</span> </div>
+
+	  <!--h1 class="raj">Raj Jeyaram</h1-->
+	  <!--h1 class="jeyaram"> &#8203 &#8203 &#8203 Jeyaram</h1-->
+	<button id="scroll-btn" class="semi-arrow" ></button>
+</section>
+
+<style>
+	.main
+	{
+		font-family: var(--font-anton);
+		background: radial-gradient(circle at 5% 5%, var(--radial-inner) 10%, var(--radial-middle) 30%, var(--radial-outer) 100%);
+
+		display: flex;
+		flex-direction: column;
+		justify-content: top;
+		align-items: center;
+		padding: 0;
+
+		height: 100vh;
+	}
+
+	.row
+	{
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		align-items: center;
+		gap: 0;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		position: relative;
+		font-size: 1.5rem;
+	}
+
+	span
+	{
+		color: var(--sunset);
+		animation: blurIn 0.6s ease-out forwards;
+		filter: blur(100px);
+		width: 100%;
+		text-align: center;
+	}
+
+	.row span:first-child {
+		text-align: left;
+	}
+
+	.row span:last-child {
+		text-align: right;
+	}
+
+	@keyframes blurIn {
+		0% {
+			opacity: 0;
+			filter: blur(12px);
+			transform: translateY(10px);
+		}
+		100% {
+			opacity: 1;
+			filter: blur(0);
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes blurInBig {
+		0% {
+			opacity: 0;
+			filter: blur(100px);
+			transform: translateY(100px);
+		}
+		100% {
+			opacity: 1;
+			filter: blur(0);
+			transform: translateY(0);
+		}
+	}
+
+	.top span:nth-child(3) {
+		animation-delay: 0s;
+	}
+	.top span:nth-child(2) {
+		animation-delay: 0.15s;
+	}
+	.top span:nth-child(1) {
+		animation-delay: 0.3s;
+	}
+
+	.middle span:nth-child(3) {
+		animation-delay: 0.45s;
+	}
+	.middle span:nth-child(2) {
+		animation-delay: 0.6s;
+	}
+	.middle span:nth-child(1) {
+		animation-delay: 0.75s;
+	}
+
+	.bottom span:nth-child(3) {
+		animation-delay: 0.9s;
+	}
+	.bottom span:nth-child(2) {
+		animation-delay: 1.05s;
+	}
+	.bottom span:nth-child(1) {
+		animation-delay: 1.2s;
+	}
+
+	.top{
+		
+	}
+	.middle{
+		translate: 0em 42vh;
+		
+	}
+.bottom{
+		translate: 0em 89vh;
+	}
+
+	.slash
+	{
+		color: var(--sunset);
+		font-size: 1.5rem;
+	}
+
+	.main h1
+	{
+		animation: blurInBig 0.6s ease-out forwards;
+		font-size: 10rem;
+		margin-bottom: -1em;
+		position: absolute;
+
+		background-color: var(--black);
+
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+}
+
+
+/* Semicircle container */
+    .semi-arrow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 150px;
+	  background-color: rgba(255, 255, 255, 0); 
+	 
+      border-radius: 100px 100px 0 0;
+		border: 3px solid var(--sun);
+		border-bottom: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+	  opacity: 0;
+      animation: popUp 2s cubic-bezier(.98,0,.06,.96) forwards;
+    }	
+
+	.semi-arrow.hidden{
+		animation: popDown 1s cubic-bezier(.98,0,.06,.96) forwards;
+	}
+
+	.semi-arrow:hover{
+		transition: all 0.4s cubic-bezier(.77,.12,.16,.95);
+		border: 3px solid var(--sun);
+		border-bottom: none;
+		color: var(--midnight);
+
+	}
+	.semi-arrow:active{
+		transition: all 0.05s cubic-bezier(.77,.12,.16,.95);
+		border: 20px solid var(--midnight);
+		border-bottom: none;
+		opacity: 1;
+		background: var(--midnight);
+		color: var(--black);
+
+	}
+
+    /* Arrow */
+    .semi-arrow::before {
+      content: "▼";
+      color: var(--sunset);
+      font-size: 70px;
+      margin-top: 0.2em;
+    }
+
+	@keyframes popUp {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(200px);
+      } 
+
+	  50% {
+		backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+		filter: blur(30px);
+        opacity: 0;
+        transform: translateX(-50%) translateY(200px);
+      } 
+
+
+      100% {
+		backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+		filter: blur(0px);
+        opacity: 1;
+        transform: translateX(-50%) translateY(0px);
+      }
+	}
+
+	  @keyframes popDown {
+      0% {
+		backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+		filter: blur(0px);
+        opacity: 1;
+        transform: translateX(-50%) translateY(0px);
+      } 
+
+
+      50% {
+		backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+		filter: blur(100px);
+        opacity: 0;
+        transform: translateX(-50%) translateY(200px);
+      } 
+
+
+      100% {
+		opacity: 0;		
+      }
+	}
+</style>
+
+<script>
+	import { fade } from "astro:transitions";
+	
+		window.addEventListener('load', () => {
+			// Get the first navigation entry
+			const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+		
+			// Calculate total load time
+			const loadTime = navigation
+				? navigation.loadEventEnd.toFixed(2)
+				: '0';
+		
+			// Display result
+			document.getElementById('load-time')!.textContent = loadTime;
+		});
+	
+		window.addEventListener('scroll', () => {
+	
+			const scrollTop = window.scrollY;
+			 if (scrollTop > 1) {
+				document.querySelector('.semi-arrow')!.classList.add('hidden');
+			  } 
+			else {
+			document.querySelector('.semi-arrow')!.classList.remove('hidden');
+		  }
+		});
+	
+		const scrollBtn = document.getElementById('scroll-btn');
+	  scrollBtn?.addEventListener('click', () => {
+		const vhPixels = window.innerHeight;
+		window.scrollBy({
+		  top: vhPixels,
+		  behavior: "smooth"
+		});
+	  });
+	</script>
