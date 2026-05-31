@@ -1,0 +1,39 @@
+<section class="drone">
+	<slot />
+</section>
+
+<style>
+	.projects
+	{
+		display: flex;
+		flex-direction: row;
+
+		background-image: 	radial-gradient(circle at 5% -105%, var(--radial-inner) 27%, var(--radial-middle) 22%, var(--radial-outer) 77.4%); 
+							/*radial-gradient(circle at 100% 50%, white 27%, var(--radial-middle) 22%, transparent 100%, var(--radial-outer) 50%, transparent 100%);*/
+
+		height: max-content;
+		width: 100%;
+
+		border-bottom: 10px solid var(--sunset);
+	}
+</style>
+
+<script>
+    const projectLayout = document.getElementsByClassName("projectLayout");
+    window.addEventListener('scroll', () =>
+    {
+        console.log(window.scrollY);
+
+        const scrollTop = window.scrollY;
+        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+        const scrollPercent = (scrollTop - (documentHeight)) / documentHeight;
+
+        if(scrollPercent > 0.4) 
+        {
+        } 
+        else 
+        {
+        }
+    });
+</script>

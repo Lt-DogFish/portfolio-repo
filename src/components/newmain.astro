@@ -1,17 +1,22 @@
 <section class="main">
 		<div class="row top"> <span>/creating</span> <span>/iterating</span> <span>/scaling</span></div>
 		<div class = "row middle"> <span>/experimenting</span> <span>/solving</span> <span>/optimizing</span> </div>
-		<div class = "row bottom">  <span> R</span> <span>/inovating</span> <span>/transforming</span> </div>
+		<!--div class = "row bottom">  <span> </span> <span>/inovating</span> <span>/transforming</span> </div-->
 
-	  <!--h1 class="raj">Raj Jeyaram</h1-->
+	  <h1 class="name">Raj Jeyaram</h1>
 	  <!--h1 class="jeyaram"> &#8203 &#8203 &#8203 Jeyaram</h1-->
 	<button id="scroll-btn" class="semi-arrow" ></button>
 </section>
 
 <style>
+	.r{
+		color: var(--sunset);
+		font-size: 1.5rem;
+		animation: none;
+	}
 	.main
 	{
-		font-family: var(--font-anton);
+		font-family: var(--font-melo);
 		background: radial-gradient(circle at 5% 5%, var(--radial-inner) 10%, var(--radial-middle) 30%, var(--radial-outer) 100%);
 
 		display: flex;
@@ -128,26 +133,29 @@
 
 	.main h1
 	{
-		animation: blurInBig 0.6s ease-out forwards;
-		font-size: 10rem;
+		animation: blurInBig 1s cubic-bezier(.98,0,.06,.96) forwards;
+		font-size: 20rem;
 		margin-bottom: -1em;
+		top: 30vh;
 		position: absolute;
 
-		background-color: var(--black);
+		background: linear-gradient(160deg, var(--txt) 0%, var(--txt-middle) 40%, var(--gray) 80%);
 
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
+
 }
 
 
 /* Semicircle container */
     .semi-arrow {
+		z-index: 2;
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
       width: 200px;
-      height: 150px;
+      height: 100px;
 	  background-color: rgba(255, 255, 255, 0); 
 	 
       border-radius: 100px 100px 0 0;
@@ -159,6 +167,7 @@
 
 	  opacity: 0;
       animation: popUp 2s cubic-bezier(.98,0,.06,.96) forwards;
+	  transition: border 0.2s cubic-bezier(.77,.12,.16,.95);
     }	
 
 	.semi-arrow.hidden{
@@ -166,15 +175,15 @@
 	}
 
 	.semi-arrow:hover{
-		transition: all 0.4s cubic-bezier(.77,.12,.16,.95);
-		border: 3px solid var(--sun);
+		transition: all 0.2s cubic-bezier(.77,.12,.16,.95);
+		border: 20px solid var(--midnight);
 		border-bottom: none;
 		color: var(--midnight);
 
 	}
 	.semi-arrow:active{
-		transition: all 0.05s cubic-bezier(.77,.12,.16,.95);
-		border: 20px solid var(--midnight);
+		transition: all 0.1s cubic-bezier(.77,.12,.16,.95);
+		border: 100px solid var(--sunset);
 		border-bottom: none;
 		opacity: 1;
 		background: var(--midnight);

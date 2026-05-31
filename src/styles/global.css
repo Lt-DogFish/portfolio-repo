@@ -12,7 +12,7 @@
 	--sea-dark: #34656D;
 
 	--darkgray: #232323;
-	--gold: #5c5248;
+	--gold: #dda200;
 
 
 
@@ -53,12 +53,13 @@ html
 {
 	scroll-behavior: smooth;
 	background-color: var(--bg);
+	font-family: var(--font-melo);
 }
 
 body
 {
 	margin: 0;
-	font-family: sans-serif;
+	font-family: var(--font-melo);
 	background: var(--bg);
 	color: var(--txt);
 }

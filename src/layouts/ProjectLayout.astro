@@ -80,23 +80,4 @@ const { title, time, learned, more } = Astro.props;
 </style>
 
 <script>
-    const projectLayout = document.getElementById("projectLayout");
-    window.addEventListener('scroll', () =>
-    {
-        console.log(window.scrollY);
-
-        const scrollTop = window.scrollY;
-        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-        const scrollPercent = (scrollTop - (documentHeight - projectLayoutPosition)) / documentHeight;
-
-        if(scrollPercent > 0.4) 
-        {
-        } 
-        else 
-        {
-        }
-    });
-
-
 </script>
