@@ -1,0 +1,102 @@
+---
+
+interface Props
+{
+  title: string;
+  time: string;
+  learned: string;
+  more: string;
+}
+const { title, time, learned, more } = Astro.props;
+
+---
+
+
+<div id = "projectLayout">
+    <div id = "information">
+        <div id = `title    ${title}`   class="information-category">   <div class="information-category-name"> Title    </div>    <div class="information-category-content"> {title}   </div> </div>
+        <div id = "time"                class="information-category">   <div class="information-category-name"> Time     </div>    <div class="information-category-content"> {time}    </div> </div>
+        <div id = "learned"             class="information-category">   <div class="information-category-name"> Learned  </div>    <div class="information-category-content"> {learned} </div> </div>
+        <div id = "more"                class="information-category">   <div class="information-category-name"> More     </div>    <div class="information-category-content"> {more}    </div> </div>
+    </div>
+
+    <div id = "infographic"></div>
+</div>
+
+<style>
+    #projectLayout
+    {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: row;
+
+        font-size: 1rem;
+
+        padding-bottom: 4rem;
+    }
+
+    #information
+    {
+
+        width: 40%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        border-top: 2px solid var(--black);
+    }
+
+    .information-category
+    {
+        width: 100%;
+        border-bottom: 2px solid var(--black);
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        padding: 20px 0 20px 0;
+    }
+
+    .information-category-content
+    {
+        max-width: 50%;
+
+        text-align: right;
+    }
+
+
+    #infographic
+    {
+        width: 60%;
+        height: 100%;
+
+        background-color: var(--black);
+
+        margin: 0 0 0 20px;
+    }
+</style>
+
+<script>
+    const projectLayout = document.querySelector('.projectLayout');
+    const projectLayoutPosition = projectLayout ? projectLayout.getBoundingClientRect().top + window.scrollY : 0;
+
+    window.addEventListener('scroll', () =>
+    {
+        const scrollTop = window.scrollY;
+        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+        const scrollPercent = (scrollTop - (documentHeight - projectLayoutPosition)) / documentHeight;
+
+        if(scrollPercent > 0.4) 
+        {
+        } 
+        else 
+        {
+        }
+    });
+
+
+</script>
