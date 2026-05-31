@@ -5,12 +5,17 @@ import Main from "../components/Main.astro";
 import ProjectsSection from "../components/ProjectsSection.astro";
 import Footer from "../components/Footer.astro";
 import Drone from "../components/drone.astro";
+
+import ProjectLayout from "../layouts/ProjectLayout.astro";
 ---
 
 <BaseLayout>
   <TopBar />
   <Main />
   <ProjectsSection />
-  <Drone />
+  <Drone>
+    <ProjectLayout title="a" time="" learned="" more=""/>
+    <ProjectLayout title="b" time="" learned="" more=""/>
+  </Drone>
   <Footer />
 </BaseLayout>

@@ -82,30 +82,26 @@
 
 </style>
 
-  
+
 <script>
-const home = document.querySelector('.home');
-const topBar = document.querySelector('.top-bar');
+	const home = document.querySelector('.home');
+	const topBar = document.querySelector('.top-bar');
 
-window.addEventListener('scroll', () => {
-	const scrollTop = window.scrollY;
-
-	const documentHeight =
-	document.documentElement.scrollHeight - window.innerHeight;
-
-	const scrollPercent = scrollTop / documentHeight;
-
-	if (scrollPercent > 0.4) 
+	window.addEventListener('scroll', () => 
 	{
-		home?.classList.add('active');
-		topBar?.classList.add('active');
-	} 
-	else 
-	{
-  		home?.classList.remove('active');
-		topBar?.classList.remove('active');
-	}
-});
+		const scrollPercent = (window.scrollY / window.innerHeight) * 100;
+
+		if(scrollPercent >= 100) 
+		{
+			home?.classList.add('active');
+			topBar?.classList.add('active');
+		} 
+		else 
+		{
+			home?.classList.remove('active');
+			topBar?.classList.remove('active');
+		}
+	});
 
 
 </script>

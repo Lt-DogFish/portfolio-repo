@@ -4,43 +4,50 @@ const projects = {
 	{
 		title: "Proj_1",
 		caption: "Description for project 1",
-		imgname: "Proj_1.jpeg"
+		imgname: "Proj_1.jpeg",
+		id: -3
 	},
 	"002": 
 	{
 		title: "drone_simulation",
 		caption: "Advanced drone physics simulation",
-		imgname: "Proj_2.jpeg"
+		imgname: "Proj_2.jpeg",
+		id: -2
 	},
 	"003": 
 	{
 		title: "4_legged_inversekinematics",
 		caption: "Procedural IK walking system",
-		imgname: "Proj_3.jpeg"
+		imgname: "Proj_3.jpeg",
+		id: -1
 	},
 	"004": 
 	{
 		title: "robust_character_controller",
 		caption: "Physics-based movement controller",
-		imgname: "Proj_4.jpeg"
+		imgname: "Proj_4.jpeg",
+		id: 0
 	},
 	"005": 
 	{
 		title: "personal_k3s_cluster",
 		caption: "Self-hosted Kubernetes cluster",
-		imgname: "Proj_5.jpeg"
+		imgname: "Proj_5.jpeg",
+		id: 1
 	},
 	"006": 
 	{
 		title: "portfolio_site",
 		caption: "My personal portfolio website",
-		imgname: "Proj_6.jpeg"
+		imgname: "Proj_6.jpeg",
+		id: 2
 	},
 	"007": 
 	{
 		title: "microcontrollers_RTOS",
 		caption: "Embedded RTOS experiments",
-		imgname: "IMG_3919.jpeg"
+		imgname: "IMG_3919.jpeg",
+		id: 3
 	}
 };
 
@@ -95,7 +102,15 @@ const imgsUrls = Object.fromEntries(
 	window.addEventListener("DOMContentLoaded", () =>
 	{
 		const hoverBox = document.querySelector(".hover-box");
+			const hbOpacityTransDuration = .1;
+			const hbMovementTransDuration = .3;
+			hoverBox.style.setProperty("--hb-opacity-transition-duration", `${hbOpacityTransDuration}s`);
+			hoverBox.style.setProperty("--hb-movement-transition-duration", `${hbMovementTransDuration}s`);
+
 		const description = hoverBox.querySelector(".project-description");
+			const pdOpacityBlurTransDuration = .1;
+			description.style.setProperty("--pd-opacityBlur-transition-duration", `${pdOpacityBlurTransDuration}s`);
+
 		const image = hoverBox.querySelector(".project-description-image");
 		const caption = hoverBox.querySelector(".project-description-caption");
 		const projectsList = document.querySelector(".projects-list");
@@ -112,21 +127,19 @@ const imgsUrls = Object.fromEntries(
 			description.classList.remove("show");
 		};
 
-		let previousLeftOffset = 0;
-		const showProject = (project) =>
+		const showHoverBox = () =>
 		{
-			if(activeProject === project) return;
+			hoverBox.classList.add("show");
 
+			description.classList.add("show");
+		};
+
+		let previousLeftOffset = 0;
+		const moveHoverBox = (project) =>
+		{
 			const previousProjectNum = parseInt(activeProject?.dataset.projectname ?? 0);
 			activeProject = project;
 			const activeProjectNum = parseInt(activeProject?.dataset.projectname ?? 0);
-
-			const nextSrc = project.dataset.image || "";
-			const nextCaption = project.dataset.caption || "";
-
-			// preload image
-			const preload = new Image();
-			preload.src = nextSrc;
 
 			const projectListRect = projectsList.getBoundingClientRect();
 			const projectRect = project.getBoundingClientRect();
@@ -134,10 +147,12 @@ const imgsUrls = Object.fromEntries(
 			const hoverBoxHeight = window.innerWidth * (530/1920);
 			const hoverBoxWidth = window.innerWidth * (768/1920);
 
-			// hover box smooth movement
-			const topOffset = (projectRect.top - projectListRect.top) + projectRect.height / 2 - hoverBoxHeight / 2;
+			//const topOffset = (projectRect.top - projectListRect.top) + projectRect.height / 2 - hoverBoxHeight / 2;
 
-			const newLeftOffset = (Math.floor(Math.random() * (((window.innerWidth/2) * 0.05) - 0 + 1)) + 100);
+			const topOffset = (((projectListRect.height - hoverBoxHeight) / 7) * parseInt(project.dataset.projectname));
+
+
+			const newLeftOffset = (Math.floor(Math.random() * (((window.innerWidth/2) * 0.05) + 1)) + 100);
 
 			// if(previousProjectNum < activeProjectNum)
 			// {
@@ -167,7 +182,22 @@ const imgsUrls = Object.fromEntries(
 
 				hoverBox.style.width = `${hoverBoxWidth}px`;
 				hoverBox.style.left = `${newLeftOffset}px`;
-			}, 125);
+			}, hbMovementTransDuration * 1000);
+		};
+
+		const showProject = (project) =>
+		{
+			if(activeProject === project) return;
+			activeProject = project;
+
+			const nextSrc = project.dataset.image || "";
+			const nextCaption = project.dataset.caption || "";
+
+			moveHoverBox(project);
+
+			// preload image
+			const preload = new Image();
+			preload.src = nextSrc;
 
 			// fade old content out
 			description.classList.remove("show");
@@ -180,23 +210,27 @@ const imgsUrls = Object.fromEntries(
 			{
 				if(activeProject !== project) return;
 
-				const applyContent = () => {
+				const applyContent = () =>
+				{
 					if(activeProject !== project) return;
 					image.src = nextSrc;
 					caption.textContent = nextCaption;
 
-					requestAnimationFrame(() => {
-						hoverBox.classList.add("show");
-						description.classList.add("show");
+					requestAnimationFrame(() => 
+					{
+						showHoverBox();
 					});
 				};
 
-				if (preload.complete) {
+				if(preload.complete)
+				{
 					applyContent();
-				} else {
+				}
+				else
+				{
 					preload.onload = applyContent;
 				}
-			}, 100);
+			}, pdOpacityBlurTransDuration * 1000);
 		};
 
 
@@ -204,6 +238,7 @@ const imgsUrls = Object.fromEntries(
 		{
 			project.addEventListener("mouseenter", () =>
 			{
+				showHoverBox(project);
 				showProject(project);
 			});
 
@@ -219,12 +254,6 @@ const imgsUrls = Object.fromEntries(
 
 				hideHoverBox();
 			});
-		});
-
-		// hide if leaving project list entirely
-		projectsList.addEventListener("mouseleave", () =>
-		{
-			hideHoverBox();
 		});
 	});
 
@@ -281,7 +310,7 @@ const imgsUrls = Object.fromEntries(
 		background-image: 	radial-gradient(circle at 5% -105%, var(--radial-inner) 27%, var(--radial-middle) 22%, var(--radial-outer) 77.4%); 
 							/*radial-gradient(circle at 100% 50%, white 27%, var(--radial-middle) 22%, transparent 100%, var(--radial-outer) 50%, transparent 100%);*/
 
-		height: max-content;
+		min-height: 100vh;
 		width: 100%;
 
 		border-bottom: 1px solid var(--sunset);
@@ -362,11 +391,13 @@ const imgsUrls = Object.fromEntries(
 		position: relative;
 
 		width: 50%;
-		height: 100%;
 	}
 
 	.hover-box
 	{
+		--hb-opacity-transition-duration: 1.0s;
+		--hb-movement-transition-duration: 1.0s;
+
 		position: absolute;
 
 		top: 0;
@@ -375,17 +406,16 @@ const imgsUrls = Object.fromEntries(
 		width: 0px;
 		height: 0px;
 
-		/*border: 1px solid var(--sunset);*/
 		border-radius: 30px;
 
 		opacity: 0;
 
 		transition:
-			opacity 0s cubic-bezier(.77,.12,.16,.95),
-			height 0.5s cubic-bezier(.98,0,.06,.96),
-			width 0.5s cubic-bezier(.98,0,.06,.96),
-			top 0.5s cubic-bezier(.98,0,.06,.96),
-			left 0.5s cubic-bezier(.98,0,.06,.96);
+			opacity var(--hb-opacity-transition-duration) cubic-bezier(.77,.12,.16,.95),
+			height var(--hb-movement-transition-duration) cubic-bezier(.31,.33,.18,.96),
+			top var(--hb-movement-transition-duration) cubic-bezier(.31,.33,.18,.96),
+			width var(--hb-movement-transition-duration) cubic-bezier(.31,.33,.18,.96),
+			left var(--hb-movement-transition-duration) cubic-bezier(.31,.33,.18,.96);
 	}
 
 	.hover-box.show
@@ -395,17 +425,19 @@ const imgsUrls = Object.fromEntries(
 
 	.project-description
 	{
+		--pd-opacityBlur-transition-duration: 1.0s;
+
 		width: 100%;
 
 		display: flex;
 		flex-direction: column;
 
-		opacity: 0;
+		opacity: 1;
 		filter: blur(20px);
 
 		transition:
-			opacity 0.25s cubic-bezier(.98,0,.06,.96),
-			filter 0.5s cubic-bezier(.98,0,.06,.96);
+			/* opacity var(--pd-opacityBlur-transition-duration) cubic-bezier(.98,0,.06,.96), */
+			filter var(--pd-opacityBlur-transition-duration) cubic-bezier(.98,0,.06,.96);
 	}
 
 	.project-description.show
@@ -428,7 +460,9 @@ const imgsUrls = Object.fromEntries(
 	{
 		width: 100%;
 
-		text-align: center;
+		text-align: left;
+		font-style: italic;
+		opacity: 0.5;
 
 		font-size: 1rem;
 		color: var(--txt);
