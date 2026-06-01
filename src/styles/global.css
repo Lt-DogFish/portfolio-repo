@@ -2,7 +2,7 @@
 {
 	--white: #e4e4e4;
 	--white-dark: #141414;
-	--gray: #D9CFC7;
+	--gray: #515151;
 	--black: #111111;
 	--beige: #e7e4e0;
 	--neon: #fafd05;
@@ -13,6 +13,8 @@
 
 	--darkgray: #232323;
 	--gold: #dda200;
+
+	--teal: #8bffff;
 
 
 
@@ -40,7 +42,7 @@
 
 	--txt: var(--black);
 	--txt-middle: var(--black);
-	--txt-end: var(--midnight);
+	--txt-end: var(--black);
 
 	--radial-inner: var(--beige);
 	--radial-middle: var(--beige);

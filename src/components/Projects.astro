@@ -3,6 +3,11 @@
 </section>
 
 <style>
+    .drone
+    {
+        padding-top: 0;
+    }
+
 	.projects
 	{
 		display: flex;
@@ -19,21 +24,4 @@
 </style>
 
 <script>
-    const projectLayout = document.getElementsByClassName("projectLayout");
-    window.addEventListener('scroll', () =>
-    {
-        console.log(window.scrollY);
-
-        const scrollTop = window.scrollY;
-        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-        const scrollPercent = (scrollTop - (documentHeight)) / documentHeight;
-
-        if(scrollPercent > 0.4) 
-        {
-        } 
-        else 
-        {
-        }
-    });
 </script>

@@ -1,14 +1,33 @@
 <section class="main">
 		<div class="row top"> <span>/creating</span> <span>/iterating</span> <span>/scaling</span></div>
 		<div class = "row middle"> <span>/experimenting</span> <span>/solving</span> <span>/optimizing</span> </div>
-		<!--div class = "row bottom">  <span> </span> <span>/inovating</span> <span>/transforming</span> </div-->
+		<!--div class = "row bottom">  <span> </span> <span>/inovating</span> <span>/transforming</span> </div>-->
 
-	  <h1 class="name">Raj Jeyaram</h1>
-	  <!--h1 class="jeyaram"> &#8203 &#8203 &#8203 Jeyaram</h1-->
+	  	<h1 class="name">Raj Jeyaram</h1>
+		<div class = "RAJ">RAJ</div>
+	  	<!--h1 class="jeyaram"> &#8203 &#8203 &#8203 Jeyaram</h1-->
 	<button id="scroll-btn" class="semi-arrow" ></button>
 </section>
 
 <style>
+
+	.RAJ{
+		font-family: var(--font-anton);
+		font-size: 69rem;
+		margin-bottom: -1em;
+		top:-36vh;
+		position: absolute;
+		filter: blur(10px);
+		letter-spacing: 0.1em;
+		justify-content: center;
+		display: flex;
+		width: 100%;
+
+		background: linear-gradient(180deg, var(--txt) 0%, var(--txt) 40%, var(--teal) 90%);
+
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
 	.r{
 		color: var(--sunset);
 		font-size: 1.5rem;
@@ -39,6 +58,8 @@
 		margin: 0;
 		position: relative;
 		font-size: 1.5rem;
+
+		z-index: 1;
 	}
 
 	span
@@ -138,13 +159,23 @@
 		margin-bottom: -1em;
 		top: 30vh;
 		position: absolute;
+		z-index: 1;
+		letter-spacing: -0.05em;
 
-		background: linear-gradient(160deg, var(--txt) 0%, var(--txt-middle) 40%, var(--gray) 80%);
+		background: linear-gradient(160deg, var(--txt) 30%, var(--txt-middle) 50%, var(--txt-end) 70%);
 
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 
 }
+
+
+
+
+
+
+
+
 
 
 /* Semicircle container */
@@ -198,6 +229,11 @@
       font-size: 70px;
       margin-top: 0.2em;
     }
+
+
+
+
+
 
 	@keyframes popUp {
       0% {
