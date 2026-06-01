@@ -12,7 +12,9 @@ const { title, time, learned, more } = Astro.props;
 ---
 
 <div class = "projectLayout">
-    <div class = "spacer top"></div>
+    <div class = "spacer-container">
+        <div class = "spacer"></div>
+    </div>
     <div class = "wrapper">
         <div class = "information">
             <div id=`${title}`      class="title    information-category">  <div class="information-category-name"> Title    </div>    <div class="information-category-content"> {title}   </div> </div>
@@ -22,7 +24,6 @@ const { title, time, learned, more } = Astro.props;
         </div>
         <div class = "infographic"></div>
     </div>
-    <div class = "spacer bottom"></div>
 </div>
 
 <style>
@@ -41,6 +42,8 @@ const { title, time, learned, more } = Astro.props;
         flex-direction: row;
 
         font-size: 1rem;
+
+        padding-top: 4rem;
     }
 
     .information
@@ -82,33 +85,31 @@ const { title, time, learned, more } = Astro.props;
         height: 2000px; 
         min-height: 100%;
         background-color: var(--black);
-        margin: 0 0 0 20px;
+        margin-left: 20px;
     }
 
+    .spacer-container
+    {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: calc(100% + 4rem);
+    }
     .spacer
     {
         position: sticky;
         
         width: 100%;
         z-index: 0;
-    }
 
-    .top
-    {
-        height: 4rem; /* Give it height so it takes up space */
-        background-color: var(--bg);
+        height: calc(100vh - 8rem); /* Give it height so it takes up space */
+        background-color: rgba(0, 0, 0, 0);
+
+        border-top: 4rem solid var(--bg);
+        border-bottom: 4rem solid var(--bg);
 
         top: 0;
-    }
-
-    .bottom
-    {
-        box-sizing: border-box;
-        
-        height: calc(100vh - 5rem);
-        border-color: aqua;
-        border-bottom: 4rem;
-
-        bottom: 0;
     }
 </style>
