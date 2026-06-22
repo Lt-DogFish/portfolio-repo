@@ -50,6 +50,23 @@
 
 }
 
+/* Core structure groupings */
+[data-theme="ocean"]
+{
+	--theme-primary: #38bdf8;
+	--theme-secondary: #0284c7;
+	--theme-bg-accent: #1e1b4b;
+	--theme-border: #334155;
+}
+
+[data-theme="sunset"]
+{
+	--theme-primary: #f97316;
+	--theme-secondary: #ea580c;
+	--theme-bg-accent: #2d0b0b;
+	--theme-border: #f97316;
+}
+
 
 html
 {

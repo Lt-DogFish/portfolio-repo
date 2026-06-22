@@ -1,0 +1,194 @@
+---
+// src/components/NewHero.astro
+---
+
+<section class="main">
+  <div class="tag-row">
+    <span>/creating</span>
+    <span>/iterating</span>
+    <span>/scaling</span>
+  </div>
+
+  <div class="hero-center">
+    <div class="bg-watermark">RAJ</div>
+    <h1 class="name">Raj Jeyaram</h1>
+  </div>
+
+  <button id="scroll-btn" class="smooth-square-btn" aria-label="Scroll to projects layout"></button>
+</section>
+
+<style>
+  /* --- Structural Core Config --- */
+  .main {
+    font-family: var(--font-melo), system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at 5% 5%, var(--radial-inner, #1e1b4b) 0%, var(--radial-middle, #0f172a) 40%, var(--radial-outer, #020617) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    height: 100vh;
+    padding: 3rem 2rem;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* Tag Row Controls */
+  .tag-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    z-index: 2;
+  }
+
+  .tag-row span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+    letter-spacing: 0.05em;
+    color: var(--sunset, #f97316);
+    opacity: 0;
+    animation: blurIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Staggered Timings for Tags */
+  .tag-row span:nth-child(1) { animation-delay: 0.2s; }
+  .tag-row span:nth-child(2) { animation-delay: 0.35s; }
+  .tag-row span:nth-child(3) { animation-delay: 0.5s; }
+
+  /* --- Central Typography Core --- */
+  .hero-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .bg-watermark {
+    font-family: var(--font-anton), Impact, sans-serif;
+    font-size: clamp(10rem, 28vw, 42rem);
+    line-height: 0.75;
+    filter: blur(8px);
+    letter-spacing: 0.05em;
+    background: linear-gradient(180deg, rgba(226, 232, 240, 0.12) 0%, rgba(226, 232, 240, 0.03) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+  }
+
+  .main h1.name {
+    position: absolute;
+    font-size: clamp(2.5rem, 7vw, 6.5rem);
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.03em;
+    z-index: 3;
+    pointer-events: auto;
+    white-space: nowrap;
+    background: linear-gradient(135deg, var(--txt, #ffffff) 20%, var(--txt-middle, #cbd5e1) 60%, var(--txt-end, #64748b) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: blurInBig 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* --- Interactive Smooth Square Button --- */
+  .smooth-square-btn {
+    z-index: 4;
+    position: absolute;
+    bottom: -10px; /* Slight bleed off-screen to ground the look */
+    left: 33.333%; /* Left Rule of Thirds alignment */
+    transform: translateX(-50%);
+    width: 70px;
+    height: 70px;
+    background-color: transparent; 
+    border: 2px solid var(--sun, #eab308);
+    border-bottom: none;
+    border-radius: 16px 16px 0 0; /* Smooth squircle corner profiles */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    padding-bottom: 10px; /* Offset the text/icon to compensate for the bottom bleed */
+    box-sizing: border-box;
+    animation: popUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }   
+
+  .smooth-square-btn.hidden {
+    animation: popDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .smooth-square-btn:hover {
+    background-color: rgba(15, 23, 42, 0.6);
+    border-color: var(--sunset, #f97316);
+    transform: translateX(-50%) translateY(-6px);
+  }
+
+  .smooth-square-btn:active {
+    background-color: var(--sunset, #f97316);
+    transform: translateX(-50%) translateY(0) scale(0.95);
+  }
+
+  .smooth-square-btn::before {
+    content: "▼";
+    color: var(--sunset, #f97316);
+    font-size: 18px;
+    transition: color 0.3s ease;
+  }
+
+  .smooth-square-btn:active::before {
+    color: var(--midnight, #0f172a);
+  }
+
+  /* --- Motion Design Engine --- */
+  @keyframes blurIn {
+    0% { opacity: 0; filter: blur(8px); transform: translateY(8px); }
+    100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+
+  @keyframes blurInBig {
+    0% { opacity: 0; filter: blur(24px); transform: scale(0.96); }
+    100% { opacity: 1; filter: blur(0); transform: scale(1); }
+  }
+
+  @keyframes popUp {
+    0% { opacity: 0; transform: translateX(-50%) translateY(80px); }
+    100% { opacity: 1; transform: translateX(-50%) translateY(0); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  }
+
+  @keyframes popDown {
+    0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(80px); filter: blur(4px); }
+  }
+</style>
+
+<script>
+  // Handle layout dynamic opacity shifts on scrolling actions safely
+  window.addEventListener('scroll', () => {
+    const arrow = document.querySelector('.smooth-square-btn');
+    if (!arrow) return;
+    
+    if (window.scrollY > 10) {
+      arrow.classList.add('hidden');
+    } else {
+      arrow.classList.remove('hidden');
+    }
+  }, { passive: true });
+
+  // Smooth scroll configuration logic execution
+  const scrollBtn = document.getElementById('scroll-btn');
+  scrollBtn?.addEventListener('click', () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: "smooth"
+    });
+  });
+</script>

@@ -1,0 +1,213 @@
+---
+// src/layouts/NewProjectLayout.astro
+
+interface Props {
+  title: string;
+  time: string;
+  bodyText: string;
+  learned: string;
+  more?: string;
+  images: string[]; // Pass your array of images here
+}
+
+const { title, time, bodyText, learned, more, images } = Astro.props;
+
+// Duplicate the array if it's small to ensure a seamless infinite scrolling loop
+const scrollImages = images.length < 6 ? [...images, ...images, ...images] : images;
+---
+
+<article class="project-view">
+  <div class="container">
+    <div class="project-meta">
+      <h3>{title}</h3>
+      <span class="timeline">{time}</span>
+    </div>
+    
+    <div class="project-body">
+      <p>{bodyText}</p>
+    </div>
+  </div>
+
+  {images && images.length > 0 && (
+    <div class="panoramic-carousel-wrapper">
+      <div class="carousel-fade-overlay left"></div>
+      
+      <div class="infinite-scroll-track">
+        {scrollImages.map((src, index) => (
+          <div class="panoramic-slide">
+            <img src={src} alt={`${title} showcase asset ${index + 1}`} loading="lazy" />
+          </div>
+        ))}
+      </div>
+
+      <div class="carousel-fade-overlay right"></div>
+    </div>
+  )}
+
+  <div class="container">
+    <div class="lessons-box">
+      <strong>Key Takeaways & Lessons:</strong>
+      <p>{learned}</p>
+    </div>
+
+    {more && (
+      <div class="additional-context">
+        <p>{more}</p>
+      </div>
+    )}
+  </div>
+</article>
+
+<style>
+  /* Base Project Page Constraints */
+  .project-view {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 0; /* Changed to 0 on sides so carousel can expand safely */
+    box-sizing: border-box;
+    border-bottom: 1px solid #1e293b;
+    overflow-x: hidden; /* Prevent horizontal page breaking */
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 2rem;
+    box-sizing: border-box;
+  }
+
+  .project-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-size: 2.25rem;
+    color: #f8fafc;
+    margin: 0;
+  }
+
+  .timeline {
+    color: #64748b;
+    font-family: monospace;
+    font-size: 1rem;
+  }
+
+  .project-body {
+    color: #94a3b8;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  /* --- Edge-To-Edge Panoramic Carousel Mechanics --- */
+  .panoramic-carousel-wrapper {
+    position: relative;
+    /* Force expansion to exact width of the browser view viewport */
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    
+    height: 380px; /* Locked standard vertical layout height block */
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    background-color: #020617;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Infinite Scrolling Slider Track Engine */
+  .infinite-scroll-track {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+    padding: 0 0.75rem;
+    /* Hardware accelerated linear marquee scroll layout loop */
+    animation: gentlePan 35s linear infinite;
+  }
+
+  /* Pause automatic panning movement when user rests cursor over it */
+  .panoramic-carousel-wrapper:hover .infinite-scroll-track {
+    animation-play-state: paused;
+  }
+
+  .panoramic-slide {
+    height: 340px;
+    aspect-ratio: 16 / 9; /* Enforces clean proportions */
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: #0b0f19;
+    border: 1px solid #1e293b;
+    flex-shrink: 0;
+  }
+
+  .panoramic-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Use cover to fill the 16:9 boxes cleanly side-by-side */
+    pointer-events: none;
+  }
+
+  /* Cinematic Edge Blurs */
+  .carousel-fade-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 12%;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .carousel-fade-overlay.left {
+    left: 0;
+    background: linear-gradient(to right, #0f172a 0%, transparent 100%);
+  }
+  .carousel-fade-overlay.right {
+    right: 0;
+    background: linear-gradient(to left, #0f172a 0%, transparent 100%);
+  }
+
+  /* --- Lessons & Additional Content Box --- */
+  .lessons-box {
+    background: #1e293b;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid #38bdf8;
+    margin-bottom: 1.5rem;
+  }
+
+  .lessons-box strong {
+    color: #38bdf8;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .lessons-box p {
+    margin: 0;
+    color: #cbd5e1;
+  }
+
+  .additional-context {
+    font-size: 0.95rem;
+    color: #64748b;
+    font-style: italic;
+  }
+
+  /* --- Animation Keyframes Layout --- */
+  @keyframes gentlePan {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      /* Pushes elements left exactly halfway across loop duplication point */
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+</style>

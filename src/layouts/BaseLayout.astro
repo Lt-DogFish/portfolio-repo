@@ -4,13 +4,31 @@ import "../styles/global.css";
 ---
 
 <html lang="en">
-<Font cssVariable="--font-melo" preload />
-<Font cssVariable="--font-anton" preload />
-<Font cssVariable="--font-bebas" preload />
-<Font cssVariable="--font-fanwood" preload />
-<Font cssVariable="--font-spartan" preload />
-<Font cssVariable="--font-newtitle" preload />
-<Font cssVariable="--font-satoshi" preload />
+  <Font cssVariable="--font-melo" preload />
+  <Font cssVariable="--font-anton" preload />
+  <Font cssVariable="--font-bebas" preload />
+  <Font cssVariable="--font-fanwood" preload />
+  <Font cssVariable="--font-spartan" preload />
+  <Font cssVariable="--font-newtitle" preload />
+  <Font cssVariable="--font-satoshi" preload />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" 
+  />
+    <title>Continuous Portfolio</title>
+    <style is:global>
+      html {
+        scroll-behavior: smooth;
+        font-family: system-ui, sans-serif;
+        background-color: #0f172a;
+        color: #e2e8f0;
+      }
+      body { margin: 0; padding: 0; }
+    </style>
+  </head>
   <body>
     <slot />
   </body>

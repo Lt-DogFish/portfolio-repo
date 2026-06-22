@@ -1,0 +1,73 @@
+<!-- ---
+// src/components/NewFooter.astro
+const currentYear = new Date().getFullYear();
+---
+<footer class="portfolio-footer">
+  <p>&copy; {currentYear} Single-File Layout Architecture.</p>
+</footer>
+
+<style>
+  .portfolio-footer {
+    background: #020617;
+    padding: 3rem 2rem;
+    text-align: center;
+    border-top: 1px solid #1e293b;
+    color: #475569;
+  }
+  p {
+    margin: 0;
+  }
+</style> -->
+---
+const currentYear = new Date().getFullYear();
+
+---
+
+<footer class="footer">
+	<h1 class="raj">Raj Jeyaram</h1>
+  <p>&copy; {currentYear} Single-File Layout Architecture.</p>
+	<!--h1 class="jeyaram">.</h1-->
+	<!-- a href="https://portfolio.ravijey.com">RajvigneshJeyaram</a
+	a href="https://twitter.com/yourname">Twitter</a
+	a href="https://your-other-domain.com">Other Site</a -->
+</footer>
+
+<style>	
+	.footer
+	{
+    padding: 3rem 2rem;
+    text-align: center;
+		border-top: 10px solid var(--midnight);
+		height: fit-content;
+		background: var(--sunset);
+		margin: 0em;
+	}
+	.footer h1
+	{	
+		white-space: nowrap;     /* Prevents text from wrapping to the next line */
+  		overflow: hidden;        /* Hides any text that goes beyond the container */
+  		text-overflow: clip;      /* Simply cuts the text off at the edge */
+
+
+		background: linear-gradient(to bottom, var(--txt) 0%, var(--sunset) 70%);
+
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+
+		font-family: var(--font-anton);
+		font-size: 23em;
+		font-style: italic;
+		margin: 0;
+    position: relative;
+    z-index: 0;
+
+		translate: -0em -1em;
+	}
+
+  p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+  }
+
+</style>

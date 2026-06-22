@@ -1,0 +1,206 @@
+---
+// src/layouts/CodeWindow.astro
+import { Prism } from '@astrojs/prism';
+
+interface Props {
+  code: string;
+  lang: string;
+  codeOnRight?: boolean;
+  maxHeight?: string;
+  fontSize?: string;
+  primaryColor?: string;
+  
+  // New Line Focusing Props
+  startLine?: number; /* e.g., 5 */
+  endLine?: number;   /* e.g., 12 */
+}
+
+const { 
+  code, 
+  lang, 
+  codeOnRight = false, 
+  maxHeight = "450px", 
+  fontSize = "0.9rem",   
+  primaryColor = "#38bdf8",
+  startLine,
+  endLine
+} = Astro.props;
+
+// Generate inline tracking selectors if focus lines are provided
+const isFocusMode = startLine !== undefined && endLine !== undefined;
+---
+
+<div 
+  class={`split-container ${codeOnRight ? 'row-reverse' : ''} ${isFocusMode ? 'has-line-focus' : ''}`} 
+  style={`
+    --window-accent: ${primaryColor}; 
+    --editor-max-height: ${maxHeight}; 
+    --editor-font-size: ${fontSize};
+  `}
+>
+  <div class="text-column">
+    <slot />
+  </div>
+
+  <div class="code-column">
+    <div class="mac-window">
+      <div class="window-header">
+        <div class="dots">
+          <span class="dot close"></span>
+          <span class="dot minimize"></span>
+          <span class="dot expand"></span>
+        </div>
+        <span class="window-title">runtime.{lang === 'cpp' ? 'cpp' : lang === 'csharp' ? 'cs' : lang}</span>
+      </div>
+      
+      <div class="code-scroll-pane">
+        <Prism lang={lang} code={code} />
+      </div>
+    </div>
+  </div>
+</div>
+
+{isFocusMode && (
+  <style is:global define:vars={{ startLine, endLine }}>
+    /* 1. Turn everything within the prism output pale/greyed out.
+      Astro's Prism uses standard line span wrappers or token tracks.
+    */
+    .has-line-focus .code-scroll-pane pre [class*="token"] {
+      opacity: 0.25 !important;
+      filter: grayscale(80%) !important;
+      transition: opacity 0.3s ease;
+    }
+
+    /* 2. Prism wraps code in lines if specified, or tokens map to raw line breaks. 
+      To accurately pinpoint raw code strings without third-party line-number plugins,
+      we target individual line tokens or instruct Prism to output numbered rows.
+    */
+  </style>
+)}
+
+<style>
+  /* Split layout mechanics */
+.split-container { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 2.5rem; 
+  
+  /* 1. Add horizontal margin safety boundaries */
+  width: 100%;
+  max-width: 90%;        /* Matches the width container of your Project Layouts perfectly */
+  margin: 4rem auto;       /* Centering trick ('auto' forces left and right to balance out) */
+  padding: 0 2rem;         /* Insets the layout by 2rem so it never hugs the viewport glass edges */
+  box-sizing: border-box;  /* Ensures padding doesn't accidentally expand the container bounds */
+}
+
+@media (min-width: 768px) {
+  .split-container { 
+    flex-direction: row; 
+    gap: 4rem; 
+    align-items: center; 
+  }
+  /* Balanced columns layout structure */
+  .text-column, .code-column { 
+    flex: 1; 
+    width: 50%; 
+  }
+  .row-reverse { 
+    flex-direction: row-reverse; 
+  }
+}
+
+.text-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Remove any raw default element side padding if present */
+  padding: 0; 
+}
+
+  /* IDE Window Base Styles */
+  .mac-window {
+    background-color: #011627;
+    border: 1px solid var(--window-accent);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .window-header { 
+    background-color: #0b132b; 
+    padding: 0.75rem 1rem; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    border-bottom: 1px solid #1e293b;
+  }
+  
+  .dots { display: flex; gap: 0.4rem; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .close { background: #ff5f56; } 
+  .minimize { background: #ffbd2e; } 
+  .expand { background: #27c93f; }
+  .window-title { font-family: monospace; font-size: 0.8rem; color: #475569; }
+
+  /* Controlled Scroll Pane Box */
+  .code-scroll-pane {
+    max-height: var(--editor-max-height);
+    overflow-y: auto !important; /* Force internal container scrolling */
+    overflow-x: auto !important; 
+    background-color: #011627 !important;
+  }
+
+  /* If you pass an focus directive, we apply a mask that makes text outside the center look dimmed */
+  .has-line-focus .code-scroll-pane {
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.3) 0%,      /* Top lines faded out */
+      rgba(0,0,0,1.0) 25%,     /* In-focus zone start */
+      rgba(0,0,0,1.0) 75%,     /* In-focus zone end */
+      rgba(0,0,0,0.3) 100%     /* Bottom lines faded out */
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.2) 0%,
+      rgba(0,0,0,1.0) 20%,
+      rgba(0,0,0,1.0) 80%,
+      rgba(0,0,0,0.2) 100%
+    );
+  }
+
+  /* --- FORCE OVERRIDE PRISM INTERNAL GENERATED TARGETS --- */
+  .code-scroll-pane :global(pre),
+  .code-scroll-pane :global(pre[class*="language-"]) { 
+    max-height: var(--editor-max-height) !important;
+    margin: 0 !important; 
+    padding: 1.5rem !important; 
+    background: transparent !important; /* Let container background show through */
+    overflow: visible !important; /* Let the wrapper pane handle the scrollbars instead */
+  }
+
+  .code-scroll-pane :global(code),
+  .code-scroll-pane :global(code[class*="language-"]) {
+    font-size: var(--editor-font-size) !important;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace !important;
+    line-height: 1.5 !important;
+    background: transparent !important;
+  }
+
+  /* --- Custom Themed Scrollbar Configuration Track --- */
+  .code-scroll-pane::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .code-scroll-pane::-webkit-scrollbar-track {
+    background: #020617;
+  }
+  .code-scroll-pane::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+    border: 1px solid #334155;
+  }
+  .code-scroll-pane::-webkit-scrollbar-thumb:hover {
+    background: var(--window-accent);
+  }
+</style>
