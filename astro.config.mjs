@@ -6,6 +6,9 @@ export default defineConfig({
 	vite: {
 		ssr: {
 		  noExternal: ['@astrojs/prism']
+		},
+		resolve: {
+		  noExternal: ['@astrojs/prism']
 		}
 	  },
 	fonts: [
