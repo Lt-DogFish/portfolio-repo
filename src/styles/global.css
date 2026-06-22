@@ -610,3 +610,434 @@
 	--theme-secondary: #515151;
 	/* UI Accent (Gray) */
 }
+
+[data-theme="vichy"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #FFFFFF;
+	/* #FFFFFF: Pure white canvas */
+	--theme-code-bg: #F4F4F4;
+	/* Light gray for structural separation */
+	--theme-border: #878787;
+	/* #878787: Medium gray structural lines */
+	--theme-card-shadow: rgba(0, 0, 0, 0.1);
+
+	/* Typography Layer */
+	--theme-text-heading: #111111;
+	/* Authoritative black */
+	--theme-text-muted: #878787;
+	/* #878787: Medium gray for metadata */
+	--theme-code-text: #05AD98;
+	/* #05AD98: Teal for technical code */
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #BBBFBF;
+	/* #BBBFBF: Light gray glow */
+	--radial-middle: #878787;
+	/* #878787: Mid-tone depth */
+	--radial-outer: #FFFFFF;
+	/* #FFFFFF: Pure white */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #05AD98;
+	/* #05AD98: Teal for CTAs/Active states */
+	--theme-primary-hover: #048a7a;
+	/* Darker teal for hover states */
+	--theme-secondary: #BBBFBF;
+	/* #BBBFBF: Secondary UI accents */
+}
+
+[data-theme="mist"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #FCF8D8;
+	/* Base canvas */
+	--theme-code-bg: #7C7D75;
+	/* Terminal canvas */
+	--theme-border: #ADACA7;
+	/* Structural lines */
+	--theme-card-shadow: rgba(124, 125, 117, 0.3);
+
+	/* Typography Layer */
+	--theme-text-heading: #7C7D75;
+	/* Headings */
+	--theme-text-muted: #ADACA7;
+	/* Secondary text */
+	--theme-code-text: #D9DADF;
+	/* Code text */
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #D9DADF;
+	/* Inner highlight */
+	--radial-middle: #ADACA7;
+	/* Mid-tone */
+	--radial-outer: #FCF8D8;
+	/* Canvas outer */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #DD700B;
+	/* High-contrast accent */
+	--theme-primary-hover: #DD700B;
+	/* Hover state */
+	--theme-secondary: #7C7D75;
+	/* UI Secondary */
+}
+
+[data-theme="black-yellow"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #FCF8D8;
+	/* #FCF8D8: Warm, light base canvas */
+	--theme-code-bg: #7C7D75;
+	/* #7C7D75: Muted gray for code terminal */
+	--theme-border: #ADACA7;
+	/* #ADACA7: Mid-gray structural lines */
+	--theme-card-shadow: rgba(0, 0, 0, 0.1);
+
+	/* Typography Layer */
+	--theme-text-heading: #111111;
+	/* Authoritative black for headers */
+	--theme-text-muted: #7C7D75;
+	/* #7C7D75: Muted gray for body text */
+	--theme-code-text: #D9DADF;
+	/* #D9DADF: Soft light for code */
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #D9DADF;
+	/* #D9DADF: Light cool mist glow */
+	--radial-middle: #ADACA7;
+	/* #ADACA7: Mid-gray depth */
+	--radial-outer: #FCF8D8;
+	/* #FCF8D8: Warm base */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #DD700B;
+	/* #DD700B: High-contrast orange for CTAs */
+	--theme-primary-hover: #b55a09;
+	/* Darker orange for hover */
+	--theme-secondary: #ADACA7;
+	/* #ADACA7: Secondary UI elements */
+}
+
+[data-theme="garnet"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #F6C992;
+	/* Seashell base canvas */
+	--theme-code-bg: #5484A4;
+	/* Deep blue terminal canvas */
+	--theme-border: #30525C;
+	/* Structural lines (garnet) */
+	--theme-card-shadow: rgba(48, 82, 92, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #30525C;
+	/* Garnet headers */
+	--theme-text-muted: #D396A6;
+	/* Muted rose for body text */
+	--theme-code-text: #ACC0D3;
+	/* Light blue for code text */
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #09A1A1;
+	/* Teal glow */
+	--radial-middle: #5484A4;
+	/* Mid-blue depth */
+	--radial-outer: #F6C992;
+	/* Seashell base */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #09A1A1;
+	/* Teal for CTAs */
+	--theme-primary-hover: #30525C;
+	/* Garnet for hover */
+	--theme-secondary: #D396A6;
+	/* Rose for secondary UI */
+}
+
+[data-theme="calcite"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #DDDCDB;
+	/* Light gray base canvas */
+	--theme-code-bg: #3C4044;
+	/* Dark charcoal terminal */
+	--theme-border: #3C4044;
+	/* Charcoal structural lines */
+	--theme-card-shadow: rgba(60, 64, 68, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #3C4044;
+	/* Charcoal headers */
+	--theme-text-muted: #EDBF9B;
+	/* Soft beige for secondary text */
+	--theme-code-text: #EDBF9B;
+	/* Soft beige for code */
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #FD7B41;
+	/* Vibrant orange glow */
+	--radial-middle: #EDBF9B;
+	/* Soft beige transition */
+	--radial-outer: #DDDCDB;
+	/* Light gray outer */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #FD7B41;
+	/* Orange for CTAs */
+	--theme-primary-hover: #3C4044;
+	/* Charcoal for hover */
+	--theme-secondary: #EDBF9B;
+	/* Beige for UI elements */
+}
+
+[data-theme="frosted"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #FFFFFF;
+	/* #FFFFFF: Pure white canvas */
+	--theme-code-bg: #5C7E8F;
+	/* #5C7E8F: Muted blue terminal */
+	--theme-border: #A2A2A2;
+	/* #A2A2A2: Gray structural lines */
+	--theme-card-shadow: rgba(92, 126, 143, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #5C7E8F;
+	/* #5C7E8F: Muted blue headings */
+	--theme-text-muted: #A2A2A2;
+	/* #A2A2A2: Gray for metadata */
+	--theme-code-text: #D4DDE2;
+	/* #D4DDE2: Light frosted text */
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #D4DDE2;
+	/* #D4DDE2: Light mist glow */
+	--radial-middle: #A2A2A2;
+	/* #A2A2A2: Gray depth */
+	--radial-outer: #FFFFFF;
+	/* #FFFFFF: Pure white */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #5C7E8F;
+	/* #5C7E8F: Muted blue for CTAs */
+	--theme-primary-hover: #A2A2A2;
+	/* Gray for hover state */
+	--theme-secondary: #D4DDE2;
+	/* #D4DDE2: Secondary UI accents */
+}
+
+
+/*has potential*/
+[data-theme="opaline"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #F4F4F6;
+	/* #F4F4F6: Base canvas */
+	--theme-code-bg: #E7E7E7;
+	/* #E7E7E7: Terminal background */
+	--theme-border: #D2D2D4;
+	/* #D2D2D4: Structural lines */
+	--theme-card-shadow: rgba(210, 210, 212, 0.5);
+
+	/* Typography Layer */
+	--theme-text-heading: #D2D2D4;
+	/* #D2D2D4: Muted structural headers */
+	--theme-text-muted: #E7E7E7;
+	/* #E7E7E7: Muted secondary text */
+	--theme-code-text: #333333;
+	/* (Fallback to dark for code) */
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #D2D2D4;
+	/* #D2D2D4: Inner depth */
+	--radial-middle: #E7E7E7;
+	/* #E7E7E7: Mid-depth */
+	--radial-outer: #F4F4F6;
+	/* #F4F4F6: Outer base */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #FF634A;
+	/* #FF634A: Vibrant coral accent */
+	--theme-primary-hover: #D2D2D4;
+	/* Gray for hover */
+	--theme-secondary: #E7E7E7;
+	/* UI Secondary */
+}
+
+
+/*ugle*/
+[data-theme="lemon"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #B8BFC1;
+	--theme-code-bg: #2C4C5C;
+	--theme-border: #6C8494;
+	--theme-card-shadow: rgba(0, 0, 0, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #2C4C5C;
+	--theme-text-muted: #6C8494;
+	--theme-code-text: #F3E308;
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #F3E308;
+	--radial-middle: #6C8494;
+	--radial-outer: #B8BFC1;
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #F3E308;
+	--theme-primary-hover: #6C8494;
+	--theme-secondary: #6C8494;
+}
+
+/*kinda ugly*/
+[data-theme="clockwork"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #F8F8F8;
+	--theme-code-bg: #919599;
+	--theme-border: #CDCDCB;
+	--theme-card-shadow: rgba(0, 0, 0, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #919599;
+	--theme-text-muted: #CDCDCB;
+	--theme-code-text: #F8F8F8;
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #E56515;
+	--radial-middle: #FBA45C;
+	--radial-outer: #F8F8F8;
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #E56515;
+	--theme-primary-hover: #FBA45C;
+	--theme-secondary: #CDCDCB;
+}
+
+/* ugly */
+[data-theme="gossamer"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #FAFAFA;
+	--theme-code-bg: #939599;
+	--theme-border: #CDCDCF;
+	--theme-card-shadow: rgba(0, 0, 0, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #939599;
+	--theme-text-muted: #CDCDCF;
+	--theme-code-text: #2BCFCE;
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #EC4D25;
+	--radial-middle: #2BCFCE;
+	--radial-outer: #FAFAFA;
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #EC4D25;
+	--theme-primary-hover: #939599;
+	--theme-secondary: #CDCDCF;
+}
+
+[data-theme="arctic"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #F4FCFB;
+	--theme-code-bg: #243C4C;
+	--theme-border: #ACBCBF;
+	--theme-card-shadow: rgba(0, 0, 0, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #243C4C;
+	--theme-text-muted: #698696;
+	--theme-code-text: #5289AD;
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #5289AD;
+	--radial-middle: #698696;
+	--radial-outer: #F4FCFB;
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #5289AD;
+	--theme-primary-hover: #ACBCBF;
+	--theme-secondary: #698696;
+}
+
+
+/*ugly*/
+[data-theme="slate"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #F8F8F8;
+	--theme-code-bg: #71776D;
+	--theme-border: #BEBEBE;
+	--theme-card-shadow: rgba(0, 0, 0, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #71776D;
+	--theme-text-muted: #BEBEBE;
+	--theme-code-text: #79ED91;
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #4DBE55;
+	--radial-middle: #79ED91;
+	--radial-outer: #F8F8F8;
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #4DBE55;
+	--theme-primary-hover: #71776D;
+	--theme-secondary: #BEBEBE;
+}
+
+/*pretty good*/
+[data-theme="inked"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #DFDEDC;
+	--theme-code-bg: #000000;
+	--theme-border: #464545;
+	--theme-card-shadow: rgba(0, 0, 0, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #000000;
+	--theme-text-muted: #A6A7A2;
+	--theme-code-text: #00ACAC;
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #00ACAC;
+	--radial-middle: #464545;
+	--radial-outer: #DFDEDC;
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #00ACAC;
+	--theme-primary-hover: #464545;
+	--theme-secondary: #A6A7A2;
+}
+
+
+/*has potential*/
+[data-theme="urban"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #D6D6D6;
+	--theme-code-bg: #141414;
+	--theme-border: #444444;
+	--theme-card-shadow: rgba(0, 0, 0, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #141414;
+	--theme-text-muted: #979797;
+	--theme-code-text: #E2E800;
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #E2E800;
+	--radial-middle: #444444;
+	--radial-outer: #D6D6D6;
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #E2E800;
+	--theme-primary-hover: #444444;
+	--theme-secondary: #979797;
+}
