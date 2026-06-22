@@ -60,11 +60,11 @@ const { theme } = Astro.props;
 <style>
   /* --- Variable Mapping to Global Tokens --- */
   .top-bar {
-    --nav-primary: var(--theme-primary, #f97316);
-    --nav-secondary: var(--theme-secondary, #64748b);
-    --nav-bg: var(--theme-site-bg, #020617);
-    --nav-text: var(--theme-text-heading, #ffffff);
-    --nav-border: var(--theme-border, #1e293b);
+    --nav-primary: var(--theme-primary, #ff00ff);
+    --nav-secondary: var(--theme-secondary, #ff00ff);
+    --nav-bg: var(--theme-site-bg, #ff00ff);
+    --nav-text: var(--theme-text-heading, #ff00ff);
+    --nav-border: var(--theme-border, #ff00ff);
 
     z-index: 50;
     display: flex;
@@ -97,7 +97,8 @@ const { theme } = Astro.props;
     top: 0;
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    background-color: rgba(var(--nav-bg), 0.75); /* Native fallback scaling style */
+    /* Translated the old RGBA background to use color-mix for the new hex themes */
+    background-color: color-mix(in srgb, var(--nav-bg) 75%, transparent); 
     border-bottom: 1px solid var(--nav-border);
   }
 
@@ -111,7 +112,7 @@ const { theme } = Astro.props;
     font-family: var(--font-melo), monospace;
     font-size: 2rem;
     font-weight: 200;
-    color: var(--theme-text-muted, #94a3b8);
+    color: var(--theme-text-muted, #ff00ff);
   }
     
   .top-bar a.home {
@@ -263,13 +264,16 @@ const { theme } = Astro.props;
     opacity: 1;
     transform: translateX(0);
     filter: blur(0);
+    /* Injected monospace font specifically for the pre-morph tags */
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 1.5rem;
   }
 
   .social-grid-row .morph {
     opacity: 0;
     transform: translateX(20px);
     filter: blur(4px);
-    color: var(--theme-text-muted, #94a3b8);
+    color: var(--theme-text-muted, #ff00ff);
   }
 
   .top-bar.active .social-grid-row .initial {

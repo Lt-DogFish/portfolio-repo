@@ -76,27 +76,26 @@ const imgsUrls = Object.fromEntries(
 <style is:global>
     /* --- Variable Mapping to Robust Global Tokens --- */
     .projects {
-        --proj-accent: var(--theme-primary, #f97316);
-        --proj-text: var(--theme-text-heading, #ffffff);
-        --proj-bg-inner: var(--radial-inner, #1e1b4b);
-        --proj-bg-middle: var(--radial-middle, #0f172a);
-        --proj-bg-outer: var(--radial-outer, var(--theme-site-bg, #020617));
-        --proj-shadow: var(--theme-card-shadow, rgba(0, 0, 0, 0.4));
+        --proj-accent: var(--theme-primary, #ff00ff);
+        --proj-text: var(--theme-text-heading, #ff00ff);
+        --proj-bg-inner: var(--radial-inner, #ff00ff);
+        --proj-bg-middle: var(--radial-middle, #ff00ff);
+        --proj-bg-outer: var(--radial-outer, var(--theme-site-bg, #ff00ff));
+        --proj-shadow: var(--theme-card-shadow, color-mix(in srgb, #ff00ff 40%, transparent));
 
         display: flex;
         flex-direction: row;
-        position: relative; /* Required for absolute child line alignment */
+        position: relative; 
         min-height: 100vh;
         width: 100%;
-        border-bottom: 1px solid var(--theme-border, var(--proj-accent));
+        border-bottom: 1px solid var(--theme-border, #ff00ff);
         overflow: hidden;
 
-        /* Standardized positioning anchors ensure matrix dots track independently of color gradients */
         background: 
-          radial-gradient(var(--theme-border, rgba(226, 232, 240, 0.25)) 1.5px, transparent 1.5px),
-          radial-gradient(circle at 5% -105%, var(--proj-bg-inner) 27%, var(--proj-bg-middle) 22%, var(--proj-bg-outer) 77.4%); 
+          radial-gradient(color-mix(in srgb, var(--theme-border, #ff00ff) 25%, transparent) 1.5px, transparent 1.5px),
+          radial-gradient(circle at 5% -80%, var(--proj-bg-inner) 27%, var(--proj-bg-middle) 25%, var(--proj-bg-outer) 75%); 
         background-size: 40px 40px, 100% 100%;
-        background-position: 0 0, center center; /* Force global alignment coordinates on first layer */
+        background-position: 0 0, center center; 
         background-repeat: repeat, no-repeat;
     }
 
@@ -108,13 +107,12 @@ const imgsUrls = Object.fromEntries(
         z-index: 1;
     }
 
-    /* Tracks perfectly to your 33.333% layout guide down from the hero context */
     .projects-blueprint .v-line-left {
         position: absolute;
         top: 0;
         bottom: 0;
         left: 33.333%;
-        border-left: 1px solid var(--theme-border, rgba(226, 232, 240, 0.12));
+        border-left: 1px solid color-mix(in srgb, var(--theme-border, #ff00ff) 12%, transparent);
     }
 
     .projects-blueprint .v-line-right {
@@ -122,7 +120,7 @@ const imgsUrls = Object.fromEntries(
         top: 0;
         bottom: 0;
         right: 10%;
-        border-left: 1px solid var(--theme-border, rgba(226, 232, 240, 0.06));
+        border-left: 1px solid color-mix(in srgb, var(--theme-border, #ff00ff) 6%, transparent);
     }
 
     .projects-list {
@@ -131,7 +129,7 @@ const imgsUrls = Object.fromEntries(
         justify-content: center;
         align-items: flex-end;
         width: 50%;
-        z-index: 2; /* Lift above lines */
+        z-index: 2; 
     }
 
     .project {
@@ -149,7 +147,6 @@ const imgsUrls = Object.fromEntries(
         display: inline-block;
         position: relative;
         font-size: 5em;
-        
         text-align: center;
         transform: translateY(0%);
         color: var(--proj-text);
@@ -164,8 +161,6 @@ const imgsUrls = Object.fromEntries(
 
     .project:hover span {
         transform: translateY(-100%);
-        /* color: var(--proj-accent); */
-        /* -webkit-text-stroke: 2px var(--theme-border); */
     }
 
     .project span:after {
@@ -175,13 +170,12 @@ const imgsUrls = Object.fromEntries(
         top: 100%; 
         width: 100%;
         color: var(--proj-accent);
-        /* -webkit-text-stroke: 1px var(--theme-border); */
     }
 
     .project-description-container {
         position: relative;
         width: 50%;
-        z-index: 2; /* Lift above lines */
+        z-index: 2; 
     }
 
     .hover-box {
@@ -234,7 +228,7 @@ const imgsUrls = Object.fromEntries(
         font-style: italic;
         opacity: 0.5;
         font-size: 1rem;
-        color: var(--theme-text-muted, #64748b);
+        color: var(--theme-text-muted, #ff00ff);
         margin-top: 0.5rem;
     }
 </style>

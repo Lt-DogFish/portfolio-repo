@@ -77,12 +77,12 @@ const isFocusMode = startLine !== undefined && endLine !== undefined;
      Theme Tokens Mapping Definitions
      ------------------------------------------------------------------ */
   .code-section {
-    --window-accent: var(--theme-primary, #f97316);
-    --window-border: var(--theme-border, #1e293b);
-    --window-bg: var(--theme-code-bg, #011627);
-    --glow-color: var(--radial-inner, rgba(30, 27, 75, 0.4)); /* Falls back to dark indigo hue overlay if undefined */
+    --window-accent: var(--theme-primary, #ff00ff);
+    --window-border: var(--theme-border, #ff00ff);
+    --window-bg: var(--theme-code-bg, #ff00ff);
+    --glow-color: color-mix(in srgb, var(--radial-inner, #ff00ff) 40%, transparent);
     
-    background-color: var(--theme-site-bg, #020617);
+    background-color: var(--theme-site-bg, #ff00ff);
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -168,7 +168,7 @@ const isFocusMode = startLine !== undefined && endLine !== undefined;
     background-color: var(--window-bg);
     border: 1px solid var(--window-border);
     border-radius: 0.75rem;
-    box-shadow: 0 25px 50px -12px var(--theme-card-shadow, rgba(0, 0, 0, 0.5));
+    box-shadow: 0 25px 50px -12px color-mix(in srgb, var(--theme-card-shadow, #ff00ff) 50%, transparent);
     overflow: hidden;
     width: 100%;
     transition: border-color 0.3s ease;
@@ -194,7 +194,7 @@ const isFocusMode = startLine !== undefined && endLine !== undefined;
   .close { background: #ff5f56; } 
   .minimize { background: #ffbd2e; } 
   .expand { background: #27c93f; }
-  .window-title { font-family: ui-monospace, monospace; font-size: 0.8rem; color: var(--theme-text-muted, #475569); }
+  .window-title { font-family: ui-monospace, monospace; font-size: 0.8rem; color: var(--theme-text-muted, #ff00ff); }
 
   /* Controlled Scroll Pane Box */
   .code-scroll-pane {

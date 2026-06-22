@@ -1,115 +1,380 @@
 ---
+// src/layouts/NewProjectLayout.astro
 
-interface Props
-{
-  title: string;
-  time: string;
-  learned: string;
-  more: string;
+interface Props {
+title: string;
+time: string;
+difficulty?: string;
+stars?: number;
+role?: string;
+stack?: string[]; // Array of technologies used
+bodyText: string;
+learned: string;
+more?: string;
+images: string[];
+theme?: string;
 }
-const { title, time, learned, more } = Astro.props;
 
+const {
+title,
+time,
+difficulty,
+stars,
+role,
+stack,
+bodyText,
+learned,
+more,
+images,
+theme
+} = Astro.props;
+
+const scrollImages = images.length < 6 ? [...images, ...images, ...images] : images;
 ---
 
-<div class = "projectLayout">
-    <div class = "spacer-container">
-        <div class = "spacer"></div>
-    </div>
-    <div class = "wrapper">
-        <div class = "information">
-            <div id=`${title}`      class="title    information-category">  <div class="information-category-name"> Title    </div>    <div class="information-category-content"> {title}   </div> </div>
-            <div id=`${time}`       class="time     information-category">  <div class="information-category-name"> Time     </div>    <div class="information-category-content"> {time}    </div> </div>
-            <div id=`${learned}`    class="learned  information-category">  <div class="information-category-name"> Learned  </div>    <div class="information-category-content"> {learned} </div> </div>
-            <div id=`${more}`       class="more     information-category">  <div class="information-category-name"> More     </div>    <div class="information-category-content"> {more}    </div> </div>
-        </div>
-        <div class = "infographic"></div>
-    </div>
+<article class="project-view" data-theme={theme}>
+<div class="project-blueprint" aria-hidden="true">
+<div class="v-line-left-primary"></div>
 </div>
 
+<div class="container">
+<div class="showcase-frame">
+<div class="corner-glyph top-left"></div>
+<div class="corner-glyph top-right"></div>
+<div class="corner-glyph bottom-left"></div>
+<div class="corner-glyph bottom-right"></div>
+
+<div class="project-header">
+<h2 class="massive-title">{title}</h2>
+<div class="stats-grid">
+{time && (
+<div class="stat-item">
+<span class="stat-label">Timeline</span>
+<span class="stat-value">{time}</span>
+</div>
+)}
+{difficulty && (
+<div class="stat-item">
+<span class="stat-label">Difficulty</span>
+<span class="stat-value">{difficulty}</span>
+</div>
+)}
+{stars && (
+<div class="stat-item">
+<span class="stat-label">Complexity</span>
+<span class="stat-value">{'★'.repeat(stars)}{'☆'.repeat(5 - stars)}</span>
+</div>
+)}
+{role && (
+<div class="stat-item">
+<span class="stat-label">Role</span>
+<span class="stat-value">{role}</span>
+</div>
+)}
+</div>
+
+{stack && stack.length > 0 && (
+<div class="tech-stack">
+{stack.map((tech) => (
+<span class="tech-pill">{tech}</span>
+))}
+</div>
+)}
+</div>
+<div class="project-body">
+<p>{bodyText}</p>
+</div>
+</div>
+</div>
+
+{images && images.length > 0 && (
+<div class="panoramic-carousel-wrapper">
+<div class="carousel-fade-overlay left"></div>
+<div class="infinite-scroll-track">
+{scrollImages.map((src, index) => (
+<div class="panoramic-slide">
+<img src={src} alt={`${title} showcase asset ${index + 1}`} loading="lazy" />
+</div>
+))}
+</div>
+
+<div class="carousel-fade-overlay right"></div>
+</div>
+)}
+
+<div class="container">
+<div class="lessons-box">
+<strong>Key Takeaways & Lessons:</strong>
+<p>{learned}</p>
+</div>
+
+{more && (
+<div class="additional-context">
+<p>{more}</p>
+</div>
+)}
+</div>
+</article>
+
 <style>
-    .projectLayout
-    {
-        position: relative;
-        width: 100%;
-    }
+/* --- Variable Mapping to Global Tokens --- */
+.project-view {
+--p-primary: var(--theme-primary, #ff00ff);
+--p-border: var(--theme-border, #ff00ff);
+--p-bg-main: var(--theme-code-bg, #ff00ff);
+--p-text-heading: var(--theme-text-heading, #ff00ff);
+--p-text-muted: var(--theme-text-muted, #ff00ff);
+--p-box-bg: var(--theme-bg-accent, #ff00ff);
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+position: relative;
+padding: 8rem 0;
+box-sizing: border-box;
+border-bottom: 1px solid var(--p-border);
+color: var(--p-text-heading);
+overflow-x: hidden;
 
-    .wrapper
-    {
-        width: 100%;
-        min-height: calc(100vh - 8rem); 
+background:
+radial-gradient(color-mix(in srgb, var(--theme-border, #ff00ff) 25%, transparent) 1.5px, transparent 1.5px),
+linear-gradient(to right, color-mix(in srgb, var(--theme-border, #ff00ff) 3%, transparent) 0.5px, transparent 0.5px),
+linear-gradient(to bottom, color-mix(in srgb, var(--theme-border, #ff00ff) 3%, transparent) 0.5px, transparent 0.5px),
+var(--p-bg-main);
+background-size: 40px 40px, 40px 40px, 40px 40px, 100% 100%;
+background-position: 0 0, 0 0, 0 0, center center;
+background-repeat: repeat, repeat, repeat, no-repeat;
+}
 
-        display: flex;
-        flex-direction: row;
+.project-blueprint {
+position: absolute;
+inset: 0;
+pointer-events: none;
+z-index: 1;
+}
 
-        font-size: 1rem;
+.project-blueprint .v-line-left-primary {
+position: absolute;
+top: 0;
+bottom: 0;
+left: 33.333%;
+border-left: 1px solid color-mix(in srgb, var(--theme-border, #ff00ff) 12%, transparent);
+}
 
-        padding-top: 4rem;
-    }
+.container {
+max-width: 900px; /* Slightly wider to accommodate the new frame */
+margin: 0 auto;
+width: 100%;
+padding: 0 2rem;
+box-sizing: border-box;
+position: relative;
+z-index: 2;
+}
 
-    .information
-    {
-        position: sticky;
-        top: 4rem; 
+/* --- Architectural Showcase Frame --- */
+.showcase-frame {
+position: relative;
+padding: 3rem 2rem;
+margin-bottom: 2rem;
+background: color-mix(in srgb, var(--p-bg-main) 40%, transparent);
+backdrop-filter: blur(4px);
+}
 
-        width: 40%;
-        height: calc(100vh - 8rem); 
+/* Corner Glyphs */
+.corner-glyph {
+position: absolute;
+width: 20px;
+height: 20px;
+pointer-events: none;
+}
+.corner-glyph::before,
+.corner-glyph::after {
+content: '';
+position: absolute;
+background-color: var(--p-primary);
+}
+.corner-glyph::before { width: 100%; height: 2px; }
+.corner-glyph::after { width: 2px; height: 100%; }
 
-        display: flex;
-        flex-direction: column;
+.top-left { top: 0; left: 0; }
+.top-left::before { top: 0; left: 0; }
+.top-left::after { top: 0; left: 0; }
 
-        border-top: 2px solid var(--black);
-    }
+.top-right { top: 0; right: 0; }
+.top-right::before { top: 0; right: 0; }
+.top-right::after { top: 0; right: 0; }
 
-    .information-category
-    {
-        width: 100%;
+.bottom-left { bottom: 0; left: 0; }
+.bottom-left::before { bottom: 0; left: 0; }
+.bottom-left::after { bottom: 0; left: 0; transform: translateY(-100%); top: 100%; }
 
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+.bottom-right { bottom: 0; right: 0; }
+.bottom-right::before { bottom: 0; right: 0; }
+.bottom-right::after { bottom: 0; right: 0; transform: translateY(-100%); top: 100%; }
 
-        border-bottom: 2px solid var(--black);
+/* --- Hero Header Typography & Stats --- */
+.project-header {
+margin-bottom: 2.5rem;
+}
 
-        padding: 20px 0;
-    }
+.massive-title {
+font-size: clamp(2.5rem, 6vw, 4.5rem);
+line-height: 1.05;
+letter-spacing: -0.02em;
+font-weight: 800;
+color: var(--p-text-heading);
+margin: 0 0 2rem 0;
+}
 
-    .information-category-content
-    {
-        max-width: 50%;
-        text-align: right;
-    }
+.stats-grid {
+display: flex;
+flex-wrap: wrap;
+gap: 2rem;
+margin-bottom: 2rem;
+border-top: 1px solid color-mix(in srgb, var(--p-border) 50%, transparent);
+border-bottom: 1px solid color-mix(in srgb, var(--p-border) 50%, transparent);
+padding: 1.25rem 0;
+}
 
-    .infographic
-    {
-        width: 60%;
-        height: 2000px; 
-        min-height: 100%;
-        background-color: var(--black);
-        margin-left: 20px;
-    }
+.stat-item {
+display: flex;
+flex-direction: column;
+gap: 0.35rem;
+}
 
-    .spacer-container
-    {
-        position: absolute;
-        top: 0;
-        left: 0;
+.stat-label {
+font-family: ui-monospace, monospace;
+font-size: 0.75rem;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+color: var(--theme-secondary, #ff00ff);
+}
 
-        width: 100%;
-        height: calc(100% + 4rem);
-    }
-    .spacer
-    {
-        position: sticky;
-        
-        width: 100%;
-        z-index: 0;
+.stat-value {
+font-size: 1.1rem;
+font-weight: 500;
+color: var(--p-text-heading);
+}
 
-        height: calc(100vh - 8rem); /* Give it height so it takes up space */
-        background-color: rgba(0, 0, 0, 0);
+/* --- Tech Stack Pills --- */
+.tech-stack {
+display: flex;
+flex-wrap: wrap;
+gap: 0.75rem;
+}
 
-        border-top: 4rem solid var(--bg);
-        border-bottom: 4rem solid var(--bg);
+.tech-pill {
+font-size: 0.8rem;
+font-family: ui-monospace, monospace;
+padding: 0.3rem 0.8rem;
+border-radius: 999px;
+border: 1px solid color-mix(in srgb, var(--p-border) 80%, transparent);
+color: var(--p-text-muted);
+background: var(--p-box-bg);
+}
 
-        top: 0;
-    }
-</style>
+/* --- Remaining Structure --- */
+.project-body {
+color: var(--p-text-muted);
+font-size: 1.15rem;
+line-height: 1.8;
+}
+
+.panoramic-carousel-wrapper {
+position: relative;
+width: 100vw;
+left: 50%;
+right: 50%;
+margin-left: -50vw;
+margin-right: -50vw;
+z-index: 2;
+height: 420px;
+margin-top: 2rem;
+margin-bottom: 4rem;
+overflow: hidden;
+display: flex;
+align-items: center;
+}
+
+.infinite-scroll-track {
+display: flex;
+gap: 1.5rem;
+width: max-content;
+padding: 0 0.75rem;
+animation: gentlePan 35s linear infinite;
+}
+
+.panoramic-carousel-wrapper:hover .infinite-scroll-track {
+animation-play-state: paused;
+}
+
+.panoramic-slide {
+height: 380px;
+aspect-ratio: 16 / 9;
+border-radius: 0.5rem;
+overflow: hidden;
+background-color: var(--p-bg-main);
+filter: brightness(1.1);
+border: 1px solid var(--p-border);
+flex-shrink: 0;
+}
+
+.panoramic-slide img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+pointer-events: none;
+}
+
+.carousel-fade-overlay {
+position: absolute;
+top: 0;
+bottom: 0;
+width: 12%;
+z-index: 10;
+pointer-events: none;
+}
+.carousel-fade-overlay.left { background: linear-gradient(to right, var(--p-bg-main) 0%, transparent 100%); left: 0; }
+.carousel-fade-overlay.right { background: linear-gradient(to left, var(--p-bg-main) 0%, transparent 100%); right: 0; }
+
+.lessons-box {
+background: var(--p-box-bg);
+border: 1px solid var(--theme-bg-accent-border, #ff00ff);
+padding: 1.5rem;
+border-radius: 0.5rem;
+border-left: 4px solid var(--p-primary);
+margin-bottom: 1.5rem;
+}
+
+.lessons-box strong {
+color: var(--p-primary);
+display: block;
+margin-bottom: 0.5rem;
+font-size: 1.1rem;
+}
+
+.lessons-box p {
+margin: 0;
+color: var(--p-text-heading);
+filter: brightness(0.9);
+line-height: 1.6;
+}
+
+.additional-context {
+font-size: 0.95rem;
+color: var(--theme-secondary, #ff00ff);
+font-style: italic;
+}
+
+@keyframes gentlePan {
+0% { transform: translate3d(0, 0, 0); }
+100% { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+.stats-grid { gap: 1.5rem; flex-direction: column; border: none; padding: 0; }
+.stat-item { border-left: 2px solid var(--p-border); padding-left: 1rem; }
+.showcase-frame { padding: 2rem 1rem; }
+}
+</style> 

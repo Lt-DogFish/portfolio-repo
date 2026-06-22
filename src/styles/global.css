@@ -1,6 +1,6 @@
 :root
 {
-	--white: #e4e4e4;
+	/* --white: #e4e4e4;
 	--white-dark: #141414;
 	--gray: #515151;
 	--black: #111111;
@@ -18,14 +18,14 @@
 
 
 
-	/* Ocean Sunset */
+
 	--midnight: #001427;
 	--sea: #708d81;
 	--sand: #f4d58d;
 	--sunset: #bf0603;
 	--sun: #8d0801;
 
-	/* Rainbow */
+
 	--rainbow-1: #360000;
 	--rainbow-2: #2e1700;
 	--rainbow-3: #3c3c00;
@@ -46,785 +46,462 @@
 
 	--radial-inner: var(--beige);
 	--radial-middle: var(--beige);
-	--radial-outer: var(--white);
+	--radial-outer: var(--white); */
 
 }
 
 
-/* ==================================================================
-   1. OCEAN THEME (Deep Dark Blue Matrix)
-   ================================================================== */
+/* Note: Applied to all [data-theme] blocks below */
+:where([data-theme])
+{
+	/* Added semantic defaults for consistency */
+	--theme-bg-subtle: color-mix(in srgb, var(--theme-site-bg) 90%, #000);
+	--theme-text-main: color-mix(in srgb, var(--theme-text-heading) 95%, transparent);
+	--theme-accent-active: color-mix(in srgb, var(--theme-primary) 80%, #000);
+
+	/* Standardized Shadow Scale */
+	--theme-shadow-sm: 0 1px 2px var(--theme-card-shadow);
+	--theme-shadow-md: 0 4px 6px var(--theme-card-shadow);
+}
+
+/* 1. OCEAN THEME */
 [data-theme="ocean"]
 {
-	/* Site Canvas Layer */
 	--theme-site-bg: #0b0f19;
 	--theme-text-heading: #f8fafc;
 	--theme-text-muted: #94a3b8;
 	--theme-border: #1e293b;
-
-	/* Primary Accent Matrix */
 	--theme-primary: #38bdf8;
+	--theme-primary-hover: #7dd3fc;
 	--theme-secondary: #0284c7;
-
-	/* Callouts & Alert Banners */
 	--theme-bg-accent: rgba(56, 189, 248, 0.08);
 	--theme-bg-accent-border: rgba(56, 189, 248, 0.2);
-
-	/* Isolated Code Window Core Styles */
 	--theme-code-bg: #020617;
 	--theme-code-header-bg: #070e24;
 	--theme-code-text: #64748b;
-
-	/* Component Selection Specifity */
 	--theme-card-shadow: rgba(0, 0, 0, 0.5);
-
-	/* Radial Gradient Stops (Hero & Section Vector Layouts) */
 	--radial-inner: #1e1b4b;
 	--radial-middle: #0f172a;
 	--radial-outer: #020617;
 }
 
-/* ==================================================================
-   2. SUNSET THEME (Volcanic Obsidian Matrix)
-   ================================================================== */
+/* 2. SUNSET THEME */
 [data-theme="sunset"]
 {
-	/* Site Canvas Layer */
 	--theme-site-bg: #120500;
 	--theme-text-heading: #fff7ed;
 	--theme-text-muted: #fdba74;
 	--theme-border: #2d1a0f;
-
-	/* Primary Accent Matrix */
 	--theme-primary: #f97316;
+	--theme-primary-hover: #fb923c;
 	--theme-secondary: #ea580c;
-
-	/* Callouts & Alert Banners */
 	--theme-bg-accent: rgba(249, 115, 22, 0.06);
 	--theme-bg-accent-border: rgba(249, 115, 22, 0.18);
-
-	/* Isolated Code Window Core Styles */
 	--theme-code-bg: #1c0a00;
 	--theme-code-header-bg: #2b1103;
 	--theme-code-text: #fca5a5;
-
-	/* Component Selection Specifity */
 	--theme-card-shadow: rgba(0, 0, 0, 0.65);
-
-	/* Radial Gradient Stops */
 	--radial-inner: #431407;
 	--radial-middle: #1a0b05;
 	--radial-outer: #0a0300;
 }
 
-/* ==================================================================
-   3. NORDIC THEME (Arctic Frost & Ice Matrix)
-   ================================================================== */
+/* 3. NORDIC THEME */
 [data-theme="nordic"]
 {
-	/* Site Canvas Layer */
 	--theme-site-bg: #242933;
 	--theme-text-heading: #eceff4;
 	--theme-text-muted: #d8dee9;
 	--theme-border: #3b4252;
-
-	/* Primary Accent Matrix */
 	--theme-primary: #88c0d0;
+	--theme-primary-hover: #b4d3dc;
 	--theme-secondary: #81a1c1;
-
-	/* Callouts & Alert Banners */
 	--theme-bg-accent: rgba(136, 192, 208, 0.05);
 	--theme-bg-accent-border: rgba(136, 192, 208, 0.15);
-
-	/* Isolated Code Window Core Styles */
 	--theme-code-bg: #2e3440;
 	--theme-code-header-bg: #242933;
 	--theme-code-text: #e5e9f0;
-
-	/* Component Selection Specifity */
 	--theme-card-shadow: rgba(15, 17, 23, 0.4);
-
-	/* Radial Gradient Stops */
 	--radial-inner: #3b4252;
 	--radial-middle: #2e3440;
 	--radial-outer: #242933;
 }
 
-/* ==================================================================
-   4. GITHUB DIMMED THEME (Minimal Slate Architecture)
-   ================================================================== */
+/* 4. GITHUB DIMMED THEME */
 [data-theme="github-dimmed"]
 {
-	/* Site Canvas Layer */
 	--theme-site-bg: #1c2128;
 	--theme-text-heading: #adbac7;
 	--theme-text-muted: #768390;
 	--theme-border: #30363d;
-
-	/* Primary Accent Matrix */
 	--theme-primary: #58a6ff;
+	--theme-primary-hover: #79b8ff;
 	--theme-secondary: #1f6feb;
-
-	/* Callouts & Alert Banners */
 	--theme-bg-accent: rgba(88, 166, 255, 0.06);
 	--theme-bg-accent-border: rgba(88, 166, 255, 0.15);
-
-	/* Isolated Code Window Core Styles */
 	--theme-code-bg: #22272e;
 	--theme-code-header-bg: #1c2128;
 	--theme-code-text: #adbac7;
-
-	/* Component Selection Specifity */
 	--theme-card-shadow: rgba(0, 0, 0, 0.45);
-
-	/* Radial Gradient Stops */
 	--radial-inner: #2d333b;
 	--radial-middle: #22272e;
 	--radial-outer: #1c2128;
 }
 
-/* ==================================================================
-   5. AMBER THEME (Obsidian Gold Matrix)
-   ================================================================== */
+/* 5. AMBER THEME */
 [data-theme="amber"]
 {
-	/* Site Canvas Layer */
 	--theme-site-bg: #040405;
 	--theme-text-heading: #f4f4f5;
 	--theme-text-muted: #a1a1aa;
 	--theme-border: #27272a;
-
-	/* Primary Accent Matrix */
 	--theme-primary: #fbbf24;
+	--theme-primary-hover: #fcd34d;
 	--theme-secondary: #d97706;
-
-	/* Callouts & Alert Banners */
 	--theme-bg-accent: rgba(251, 191, 36, 0.05);
 	--theme-bg-accent-border: rgba(251, 191, 36, 0.15);
-
-	/* Isolated Code Window Core Styles */
 	--theme-code-bg: #09090b;
 	--theme-code-header-bg: #141417;
 	--theme-code-text: #e4e4e7;
-
-	/* Component Selection Specifity */
 	--theme-card-shadow: rgba(0, 0, 0, 0.8);
-
-	/* Radial Gradient Stops */
 	--radial-inner: #18181b;
 	--radial-middle: #09090b;
 	--radial-outer: #020203;
 }
 
-/* ==================================================================
-   6. EMERALD THEME (Velvet Spruce Architecture)
-   ================================================================== */
+/* 6. EMERALD THEME */
 [data-theme="emerald"]
 {
-	/* Site Canvas Layer */
 	--theme-site-bg: #030706;
 	--theme-text-heading: #f0fdf4;
 	--theme-text-muted: #a7f3d0;
 	--theme-border: #142820;
-
-	/* Primary Accent Matrix */
 	--theme-primary: #34d399;
+	--theme-primary-hover: #6ee7b7;
 	--theme-secondary: #059669;
-
-	/* Callouts & Alert Banners */
 	--theme-bg-accent: rgba(52, 211, 153, 0.05);
 	--theme-bg-accent-border: rgba(52, 211, 153, 0.15);
-
-	/* Isolated Code Window Core Styles */
 	--theme-code-bg: #060f0c;
 	--theme-code-header-bg: #0c1f19;
 	--theme-code-text: #e6f4ea;
-
-	/* Component Selection Specifity */
 	--theme-card-shadow: rgba(0, 0, 0, 0.7);
-
-	/* Radial Gradient Stops */
 	--radial-inner: #064e3b;
 	--radial-middle: #060f0c;
 	--radial-outer: #020504;
 }
 
-/* ==================================================================
-   7. SHOGUN OBSIDIAN THEME (Crimson, Gold, White, & Jet Black)
-   ================================================================== */
+/* 7. SHOGUN OBSIDIAN THEME */
 [data-theme="shogun"]
 {
-	/* Site Canvas Layer */
 	--theme-site-bg: #0a0a0c;
-	/* Deepest Obsidian Charcoal */
 	--theme-text-heading: #f8fafc;
-	/* Crisp Pure Off-White */
 	--theme-text-muted: #cbd5e1;
-	/* Clear Light Slate Gray */
 	--theme-border: #27272a;
-	/* Muted Zinc Border Edge */
-
-	/* Primary Accent Matrix */
 	--theme-primary: #dc2626;
-	/* Intense Crimson / Scarlet Red */
+	--theme-primary-hover: #ef4444;
 	--theme-secondary: #eab308;
-	/* Rich Metallic Gold Accent */
-
-	/* Callouts & Alert Banners */
 	--theme-bg-accent: rgba(220, 38, 38, 0.05);
-	/* Ultra-soft Crimson Tint */
 	--theme-bg-accent-border: rgba(220, 38, 38, 0.18);
-
-	/* Isolated Code Window Core Styles */
 	--theme-code-bg: #111114;
-	/* Polished Jet Black Panel */
 	--theme-code-header-bg: #18181b;
-	/* Slightly lighter Zinc Header */
 	--theme-code-text: #eab308;
-	/* Golden Code Tokens for contrast */
-
-	/* Component Selection Specificity */
 	--theme-card-shadow: rgba(0, 0, 0, 0.85);
-	/* Deepest shadow matrix drop */
-
-	/* Radial Gradient Stops (Hero & Project Layouts) */
 	--radial-inner: #450a0a;
-	/* Burnt Crimson Core */
 	--radial-middle: #18181b;
-	/* Midnight Dark Gray */
 	--radial-outer: #09090b;
-	/* Obsidian Edge Falloff */
 }
 
-/* src/styles/global.css */
 
-/* Default / Dark Theme Variant Root */
-:root,
+
+
+
+
+
+
+
+/* 8. GOLD NOIR THEME */
 [data-theme="gold-noir"]
 {
-	/* Core Surface Canvas Elements */
 	--theme-site-bg: #000000;
-	/* Deep solid pitch black */
-	--theme-code-bg: #0a0a0a;
-	/* Slightly elevated jet black for window panels */
-	--theme-border: #1a1a1a;
-	/* Low-contrast dark grey border track */
-	--theme-card-shadow: rgba(0, 0, 0, 0.85);
-
-	/* Typography Layer */
+	--theme-bg-subtle: #0a0a0a;
 	--theme-text-heading: #ffffff;
-	/* Stark crisp white */
 	--theme-text-muted: #808080;
-	/* Mid-tone neutral grey */
-	--theme-code-text: #e5e5e5;
-	/* Off-white for semantic text strings */
-
-	/* Structural Ambient Light Systems (Projects Base Layout Elements) */
-	--radial-inner: #121212;
-	/* Subdued core dark grey layer */
-	--radial-middle: #050505;
-	/* Transitional near-black layer */
-	--radial-outer: #000000;
-	/* Merges seamlessly out to site background token */
-
-	/* Themed Accent Point Vectors */
+	--theme-border: #1a1a1a;
 	--theme-primary: #d4af37;
-	/* Classic Metallic Gold Accent */
 	--theme-primary-hover: #f3e5ab;
-	/* Soft silk champagne gold highlight */
+	--theme-accent-active: #b8982f;
+	--theme-code-bg: #0a0a0a;
+	--theme-code-text: #e5e5e5;
+	--theme-card-shadow: rgba(0, 0, 0, 0.85);
+	--radial-inner: #121212;
+	--radial-middle: #050505;
+	--radial-outer: #000000;
 }
 
-/* Optional: Clean High-Contrast Light Mode Variant Alternative */
+/* 9. GOLD LIGHT THEME */
 [data-theme="gold-light"]
 {
-	/* Core Surface Canvas Elements */
 	--theme-site-bg: #ffffff;
-	/* Pure pristine white canvas */
-	--theme-code-bg: #f5f5f5;
-	/* Light ash grey for window tracks */
-	--theme-border: #e5e5e5;
-	/* Soft light line work grey */
-	--theme-card-shadow: rgba(0, 0, 0, 0.08);
-
-	/* Typography Layer */
+	--theme-bg-subtle: #f5f5f5;
 	--theme-text-heading: #000000;
-	/* Solid ink jet black */
 	--theme-text-muted: #737373;
-	/* Slate text grey */
+	--theme-border: #e5e5e5;
+	--theme-primary: #aa7c11;
+	--theme-primary-hover: #d4af37;
+	--theme-accent-active: #8c670d;
+	--theme-code-bg: #f5f5f5;
 	--theme-code-text: #171717;
-	/* High contrast body text */
-
-	/* Structural Ambient Light Systems */
+	--theme-card-shadow: rgba(0, 0, 0, 0.08);
 	--radial-inner: #fafafa;
 	--radial-middle: #f5f5f5;
 	--radial-outer: #ffffff;
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #aa7c11;
-	/* Deeper burnished gold for readability on white */
-	--theme-primary-hover: #d4af37;
-	/* Standard gold hover transition text state */
 }
 
+/* 10. CYBER NEON THEME */
 [data-theme="cyber-neon"]
 {
-	/* Core Surface Canvas Elements */
 	--theme-site-bg: #05020c;
-	/* Deep midnight obsidian violet */
-	--theme-code-bg: #0d061a;
-	/* Slightly elevated synth window black */
-	--theme-border: #261338;
-	/* Low-contrast dark purple border track */
-	--theme-card-shadow: rgba(255, 0, 128, 0.25);
-
-	/* Typography Layer */
+	--theme-bg-subtle: #0d061a;
 	--theme-text-heading: #ffffff;
-	/* Stark white headings */
 	--theme-text-muted: #7d6391;
-	/* Muted twilight lavender */
-	--theme-code-text: #e2d9eb;
-	/* High-readability purple-tinted white */
-
-	/* Structural Ambient Light Systems (Radial Background) */
-	--radial-inner: #2c0835;
-	/* Electric violet core flare */
-	--radial-middle: #11051c;
-	/* Deep plum transition step */
-	--radial-outer: #05020c;
-	/* Merges cleanly out to solid site background */
-
-	/* Themed Accent Point Vectors */
+	--theme-border: #261338;
 	--theme-primary: #ff007f;
-	/* Neon Laser Pink Accent */
 	--theme-primary-hover: #00ffff;
-	/* Electric Cyan Hover State */
+	--theme-accent-active: #cc0066;
+	--theme-code-bg: #0d061a;
+	--theme-code-text: #e2d9eb;
+	--theme-card-shadow: rgba(255, 0, 128, 0.25);
+	--radial-inner: #2c0835;
+	--radial-middle: #11051c;
+	--radial-outer: #05020c;
 }
 
-
-
-
-
-
-
-
-
-
-
+/* 11. GOLD THEME */
 [data-theme="gold"]
 {
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #FFFFFF;
-	/* Pure pristine white canvas */
-	--theme-code-bg: #F4F4F6;
-	/* Crisp, cool-toned technical gray */
-	--theme-border: #D1D5DB;
-	/* Defined, high-visibility structural border */
-	--theme-card-shadow: rgba(0, 0, 0, 0.12);
-	/* Grounded, high-contrast structural shadow */
-
-	/* Typography Layer */
+	--theme-site-bg: #ffffff;
+	--theme-bg-subtle: #f9fafb;
 	--theme-text-heading: #111827;
-	/* Deep obsidian black for maximum legibility */
-	--theme-text-muted: #4B5563;
-	/* Heavy iron gray for crisp secondary text */
-	--theme-code-text: #1F2937;
-	/* High-contrast charcoal for code clarity */
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #F9FAFB;
-	--radial-middle: #F3F4F6;
-	--radial-outer: #FFFFFF;
-
-	/* Themed Accent Point Vectors */
+	--theme-text-muted: #4b5563;
+	--theme-border: #d1d5db;
 	--theme-primary: #856404;
-	/* Deep, commanding burnished gold for AAA contrast */
-	--theme-primary-hover: #A07806;
-	/* Sharper, vibrant gold for distinct state transition */
+	--theme-primary-hover: #a07806;
+	--theme-accent-active: #6b5003;
+	--theme-code-bg: #f4f4f6;
+	--theme-code-text: #1f2937;
+	--theme-card-shadow: rgba(0, 0, 0, 0.12);
+	--radial-inner: #f9fafb;
+	--radial-middle: #f3f4f6;
+	--radial-outer: #ffffff;
 }
 
+/* 12. MONOCHROME THEME */
 [data-theme="monochrome"]
 {
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #FFFFFF;
-	/* Pure pristine white */
-	--theme-code-bg: #F4F4F4;
-	/* Light gray for clear code distinction */
-	--theme-border: #000000;
-	/* Stark black borders for structure */
-	--theme-card-shadow: rgba(0, 0, 0, 0.1);
-
-	/* Typography Layer */
+	--theme-site-bg: #ffffff;
+	--theme-bg-subtle: #f4f4f4;
 	--theme-text-heading: #000000;
-	/* Absolute black */
 	--theme-text-muted: #333333;
-	/* Dark gray for readability */
-	--theme-code-text: #000000;
-	/* Absolute black for technical clarity */
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #FFFFFF;
-	--radial-middle: #FAFAFA;
-	--radial-outer: #F0F0F0;
-
-	/* Themed Accent Point Vectors */
+	--theme-border: #000000;
 	--theme-primary: #000000;
-	/* Bold black for accents/CTAs */
 	--theme-primary-hover: #444444;
-	/* Dark gray hover state */
+	--theme-accent-active: #000000;
+	--theme-code-bg: #f4f4f4;
+	--theme-code-text: #000000;
+	--theme-card-shadow: rgba(0, 0, 0, 0.1);
+	--radial-inner: #ffffff;
+	--radial-middle: #fafafa;
+	--radial-outer: #f0f0f0;
 }
 
+/* 13. NEON THEME */
 [data-theme="neon"]
 {
-	--theme-site-bg: #FFFFFF;
-	/* White background */
-	--theme-code-bg: #000000;
-	/* Black code windows for contrast */
-	--theme-border: #39FF14;
-	/* Neon Green borders for structural nodes */
-	--theme-card-shadow: rgba(57, 255, 20, 0.3);
-
-	/* Typography Layer */
+	--theme-site-bg: #ffffff;
+	--theme-bg-subtle: #f0fff0;
 	--theme-text-heading: #000000;
 	--theme-text-muted: #333333;
-	--theme-code-text: #39FF14;
-	/* Neon Green text for terminal feel */
-
-	/* Structural Ambient Light Systems (The "Neon Dot Matrix" Effect) */
-	--radial-inner: #39FF14;
-	/* Neon Green core */
-	--radial-middle: #FFD700;
-	/* Vibrant Yellow mid-glow */
-	--radial-outer: #FFFFFF;
-	/* White canvas fallback */
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #FFD700;
-	/* Yellow for interactive elements */
-	--theme-primary-hover: #E6C20
+	--theme-border: #39ff14;
+	--theme-primary: #ffd700;
+	--theme-primary-hover: #e6c200;
+	--theme-accent-active: #ccae00;
+	--theme-code-bg: #000000;
+	--theme-code-text: #39ff14;
+	--theme-card-shadow: rgba(57, 255, 20, 0.3);
+	--radial-inner: #39ff14;
+	--radial-middle: #ffd700;
+	--radial-outer: #ffffff;
 }
 
+/* 14. TERMINAL THEME */
 [data-theme="terminal"]
 {
-	/* Core Surface Canvas Elements */
 	--theme-site-bg: #e4e4e4;
-	/* White base */
-	--theme-code-bg: #111111;
-	/* Black code canvas */
-	--theme-border: #141414;
-	/* Dark structural lines */
-	--theme-card-shadow: rgba(0, 0, 0, 0.2);
-
-	/* Typography Layer */
+	--theme-bg-subtle: #d1d1d1;
 	--theme-text-heading: #111111;
-	/* Black for headers */
 	--theme-text-muted: #515151;
-	/* Gray for secondary text */
-	--theme-code-text: #b8f160;
-	/* Lightgreen for terminal code */
-
-	/* Structural Ambient Light Systems (The "Dot Matrix" Glow) */
-	--radial-inner: #fafd05;
-	/* Neon core */
-	--radial-middle: #b8f160;
-	/* Lightgreen ring */
-	--radial-outer: #e7e4e0;
-	/* Beige ambient canvas */
-
-	/* Themed Accent Point Vectors */
+	--theme-border: #141414;
 	--theme-primary: #fafd05;
-	/* Neon yellow for CTAs */
 	--theme-primary-hover: #b8f160;
-	/* Lightgreen hover transition */
-	--theme-secondary: #515151;
-	/* Gray for secondary UI elements */
+	--theme-accent-active: #d9d604;
+	--theme-code-bg: #111111;
+	--theme-code-text: #b8f160;
+	--theme-card-shadow: rgba(0, 0, 0, 0.2);
+	--radial-inner: #fafd05;
+	--radial-middle: #b8f160;
+	--radial-outer: #e7e4e0;
 }
 
+/* 15. BEACH THEME */
 [data-theme="beach"]
 {
-	/* Core Surface Canvas Elements */
 	--theme-site-bg: #f4d58d;
-	/* Sand: Warm, light base canvas */
-	--theme-code-bg: #001427;
-	/* Midnight: Deep, dark terminal background */
-	--theme-border: #8d0801;
-	/* Sun: Bold structural lines */
-	--theme-card-shadow: rgba(0, 20, 39, 0.2);
-
-	/* Typography Layer */
+	--theme-bg-subtle: #e6c57a;
 	--theme-text-heading: #001427;
-	/* Midnight: Obsidian for maximum contrast */
 	--theme-text-muted: #708d81;
-	/* Sea: Soft, readable muted text */
-	--theme-code-text: #f4d58d;
-	/* Sand: High-contrast light code text */
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #bf0603;
-	/* Sunset: Radiant core */
-	--radial-middle: #8d0801;
-	/* Sun: Deep secondary glow */
-	--radial-outer: #f4d58d;
-	/* Sand: Neutral outer transition */
-
-	/* Themed Accent Point Vectors */
+	--theme-border: #8d0801;
 	--theme-primary: #bf0603;
-	/* Sunset: Primary CTA/Buttons */
 	--theme-primary-hover: #8d0801;
-	/* Sun: Hover transition */
-	--theme-secondary: #708d81;
-	/* Sea: Secondary UI elements */
+	--theme-accent-active: #9c0502;
+	--theme-code-bg: #001427;
+	--theme-code-text: #f4d58d;
+	--theme-card-shadow: rgba(0, 20, 39, 0.2);
+	--radial-inner: #bf0603;
+	--radial-middle: #8d0801;
+	--radial-outer: #f4d58d;
 }
 
+/* 16. BEACH GRAYSCALE THEME */
 [data-theme="beach-grayscale"]
 {
-	/* Core Surface Canvas Elements */
 	--theme-site-bg: #e4e4e4;
-	/* Base White (White) */
-	--theme-code-bg: #111111;
-	/* Terminal Black (Black) */
-	--theme-border: #141414;
-	/* Structural Outline (White-Dark) */
-	--theme-card-shadow: rgba(0, 0, 0, 0.2);
-
-	/* Typography Layer */
+	--theme-bg-subtle: #d1d1d1;
 	--theme-text-heading: #111111;
-	/* Heading Black */
 	--theme-text-muted: #515151;
-	/* Secondary Gray */
-	--theme-code-text: #e4e4e4;
-	/* Code White */
-
-	/* Structural Ambient Light Systems (The "Monochrome Matrix" Glow) */
-	--radial-inner: #515151;
-	/* Mid-Tone Gray */
-	--radial-middle: #141414;
-	/* Dark Gray */
-	--radial-outer: #e4e4e4;
-	/* Base White */
-
-	/* Themed Accent Point Vectors (Grayscale Transitions) */
+	--theme-border: #141414;
 	--theme-primary: #111111;
-	/* Primary CTA (Black) */
 	--theme-primary-hover: #515151;
-	/* Hover State (Gray) */
-	--theme-secondary: #515151;
-	/* UI Accent (Gray) */
+	--theme-accent-active: #000000;
+	--theme-code-bg: #111111;
+	--theme-code-text: #e4e4e4;
+	--theme-card-shadow: rgba(0, 0, 0, 0.2);
+	--radial-inner: #515151;
+	--radial-middle: #141414;
+	--radial-outer: #e4e4e4;
 }
 
+/* 17. VICHY THEME */
 [data-theme="vichy"]
 {
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #FFFFFF;
-	/* #FFFFFF: Pure white canvas */
-	--theme-code-bg: #F4F4F4;
-	/* Light gray for structural separation */
-	--theme-border: #878787;
-	/* #878787: Medium gray structural lines */
-	--theme-card-shadow: rgba(0, 0, 0, 0.1);
-
-	/* Typography Layer */
+	--theme-site-bg: #ffffff;
+	--theme-bg-subtle: #f4f4f4;
 	--theme-text-heading: #111111;
-	/* Authoritative black */
 	--theme-text-muted: #878787;
-	/* #878787: Medium gray for metadata */
-	--theme-code-text: #05AD98;
-	/* #05AD98: Teal for technical code */
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #BBBFBF;
-	/* #BBBFBF: Light gray glow */
-	--radial-middle: #878787;
-	/* #878787: Mid-tone depth */
-	--radial-outer: #FFFFFF;
-	/* #FFFFFF: Pure white */
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #05AD98;
-	/* #05AD98: Teal for CTAs/Active states */
+	--theme-border: #878787;
+	--theme-primary: #05ad98;
 	--theme-primary-hover: #048a7a;
-	/* Darker teal for hover states */
-	--theme-secondary: #BBBFBF;
-	/* #BBBFBF: Secondary UI accents */
+	--theme-accent-active: #036b5e;
+	--theme-code-bg: #f4f4f4;
+	--theme-code-text: #05ad98;
+	--theme-card-shadow: rgba(0, 0, 0, 0.1);
+	--radial-inner: #bbbfbf;
+	--radial-middle: #878787;
+	--radial-outer: #ffffff;
 }
 
+/* 18. MIST THEME */
 [data-theme="mist"]
 {
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #FCF8D8;
-	/* Base canvas */
-	--theme-code-bg: #7C7D75;
-	/* Terminal canvas */
-	--theme-border: #ADACA7;
-	/* Structural lines */
+	--theme-site-bg: #fcf8d8;
+	--theme-bg-subtle: #f0edc8;
+	--theme-text-heading: #7c7d75;
+	--theme-text-muted: #adaca7;
+	--theme-border: #adaca7;
+	--theme-primary: #dd700b;
+	--theme-primary-hover: #dd700b;
+	--theme-accent-active: #b55a09;
+	--theme-code-bg: #7c7d75;
+	--theme-code-text: #d9dadf;
 	--theme-card-shadow: rgba(124, 125, 117, 0.3);
-
-	/* Typography Layer */
-	--theme-text-heading: #7C7D75;
-	/* Headings */
-	--theme-text-muted: #ADACA7;
-	/* Secondary text */
-	--theme-code-text: #D9DADF;
-	/* Code text */
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #D9DADF;
-	/* Inner highlight */
-	--radial-middle: #ADACA7;
-	/* Mid-tone */
-	--radial-outer: #FCF8D8;
-	/* Canvas outer */
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #DD700B;
-	/* High-contrast accent */
-	--theme-primary-hover: #DD700B;
-	/* Hover state */
-	--theme-secondary: #7C7D75;
-	/* UI Secondary */
+	--radial-inner: #d9dadf;
+	--radial-middle: #adaca7;
+	--radial-outer: #fcf8d8;
 }
 
+/* 19. BLACK & YELLOW THEME */
 [data-theme="black-yellow"]
 {
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #FCF8D8;
-	/* #FCF8D8: Warm, light base canvas */
-	--theme-code-bg: #7C7D75;
-	/* #7C7D75: Muted gray for code terminal */
-	--theme-border: #ADACA7;
-	/* #ADACA7: Mid-gray structural lines */
-	--theme-card-shadow: rgba(0, 0, 0, 0.1);
-
-	/* Typography Layer */
+	--theme-site-bg: #fcf8d8;
+	--theme-bg-subtle: #f0edc8;
 	--theme-text-heading: #111111;
-	/* Authoritative black for headers */
-	--theme-text-muted: #7C7D75;
-	/* #7C7D75: Muted gray for body text */
-	--theme-code-text: #D9DADF;
-	/* #D9DADF: Soft light for code */
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #D9DADF;
-	/* #D9DADF: Light cool mist glow */
-	--radial-middle: #ADACA7;
-	/* #ADACA7: Mid-gray depth */
-	--radial-outer: #FCF8D8;
-	/* #FCF8D8: Warm base */
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #DD700B;
-	/* #DD700B: High-contrast orange for CTAs */
+	--theme-text-muted: #7c7d75;
+	--theme-border: #adaca7;
+	--theme-primary: #dd700b;
 	--theme-primary-hover: #b55a09;
-	/* Darker orange for hover */
-	--theme-secondary: #ADACA7;
-	/* #ADACA7: Secondary UI elements */
+	--theme-accent-active: #914807;
+	--theme-code-bg: #7c7d75;
+	--theme-code-text: #d9dadf;
+	--theme-card-shadow: rgba(0, 0, 0, 0.1);
+	--radial-inner: #d9dadf;
+	--radial-middle: #adaca7;
+	--radial-outer: #fcf8d8;
 }
 
+/* 20. GARNET THEME */
 [data-theme="garnet"]
 {
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #F6C992;
-	/* Seashell base canvas */
-	--theme-code-bg: #5484A4;
-	/* Deep blue terminal canvas */
-	--theme-border: #30525C;
-	/* Structural lines (garnet) */
+	--theme-site-bg: #f6c992;
+	--theme-bg-subtle: #e6b880;
+	--theme-text-heading: #30525c;
+	--theme-text-muted: #d396a6;
+	--theme-border: #30525c;
+	--theme-primary: #09a1a1;
+	--theme-primary-hover: #30525c;
+	--theme-accent-active: #077d7d;
+	--theme-code-bg: #5484a4;
+	--theme-code-text: #acc0d3;
 	--theme-card-shadow: rgba(48, 82, 92, 0.2);
-
-	/* Typography Layer */
-	--theme-text-heading: #30525C;
-	/* Garnet headers */
-	--theme-text-muted: #D396A6;
-	/* Muted rose for body text */
-	--theme-code-text: #ACC0D3;
-	/* Light blue for code text */
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #09A1A1;
-	/* Teal glow */
-	--radial-middle: #5484A4;
-	/* Mid-blue depth */
-	--radial-outer: #F6C992;
-	/* Seashell base */
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #09A1A1;
-	/* Teal for CTAs */
-	--theme-primary-hover: #30525C;
-	/* Garnet for hover */
-	--theme-secondary: #D396A6;
-	/* Rose for secondary UI */
+	--radial-inner: #09a1a1;
+	--radial-middle: #5484a4;
+	--radial-outer: #f6c992;
 }
 
+/* 21. CALCITE THEME */
 [data-theme="calcite"]
 {
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #DDDCDB;
-	/* Light gray base canvas */
-	--theme-code-bg: #3C4044;
-	/* Dark charcoal terminal */
-	--theme-border: #3C4044;
-	/* Charcoal structural lines */
+	--theme-site-bg: #dddcdb;
+	--theme-bg-subtle: #cfcecd;
+	--theme-text-heading: #3c4044;
+	--theme-text-muted: #edbf9b;
+	--theme-border: #3c4044;
+	--theme-primary: #fd7b41;
+	--theme-primary-hover: #3c4044;
+	--theme-accent-active: #d66533;
+	--theme-code-bg: #3c4044;
+	--theme-code-text: #edbf9b;
 	--theme-card-shadow: rgba(60, 64, 68, 0.2);
-
-	/* Typography Layer */
-	--theme-text-heading: #3C4044;
-	/* Charcoal headers */
-	--theme-text-muted: #EDBF9B;
-	/* Soft beige for secondary text */
-	--theme-code-text: #EDBF9B;
-	/* Soft beige for code */
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #FD7B41;
-	/* Vibrant orange glow */
-	--radial-middle: #EDBF9B;
-	/* Soft beige transition */
-	--radial-outer: #DDDCDB;
-	/* Light gray outer */
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #FD7B41;
-	/* Orange for CTAs */
-	--theme-primary-hover: #3C4044;
-	/* Charcoal for hover */
-	--theme-secondary: #EDBF9B;
-	/* Beige for UI elements */
+	--radial-inner: #fd7b41;
+	--radial-middle: #edbf9b;
+	--radial-outer: #dddcdb;
 }
 
+/* 22. FROSTED THEME */
 [data-theme="frosted"]
 {
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #FFFFFF;
-	/* #FFFFFF: Pure white canvas */
-	--theme-code-bg: #5C7E8F;
-	/* #5C7E8F: Muted blue terminal */
-	--theme-border: #A2A2A2;
-	/* #A2A2A2: Gray structural lines */
+	--theme-site-bg: #ffffff;
+	--theme-bg-subtle: #f0f0f0;
+	--theme-text-heading: #5c7e8f;
+	--theme-text-muted: #a2a2a2;
+	--theme-border: #a2a2a2;
+	--theme-primary: #5c7e8f;
+	--theme-primary-hover: #a2a2a2;
+	--theme-accent-active: #4a6675;
+	--theme-code-bg: #5c7e8f;
+	--theme-code-text: #d4dde2;
 	--theme-card-shadow: rgba(92, 126, 143, 0.2);
-
-	/* Typography Layer */
-	--theme-text-heading: #5C7E8F;
-	/* #5C7E8F: Muted blue headings */
-	--theme-text-muted: #A2A2A2;
-	/* #A2A2A2: Gray for metadata */
-	--theme-code-text: #D4DDE2;
-	/* #D4DDE2: Light frosted text */
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #D4DDE2;
-	/* #D4DDE2: Light mist glow */
-	--radial-middle: #A2A2A2;
-	/* #A2A2A2: Gray depth */
-	--radial-outer: #FFFFFF;
-	/* #FFFFFF: Pure white */
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #5C7E8F;
-	/* #5C7E8F: Muted blue for CTAs */
-	--theme-primary-hover: #A2A2A2;
-	/* Gray for hover state */
-	--theme-secondary: #D4DDE2;
-	/* #D4DDE2: Secondary UI accents */
+	--radial-inner: #d4dde2;
+	--radial-middle: #a2a2a2;
+	--radial-outer: #ffffff;
 }
 
 
@@ -866,80 +543,7 @@
 }
 
 
-/*ugle*/
-[data-theme="lemon"]
-{
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #B8BFC1;
-	--theme-code-bg: #2C4C5C;
-	--theme-border: #6C8494;
-	--theme-card-shadow: rgba(0, 0, 0, 0.2);
 
-	/* Typography Layer */
-	--theme-text-heading: #2C4C5C;
-	--theme-text-muted: #6C8494;
-	--theme-code-text: #F3E308;
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #F3E308;
-	--radial-middle: #6C8494;
-	--radial-outer: #B8BFC1;
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #F3E308;
-	--theme-primary-hover: #6C8494;
-	--theme-secondary: #6C8494;
-}
-
-/*kinda ugly*/
-[data-theme="clockwork"]
-{
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #F8F8F8;
-	--theme-code-bg: #919599;
-	--theme-border: #CDCDCB;
-	--theme-card-shadow: rgba(0, 0, 0, 0.2);
-
-	/* Typography Layer */
-	--theme-text-heading: #919599;
-	--theme-text-muted: #CDCDCB;
-	--theme-code-text: #F8F8F8;
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #E56515;
-	--radial-middle: #FBA45C;
-	--radial-outer: #F8F8F8;
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #E56515;
-	--theme-primary-hover: #FBA45C;
-	--theme-secondary: #CDCDCB;
-}
-
-/* ugly */
-[data-theme="gossamer"]
-{
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #FAFAFA;
-	--theme-code-bg: #939599;
-	--theme-border: #CDCDCF;
-	--theme-card-shadow: rgba(0, 0, 0, 0.2);
-
-	/* Typography Layer */
-	--theme-text-heading: #939599;
-	--theme-text-muted: #CDCDCF;
-	--theme-code-text: #2BCFCE;
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #EC4D25;
-	--radial-middle: #2BCFCE;
-	--radial-outer: #FAFAFA;
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #EC4D25;
-	--theme-primary-hover: #939599;
-	--theme-secondary: #CDCDCF;
-}
 
 [data-theme="arctic"]
 {
@@ -965,32 +569,6 @@
 	--theme-secondary: #698696;
 }
 
-
-/*ugly*/
-[data-theme="slate"]
-{
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #F8F8F8;
-	--theme-code-bg: #71776D;
-	--theme-border: #BEBEBE;
-	--theme-card-shadow: rgba(0, 0, 0, 0.2);
-
-	/* Typography Layer */
-	--theme-text-heading: #71776D;
-	--theme-text-muted: #BEBEBE;
-	--theme-code-text: #79ED91;
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #4DBE55;
-	--radial-middle: #79ED91;
-	--radial-outer: #F8F8F8;
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #4DBE55;
-	--theme-primary-hover: #71776D;
-	--theme-secondary: #BEBEBE;
-}
-
 /*pretty good*/
 [data-theme="inked"]
 {
@@ -1014,30 +592,4 @@
 	--theme-primary: #00ACAC;
 	--theme-primary-hover: #464545;
 	--theme-secondary: #A6A7A2;
-}
-
-
-/*has potential*/
-[data-theme="urban"]
-{
-	/* Core Surface Canvas Elements */
-	--theme-site-bg: #D6D6D6;
-	--theme-code-bg: #141414;
-	--theme-border: #444444;
-	--theme-card-shadow: rgba(0, 0, 0, 0.2);
-
-	/* Typography Layer */
-	--theme-text-heading: #141414;
-	--theme-text-muted: #979797;
-	--theme-code-text: #E2E800;
-
-	/* Structural Ambient Light Systems */
-	--radial-inner: #E2E800;
-	--radial-middle: #444444;
-	--radial-outer: #D6D6D6;
-
-	/* Themed Accent Point Vectors */
-	--theme-primary: #E2E800;
-	--theme-primary-hover: #444444;
-	--theme-secondary: #979797;
 }

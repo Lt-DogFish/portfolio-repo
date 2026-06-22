@@ -3,7 +3,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TopBar from "../components/TopBar.astro";
 import NewHero from "../components/NewHero.astro";
-import NewProjectLayout from '../layouts/NewProjectLayout.astro';
+import ProjectLayout from '../layouts/ProjectLayout.astro';
 import CodeWindow from '../layouts/CodeWindow.astro';
 import NewFooter from '../components/NewFooter.astro';
 import ProjectsSelection from "../components/ProjectsSection.astro";
@@ -53,32 +53,44 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
 
   <NewHero theme={currentTheme} />
 
-  <Spacer height="20vh" borderTop borderBottom />
-  
+
   <ProjectsSelection theme={currentTheme} />
 
   <section id="projects" style="min-height: auto; padding: 6rem 2rem 0 2rem;">
     <div style="max-width: 800px; margin: 0 auto;">
       <h2 style="font-size: 3rem; font-weight: 800; letter-spacing: -0.05em; border-bottom: 2px solid var(--theme-primary, #38bdf8); padding-bottom: 0.75rem; margin: 0; color: var(--theme-text-heading, #f8fafc);">
-        Selected Systems Architecture
+        PROJECTS
       </h2>
     </div>
   </section>
 
-  <NewProjectLayout 
-    theme={currentTheme}
-    title="Autonomous Embedded Firmware GitOps Pipeline" 
-    time="3 Weeks" 
-    bodyText="An automated infrastructure pipeline designed to bridge cloud-native orchestration with physical microcontrollers. This architecture treats edge hardware devices as traditional cluster resources, driving firmware version compliance state configurations deterministically."
-    learned="Designed custom Kubernetes reconciliation controller loops capable of tracking version state maps and building conditional deployment models using structured messaging layers."
-    more="Core Infrastructure Target Stack: Linux Edge Workers, k3s Control Planes, and isolated custom MQTT Broker configurations."
-    images={projectImagesGroupA}
-  />
+  <Spacer height='30vh' borderBottom = {true} borderTop={true}/>
+
+
+
+
+ <!----- Project 1 ------------------------------------------------->
+ <!----- Project 1 ------------------------------------------------->
+ <!----- Project 1 ------------------------------------------------->
+
+  <ProjectLayout 
+  theme={currentTheme}
+  title="Autonomous Embedded Firmware GitOps Pipeline" 
+  time="3 Weeks" 
+  difficulty="Advanced"
+  stars={4}
+  role="Systems Architect"
+  stack={['k3s', 'MQTT', 'C# KubeOps', 'ESP32']}
+  bodyText="An automated infrastructure pipeline designed to bridge cloud-native orchestration with physical microcontrollers. This architecture treats edge hardware devices as traditional cluster resources, driving firmware version compliance state configurations deterministically."
+  learned="Designed custom Kubernetes reconciliation controller loops capable of tracking version state maps and building conditional deployment models using structured messaging layers."
+  more="Core Infrastructure Target Stack: Linux Edge Workers, k3s Control Planes, and isolated custom MQTT Broker configurations."
+  images={projectImagesGroupA}
+/>
 
   <CodeWindow 
     lang="python" code={k8sOperatorCode} 
-    maxHeight="320px"
-    fontSize="0.8rem"
+    maxHeight="500px" 
+    fontSize="0.9rem" 
     theme={currentTheme}
   >
     <h3 style="font-size: 1.75rem; color: var(--theme-text-heading, #f8fafc); margin-top: 0;">The Kubernetes Reconciliation Loop</h3>
@@ -93,9 +105,54 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
     </ul>
   </CodeWindow>
 
-  <hr style="border: none; border-top: 1px solid var(--theme-border, #1e293b); margin: 4rem 0;" />
+  <CodeWindow 
+  lang="python" code={k8sOperatorCode} 
+  maxHeight="500px" 
+  codeOnRight={true}
+    fontSize="0.9rem" 
+  theme={currentTheme}
+>
+  <h3 style="font-size: 1.75rem; color: var(--theme-text-heading, #f8fafc); margin-top: 0;">The Kubernetes Reconciliation Loop</h3>
+  <p style="color: var(--theme-text-muted, #94a3b8); line-height: 1.6;">
+    This backend orchestration layer acts as a custom state operator. It runs continuous observation windows against the MinIO binary storage bucket registries. 
+    When a new hardware artifact payload matches strict schema rules, it constructs structural telemetry patches to enforce cluster state targets.
+  </p>
+  <ul style="color: var(--theme-text-muted, #94a3b8); padding-left: 1.25rem; margin: 1rem 0; line-height: 1.6;">
+    <li>Automated artifact hash checking procedures.</li>
+    <li>Stateless deployment tracking over active connections.</li>
+    <li>Dynamic state variable payload generation.</li>
+  </ul>
+</CodeWindow>
 
-  <NewProjectLayout 
+<CodeWindow 
+    lang="python" code={k8sOperatorCode} 
+    maxHeight="500px" 
+    fontSize="0.9rem" 
+    theme={currentTheme}
+  >
+    <h3 style="font-size: 1.75rem; color: var(--theme-text-heading, #f8fafc); margin-top: 0;">The Kubernetes Reconciliation Loop</h3>
+    <p style="color: var(--theme-text-muted, #94a3b8); line-height: 1.6;">
+      This backend orchestration layer acts as a custom state operator. It runs continuous observation windows against the MinIO binary storage bucket registries. 
+      When a new hardware artifact payload matches strict schema rules, it constructs structural telemetry patches to enforce cluster state targets.
+    </p>
+    <ul style="color: var(--theme-text-muted, #94a3b8); padding-left: 1.25rem; margin: 1rem 0; line-height: 1.6;">
+      <li>Automated artifact hash checking procedures.</li>
+      <li>Stateless deployment tracking over active connections.</li>
+      <li>Dynamic state variable payload generation.</li>
+    </ul>
+  </CodeWindow>
+
+  <Spacer height='30vh' borderBottom = {true} borderTop={true}/>
+
+
+
+
+
+  <!----- Project 2 ------------------------------------------------->
+  <!----- Project 2 ------------------------------------------------->
+  <!----- Project 2 ------------------------------------------------->
+
+  <ProjectLayout 
     theme={currentTheme}
     title="Distributed Edge Infrastructure Runtime" 
     time="1 Month" 
@@ -108,12 +165,12 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
   <CodeWindow 
     lang="cpp" 
     code={esp32FirmwareCode} 
-    maxHeight="500px" 
+    maxHeight="70vh" 
     fontSize="0.9rem" 
     codeOnRight={true}
     theme={currentTheme}
-    startLine={10}
-    endLine={25}
+    startLine={0}
+    endLine={2}
   >
     <h3 style="font-size: 1.75rem; color: var(--theme-text-heading, #f8fafc); margin-top: 0;">Hardware Over-The-Air Execution Engine</h3>
     <p style="color: var(--theme-text-muted, #94a3b8); line-height: 1.6;">
@@ -125,9 +182,37 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
     </div>
   </CodeWindow>
 
-  <hr style="border: none; border-top: 1px solid var(--theme-border, #1e293b); margin: 4rem 0;" />
+  <CodeWindow 
+  lang="cpp" 
+  code={esp32FirmwareCode} 
+  maxHeight="70vh" 
+  fontSize="0.9rem" 
+  codeOnRight={false}
+  theme={currentTheme}
+  startLine={0}
+  endLine={2}
+>
+  <h3 style="font-size: 1.75rem; color: var(--theme-text-heading, #f8fafc); margin-top: 0;">Hardware Over-The-Air Execution Engine</h3>
+  <p style="color: var(--theme-text-muted, #94a3b8); line-height: 1.6;">
+    On the physical endpoint tier, the client software uses persistent non-blocking socket loops to maintain responsive background sync communication frames. 
+    This C++ runtime isolates hardware flash memory addresses to check firmware integrity safely before executing atomic updates.
+  </p>
+  <div style="background: var(--theme-bg-accent, rgba(56, 189, 248, 0.1)); border: 1px solid var(--theme-border, rgba(56, 189, 248, 0.2)); padding: 1rem; border-radius: 0.5rem; color: var(--theme-primary, #38bdf8); font-size: 0.95rem;">
+    <strong>Edge Security Constraint Note:</strong> Intercepts network payloads with cryptographic keys, dropping unauthorized updates gracefully at the network boundary.
+  </div>
+</CodeWindow>
 
-  <NewProjectLayout 
+  <Spacer height='30vh' borderBottom = {true} borderTop={true}/>
+
+
+
+
+
+
+  <!----- Project 3 ------------------------------------------------->
+  <!----- Project 3 ------------------------------------------------->
+  <!----- Project 3 ------------------------------------------------->
+  <ProjectLayout 
     theme={currentTheme}
     title="Low-Latency Telemetry BCI Simulation Engine" 
     time="2 Months" 
@@ -151,6 +236,45 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
 // Target Network Operational Stream Metric
 [Socket Pool Buffer Allocation: 2048 bytes] -> Asynchronous Dequeue -> Physics Loop Injection</pre>
   </CodeWindow>
+
+  <CodeWindow 
+  lang="csharp" 
+  code={unitySimulationCode}
+  theme={currentTheme}
+>
+  <h3 style="font-size: 1.75rem; color: var(--theme-text-heading, #f8fafc); margin-top: 0;">C# Physics Thread Synchronization</h3>
+  <p style="color: var(--theme-text-muted, #94a3b8); line-height: 1.6;">
+    This consumer engine runs completely decoupled from the main graphics frame loop. By reading incoming input streams into isolated memory blocks, 
+    the framework avoids blocking game states and keeps movement computations matching real-world frequencies perfectly.
+  </p>
+  <pre style="background: var(--theme-code-bg, #020617); padding: 1rem; border-radius: 0.375rem; border: 1px solid var(--theme-border, #1e293b); font-family: monospace; font-size: 0.85rem; color: var(--theme-secondary, #64748b);">
+// Target Network Operational Stream Metric
+[Socket Pool Buffer Allocation: 2048 bytes] -> Asynchronous Dequeue -> Physics Loop Injection</pre>
+</CodeWindow>
+
+<CodeWindow 
+    lang="csharp" 
+    code={unitySimulationCode}
+    theme={currentTheme}
+  >
+    <h3 style="font-size: 1.75rem; color: var(--theme-text-heading, #f8fafc); margin-top: 0;">C# Physics Thread Synchronization</h3>
+    <p style="color: var(--theme-text-muted, #94a3b8); line-height: 1.6;">
+      This consumer engine runs completely decoupled from the main graphics frame loop. By reading incoming input streams into isolated memory blocks, 
+      the framework avoids blocking game states and keeps movement computations matching real-world frequencies perfectly.
+    </p>
+    <pre style="background: var(--theme-code-bg, #020617); padding: 1rem; border-radius: 0.375rem; border: 1px solid var(--theme-border, #1e293b); font-family: monospace; font-size: 0.85rem; color: var(--theme-secondary, #64748b);">
+// Target Network Operational Stream Metric
+[Socket Pool Buffer Allocation: 2048 bytes] -> Asynchronous Dequeue -> Physics Loop Injection</pre>
+  </CodeWindow>
+
+  <Spacer height='30vh' borderBottom = {true} borderTop={true}/>
+
+
+
+
+
+
+
 
   <NewFooter theme={currentTheme} />
 
