@@ -1,12 +1,20 @@
 ---
+// src/components/ProjectsLayout.astro
+
+interface Props {
+  theme?: string;
+}
+
+const { theme } = Astro.props;
+
 const projects = {
     "001": { title: "Proj_1", caption: "Description for project 1", imgname: "Proj_1.jpeg", id: -3 },
     "002": { title: "drone_simulation", caption: "Advanced drone physics simulation", imgname: "Proj_2.jpeg", id: -2 },
     "003": { title: "4_legged_inversekinematics", caption: "Procedural IK walking system", imgname: "Proj_3.jpeg", id: -1 },
-    "004": { title: "robust_character_controller", caption: "Physics-based movement controller", imgname: "Proj_4.jpeg", id: 0 },
-    "005": { title: "personal_k3s_cluster", caption: "Self-hosted Kubernetes cluster", imgname: "Proj_5.jpeg", id: 1 },
-    "006": { title: "portfolio_site", caption: "My personal portfolio website", imgname: "Proj_6.jpeg", id: 2 },
-    "007": { title: "microcontrollers_RTOS", caption: "Embedded RTOS experiments", imgname: "IMG_3919.jpeg", id: 3 }
+    // "004": { title: "robust_character_controller", caption: "Physics-based movement controller", imgname: "Proj_4.jpeg", id: 0 },
+    // "005": { title: "personal_k3s_cluster", caption: "Self-hosted Kubernetes cluster", imgname: "Proj_5.jpeg", id: 1 },
+    // "006": { title: "portfolio_site", caption: "My personal portfolio website", imgname: "Proj_6.jpeg", id: 2 },
+    // "007": { title: "microcontrollers_RTOS", caption: "Embedded RTOS experiments", imgname: "IMG_3919.jpeg", id: 3 }
 };
 
 const imgs = import.meta.glob("../assets/Reference images/*.jpeg", { eager: true }) as Record<string, { default: string } | { default: { src: string } }>;
@@ -18,7 +26,12 @@ const imgsUrls = Object.fromEntries(
 );
 ---
 
-<section class="projects">
+<section class="projects" data-theme={theme}>
+    <div class="projects-blueprint" aria-hidden="true">
+        <div class="v-line-left"></div>
+        <div class="v-line-right"></div>
+    </div>
+
     <div class="projects-list">
         {Object.entries(projects).map(([project, description]) => {
             const title = description.title;
@@ -34,7 +47,6 @@ const imgsUrls = Object.fromEntries(
                 >
                     {Array.from({ length }).map((_, i) => {
                         const projectChar = project[length - 1 - i];
-                        // FIX: The dot is a filler if the project key string has run out of characters
                         const isDot = !projectChar; 
                         
                         return (
@@ -54,147 +66,63 @@ const imgsUrls = Object.fromEntries(
     <div class="project-description-container">
         <div class="hover-box">
             <div class="project-description show">
-                <img class="project-description-image" src="">
+                <img class="project-description-image" src="" alt="Project Preview">
                 <span class="project-description-caption"></span>
             </div>
         </div>
     </div>
 </section>
 
-<script is:inline>
-    window.addEventListener("DOMContentLoaded", () => {
-        const hoverBox = document.querySelector(".hover-box");
-        const hbOpacityTransDuration = .1;
-        const hbMovementTransDuration = .3;
-        hoverBox.style.setProperty("--hb-opacity-transition-duration", `${hbOpacityTransDuration}s`);
-        hoverBox.style.setProperty("--hb-movement-transition-duration", `${hbMovementTransDuration}s`);
-
-        const description = hoverBox.querySelector(".project-description");
-        const pdOpacityBlurTransDuration = .1;
-        description.style.setProperty("--pd-opacityBlur-transition-duration", `${pdOpacityBlurTransDuration}s`);
-
-        const image = hoverBox.querySelector(".project-description-image");
-        const caption = hoverBox.querySelector(".project-description-caption");
-        const projectsList = document.querySelector(".projects-list");
-
-        let activeProject = null;
-        let swapTimeout = null;
-
-        const hideHoverBox = () => {
-            activeProject = null;
-            hoverBox.classList.remove("show");
-            description.classList.remove("show");
-        };
-
-        const showHoverBox = () => {
-            hoverBox.classList.add("show");
-            description.classList.add("show");
-        };
-
-        const moveHoverBox = (project) => {
-            const projectListRect = projectsList.getBoundingClientRect();
-            const hoverBoxHeight = window.innerWidth * (530/1920);
-            const hoverBoxWidth = window.innerWidth * (768/1920);
-            const topOffset = (((projectListRect.height - hoverBoxHeight) / 7) * parseInt(project.dataset.projectname));
-            const newLeftOffset = (Math.floor(Math.random() * (((window.innerWidth/2) * 0.05) + 1)) + 100);
-
-            setTimeout(() => {
-                hoverBox.style.height = `${hoverBoxHeight}px`;
-                hoverBox.style.top = `${topOffset}px`;
-                hoverBox.style.width = `${hoverBoxWidth}px`;
-                hoverBox.style.left = `${newLeftOffset}px`;
-            }, hbMovementTransDuration * 1000);
-        };
-
-        const showProject = (project) => {
-            if(activeProject === project) return;
-            activeProject = project;
-
-            const nextSrc = project.dataset.image || "";
-            const nextCaption = project.dataset.caption || "";
-
-            moveHoverBox(project);
-
-            const preload = new Image();
-            preload.src = nextSrc;
-
-            description.classList.remove("show");
-            clearTimeout(swapTimeout);
-
-            swapTimeout = setTimeout(() => {
-                if(activeProject !== project) return;
-
-                const applyContent = () => {
-                    if(activeProject !== project) return;
-                    image.src = nextSrc;
-                    caption.textContent = nextCaption;
-
-                    requestAnimationFrame(() => {
-                        showHoverBox();
-                    });
-                };
-
-                if(preload.complete) {
-                    applyContent();
-                } else {
-                    preload.onload = applyContent;
-                }
-            }, pdOpacityBlurTransDuration * 1000);
-        };
-
-        document.querySelectorAll(".project").forEach(project => {
-            project.addEventListener("mouseenter", () => {
-                showHoverBox(project);
-                showProject(project);
-            });
-
-            project.addEventListener("mouseleave", (e) => {
-                const related = e.relatedTarget;
-                if(related && related.closest(".project")) {
-                    return;
-                }
-                hideHoverBox();
-            });
-        });
-    });
-
-    const boxes = document.querySelectorAll(".psroject");
-
-    document.addEventListener("mousemove", (e) => {
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
-
-        boxes.forEach(box => {
-            const rect = box.getBoundingClientRect();
-            const boxX = rect.right;
-            const boxY = rect.top + rect.height / 2;
-            const dx = mouseX - boxX;
-            const dy = mouseY - boxY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const maxDistance = 100;
-
-            if (distance < maxDistance) {
-                const force = (maxDistance - distance) / maxDistance;
-                const angleX = dx / distance;
-                const angleY = dy / distance;
-                const moveX = angleX * force * 50;
-                const moveY = angleY * force * 50;
-                box.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            } else {
-                box.style.transform = `translate(0px, 0px)`;
-            }
-        });
-    });
-</script>
-
 <style is:global>
+    /* --- Variable Mapping to Robust Global Tokens --- */
     .projects {
+        --proj-accent: var(--theme-primary, #f97316);
+        --proj-text: var(--theme-text-heading, #ffffff);
+        --proj-bg-inner: var(--radial-inner, #1e1b4b);
+        --proj-bg-middle: var(--radial-middle, #0f172a);
+        --proj-bg-outer: var(--radial-outer, var(--theme-site-bg, #020617));
+        --proj-shadow: var(--theme-card-shadow, rgba(0, 0, 0, 0.4));
+
         display: flex;
         flex-direction: row;
-        background-image: radial-gradient(circle at 5% -105%, var(--radial-inner) 27%, var(--radial-middle) 22%, var(--radial-outer) 77.4%); 
+        position: relative; /* Required for absolute child line alignment */
         min-height: 100vh;
         width: 100%;
-        border-bottom: 1px solid var(--sunset);
+        border-bottom: 1px solid var(--theme-border, var(--proj-accent));
+        overflow: hidden;
+
+        /* Standardized positioning anchors ensure matrix dots track independently of color gradients */
+        background: 
+          radial-gradient(var(--theme-border, rgba(226, 232, 240, 0.25)) 1.5px, transparent 1.5px),
+          radial-gradient(circle at 5% -105%, var(--proj-bg-inner) 27%, var(--proj-bg-middle) 22%, var(--proj-bg-outer) 77.4%); 
+        background-size: 40px 40px, 100% 100%;
+        background-position: 0 0, center center; /* Force global alignment coordinates on first layer */
+        background-repeat: repeat, no-repeat;
+    }
+
+    /* --- Continued Technical Artifact Lines --- */
+    .projects-blueprint {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Tracks perfectly to your 33.333% layout guide down from the hero context */
+    .projects-blueprint .v-line-left {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 33.333%;
+        border-left: 1px solid var(--theme-border, rgba(226, 232, 240, 0.12));
+    }
+
+    .projects-blueprint .v-line-right {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 10%;
+        border-left: 1px solid var(--theme-border, rgba(226, 232, 240, 0.06));
     }
 
     .projects-list {
@@ -203,15 +131,16 @@ const imgsUrls = Object.fromEntries(
         justify-content: center;
         align-items: flex-end;
         width: 50%;
+        z-index: 2; /* Lift above lines */
     }
 
     .project {
         height: fit-content;
         position: relative;
-        z-index: 1;
+        z-index: 2;
         display: inline-flex; 
-        font-family: var(--font-melo);
-        font-size: 1.5em;
+        font-family: var(--font-mono, monospace);
+        font-size: 5em;
         overflow: hidden;
         text-decoration: none;
     }
@@ -219,15 +148,15 @@ const imgsUrls = Object.fromEntries(
     .project span {
         display: inline-block;
         position: relative;
-        width: 1ch;
+        font-size: 5em;
+        
         text-align: center;
         transform: translateY(0%);
-        color: var(--txt);
+        color: var(--proj-text);
         transition: transform 0.4s cubic-bezier(.77,.12,.16,.95);
         transition-delay: calc(var(--i) * 0.01s); 
     }
 
-    /* This completely hides the dots while maintaining structural grid width */
     .project span.blank-dot {
         color: transparent;
         user-select: none;
@@ -235,8 +164,8 @@ const imgsUrls = Object.fromEntries(
 
     .project:hover span {
         transform: translateY(-100%);
-        color: var(--sunset);
-        -webkit-text-stroke: 2px var(--black);
+        /* color: var(--proj-accent); */
+        /* -webkit-text-stroke: 2px var(--theme-border); */
     }
 
     .project span:after {
@@ -245,18 +174,19 @@ const imgsUrls = Object.fromEntries(
         left: 0;
         top: 100%; 
         width: 100%;
-        color: var(--sunset);
-        -webkit-text-stroke: 1px var(--black);
+        color: var(--proj-accent);
+        /* -webkit-text-stroke: 1px var(--theme-border); */
     }
 
     .project-description-container {
         position: relative;
         width: 50%;
+        z-index: 2; /* Lift above lines */
     }
 
     .hover-box {
         --hb-opacity-transition-duration: 1.0s;
-        --hb-movement-transition-duration: 1.0s;
+        --hb-movement-transition-duration: 0.1s;
         position: absolute;
         top: 0;
         left: 0;
@@ -295,7 +225,7 @@ const imgsUrls = Object.fromEntries(
         width: 100%;
         height: auto;
         border-radius: 30px;
-        box-shadow: 10px 10px 50px rgba(149, 149, 149, 1);
+        box-shadow: 10px 10px 50px var(--proj-shadow);
     }
 
     .project-description-caption {
@@ -304,6 +234,134 @@ const imgsUrls = Object.fromEntries(
         font-style: italic;
         opacity: 0.5;
         font-size: 1rem;
-        color: var(--txt);
+        color: var(--theme-text-muted, #64748b);
+        margin-top: 0.5rem;
     }
 </style>
+
+<script is:inline>
+    window.addEventListener("DOMContentLoaded", () => {
+        const hoverBox = document.querySelector(".hover-box");
+        if (!hoverBox) return;
+
+        const hbOpacityTransDuration = .1;
+        const hbMovementTransDuration = .3;
+        hoverBox.style.setProperty("--hb-opacity-transition-duration", `${hbOpacityTransDuration}s`);
+        hoverBox.style.setProperty("--hb-movement-transition-duration", `${hbMovementTransDuration}s`);
+
+        const description = hoverBox.querySelector(".project-description");
+        const pdOpacityBlurTransDuration = .1;
+        description?.style.setProperty("--pd-opacityBlur-transition-duration", `${pdOpacityBlurTransDuration}s`);
+
+        const image = hoverBox.querySelector(".project-description-image");
+        const caption = hoverBox.querySelector(".project-description-caption");
+        const projectsList = document.querySelector(".projects-list");
+
+        let activeProject = null;
+        let swapTimeout = null;
+
+        const hideHoverBox = () => {
+            activeProject = null;
+            hoverBox.classList.remove("show");
+            description?.classList.remove("show");
+        };
+
+        const showHoverBox = () => {
+            hoverBox.classList.add("show");
+            description?.classList.add("show");
+        };
+
+        const moveHoverBox = (project) => {
+            if (!projectsList) return;
+            const projectListRect = projectsList.getBoundingClientRect();
+            const hoverBoxHeight = window.innerWidth * (530/1920);
+            const hoverBoxWidth = window.innerWidth * (768/1920);
+            const topOffset = (((projectListRect.height - hoverBoxHeight) / 7) * parseInt(project.dataset.projectname));
+            const newLeftOffset = (Math.floor(Math.random() * (((window.innerWidth/2) * 0.05) + 1)) + 100);
+
+            setTimeout(() => {
+                hoverBox.style.height = `${hoverBoxHeight}px`;
+                hoverBox.style.top = `${topOffset}px`;
+                hoverBox.style.width = `${hoverBoxWidth}px`;
+                hoverBox.style.left = `${newLeftOffset}px`;
+            }, hbMovementTransDuration * 1000);
+        };
+
+        const showProject = (project) => {
+            if(activeProject === project) return;
+            activeProject = project;
+
+            const nextSrc = project.dataset.image || "";
+            const nextCaption = project.dataset.caption || "";
+
+            moveHoverBox(project);
+
+            const preload = new Image();
+            preload.src = nextSrc;
+
+            description?.classList.remove("show");
+            clearTimeout(swapTimeout);
+
+            swapTimeout = setTimeout(() => {
+                if(activeProject !== project) return;
+
+                const applyContent = () => {
+                    if(activeProject !== project) return;
+                    if (image) image.src = nextSrc;
+                    if (caption) caption.textContent = nextCaption;
+
+                    requestAnimationFrame(() => {
+                        showHoverBox();
+                    });
+                };
+
+                if(preload.complete) {
+                    applyContent();
+                } else {
+                    preload.onload = applyContent;
+                }
+            }, pdOpacityBlurTransDuration * 1000);
+        };
+
+        document.querySelectorAll(".project").forEach(project => {
+            project.addEventListener("mouseenter", () => {
+                showProject(project);
+            });
+
+            project.addEventListener("mouseleave", (e) => {
+                const related = e.relatedTarget;
+                if(related && related.closest(".project")) {
+                    return;
+                }
+                hideHoverBox();
+            });
+        });
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const boxes = document.querySelectorAll(".projsect");
+
+        boxes.forEach(box => {
+            const rect = box.getBoundingClientRect();
+            const boxX = rect.right;
+            const boxY = rect.top + rect.height / 2;
+            const dx = mouseX - boxX;
+            const dy = mouseY - boxY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const maxDistance = 100;
+
+            if (distance < maxDistance) {
+                const force = (maxDistance - distance) / maxDistance;
+                const angleX = dx / distance;
+                const angleY = dy / distance;
+                const moveX = angleX * force * 50;
+                const moveY = angleY * force * 50;
+                box.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            } else {
+                box.style.transform = "translate(0px, 0px)";
+            }
+        });
+    });
+</script>

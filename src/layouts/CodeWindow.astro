@@ -8,11 +8,11 @@ interface Props {
   codeOnRight?: boolean;
   maxHeight?: string;
   fontSize?: string;
-  primaryColor?: string;
+  theme?: string;
   
-  // New Line Focusing Props
-  startLine?: number; /* e.g., 5 */
-  endLine?: number;   /* e.g., 12 */
+  // Line Focusing Props
+  startLine?: number; 
+  endLine?: number;   
 }
 
 const { 
@@ -21,119 +21,172 @@ const {
   codeOnRight = false, 
   maxHeight = "450px", 
   fontSize = "0.9rem",   
-  primaryColor = "#38bdf8",
+  theme,
   startLine,
   endLine
 } = Astro.props;
 
-// Generate inline tracking selectors if focus lines are provided
 const isFocusMode = startLine !== undefined && endLine !== undefined;
 ---
 
-<div 
-  class={`split-container ${codeOnRight ? 'row-reverse' : ''} ${isFocusMode ? 'has-line-focus' : ''}`} 
-  style={`
-    --window-accent: ${primaryColor}; 
-    --editor-max-height: ${maxHeight}; 
-    --editor-font-size: ${fontSize};
-  `}
->
-  <div class="text-column">
-    <slot />
-  </div>
+<section class="code-section" data-theme={theme}>
+  <div class={`glow-backdrop ${codeOnRight ? 'glow-right' : 'glow-left'}`}></div>
 
-  <div class="code-column">
-    <div class="mac-window">
-      <div class="window-header">
-        <div class="dots">
-          <span class="dot close"></span>
-          <span class="dot minimize"></span>
-          <span class="dot expand"></span>
+  <div 
+    class={`split-container ${codeOnRight ? 'row-reverse' : ''} ${isFocusMode ? 'has-line-focus' : ''}`} 
+    style={`
+      --editor-max-height: ${maxHeight}; 
+      --editor-font-size: ${fontSize};
+    `}
+  >
+    <div class="text-column">
+      <slot />
+    </div>
+
+    <div class="code-column">
+      <div class="mac-window">
+        <div class="window-header">
+          <div class="dots">
+            <span class="dot close"></span>
+            <span class="dot minimize"></span>
+            <span class="dot expand"></span>
+          </div>
+          <span class="window-title">runtime.{lang === 'cpp' ? 'cpp' : lang === 'csharp' ? 'cs' : lang}</span>
         </div>
-        <span class="window-title">runtime.{lang === 'cpp' ? 'cpp' : lang === 'csharp' ? 'cs' : lang}</span>
-      </div>
-      
-      <div class="code-scroll-pane">
-        <Prism lang={lang} code={code} />
+        
+        <div class="code-scroll-pane">
+          <Prism lang={lang} code={code} />
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 {isFocusMode && (
   <style is:global define:vars={{ startLine, endLine }}>
-    /* 1. Turn everything within the prism output pale/greyed out.
-      Astro's Prism uses standard line span wrappers or token tracks.
-    */
     .has-line-focus .code-scroll-pane pre [class*="token"] {
       opacity: 0.25 !important;
       filter: grayscale(80%) !important;
       transition: opacity 0.3s ease;
     }
-
-    /* 2. Prism wraps code in lines if specified, or tokens map to raw line breaks. 
-      To accurately pinpoint raw code strings without third-party line-number plugins,
-      we target individual line tokens or instruct Prism to output numbered rows.
-    */
   </style>
 )}
 
 <style>
-  /* Split layout mechanics */
-.split-container { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 2.5rem; 
-  
-  /* 1. Add horizontal margin safety boundaries */
-  width: 100%;
-  max-width: 90%;        /* Matches the width container of your Project Layouts perfectly */
-  margin: 4rem auto;       /* Centering trick ('auto' forces left and right to balance out) */
-  padding: 0 2rem;         /* Insets the layout by 2rem so it never hugs the viewport glass edges */
-  box-sizing: border-box;  /* Ensures padding doesn't accidentally expand the container bounds */
-}
+  /* ------------------------------------------------------------------
+     Theme Tokens Mapping Definitions
+     ------------------------------------------------------------------ */
+  .code-section {
+    --window-accent: var(--theme-primary, #f97316);
+    --window-border: var(--theme-border, #1e293b);
+    --window-bg: var(--theme-code-bg, #011627);
+    --glow-color: var(--radial-inner, rgba(30, 27, 75, 0.4)); /* Falls back to dark indigo hue overlay if undefined */
+    
+    background-color: var(--theme-site-bg, #020617);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
 
-@media (min-width: 768px) {
+  /* --- Ambient Light Prototyping System --- */
+  .glow-backdrop {
+    position: absolute;
+    top: 50%;
+    width: 1200px;
+    height: 1200px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+    opacity: 0.85;
+    background: radial-gradient(
+      circle, 
+      var(--glow-color) 0%, 
+      transparent 70%
+    );
+    transition: left 0.3s ease, right 0.3s ease;
+  }
+
+  /* Moves focal node dynamically depending on structural split configuration shifts */
+  .glow-left {
+    right: -250px;
+    left: auto;
+  }
+
+  .glow-right {
+    left: -250px;
+    right: auto;
+  }
+
+  @media (min-width: 1200px) {
+    .glow-left {
+      right: 5%;
+    }
+    .glow-right {
+      left: 5%;
+    }
+  }
+
+  /* Split layout mechanics structural stack adjustments */
   .split-container { 
-    flex-direction: row; 
-    gap: 4rem; 
-    align-items: center; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 2.5rem; 
+    width: 100%;
+    max-width: 90%;        
+    margin: 4rem auto;       
+    padding: 2rem 2rem;         
+    box-sizing: border-box;  
+    position: relative;
+    z-index: 1;
   }
-  /* Balanced columns layout structure */
-  .text-column, .code-column { 
-    flex: 1; 
-    width: 50%; 
-  }
-  .row-reverse { 
-    flex-direction: row-reverse; 
-  }
-}
 
-.text-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* Remove any raw default element side padding if present */
-  padding: 0; 
-}
+  @media (min-width: 768px) {
+    .split-container { 
+      flex-direction: row; 
+      gap: 4rem; 
+      align-items: center; 
+    }
+    .text-column, .code-column { 
+      flex: 1; 
+      width: 50%; 
+    }
+    .row-reverse { 
+      flex-direction: row-reverse; 
+    }
+  }
+
+  .text-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0; 
+  }
 
   /* IDE Window Base Styles */
   .mac-window {
-    background-color: #011627;
-    border: 1px solid var(--window-accent);
+    background-color: var(--window-bg);
+    border: 1px solid var(--window-border);
     border-radius: 0.75rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 25px 50px -12px var(--theme-card-shadow, rgba(0, 0, 0, 0.5));
     overflow: hidden;
     width: 100%;
+    transition: border-color 0.3s ease;
+    backdrop-filter: blur(8px); /* Subtle edge integration layer enhancement */
+  }
+
+  .mac-window:hover {
+    border-color: var(--window-accent);
   }
 
   .window-header { 
-    background-color: #0b132b; 
+    background-color: var(--window-bg); 
+    filter: brightness(1.15); 
     padding: 0.75rem 1rem; 
     display: flex; 
     justify-content: space-between; 
     align-items: center;
-    border-bottom: 1px solid #1e293b;
+    border-bottom: 1px solid var(--window-border);
   }
   
   .dots { display: flex; gap: 0.4rem; }
@@ -141,24 +194,23 @@ const isFocusMode = startLine !== undefined && endLine !== undefined;
   .close { background: #ff5f56; } 
   .minimize { background: #ffbd2e; } 
   .expand { background: #27c93f; }
-  .window-title { font-family: monospace; font-size: 0.8rem; color: #475569; }
+  .window-title { font-family: ui-monospace, monospace; font-size: 0.8rem; color: var(--theme-text-muted, #475569); }
 
   /* Controlled Scroll Pane Box */
   .code-scroll-pane {
     max-height: var(--editor-max-height);
-    overflow-y: auto !important; /* Force internal container scrolling */
+    overflow-y: auto !important; 
     overflow-x: auto !important; 
-    background-color: #011627 !important;
+    background-color: var(--window-bg) !important;
   }
 
-  /* If you pass an focus directive, we apply a mask that makes text outside the center look dimmed */
   .has-line-focus .code-scroll-pane {
     mask-image: linear-gradient(
       to bottom,
-      rgba(0,0,0,0.3) 0%,      /* Top lines faded out */
-      rgba(0,0,0,1.0) 25%,     /* In-focus zone start */
-      rgba(0,0,0,1.0) 75%,     /* In-focus zone end */
-      rgba(0,0,0,0.3) 100%     /* Bottom lines faded out */
+      rgba(0,0,0,0.3) 0%,      
+      rgba(0,0,0,1.0) 25%,     
+      rgba(0,0,0,1.0) 75%,     
+      rgba(0,0,0,0.3) 100%     
     );
     -webkit-mask-image: linear-gradient(
       to bottom,
@@ -175,14 +227,15 @@ const isFocusMode = startLine !== undefined && endLine !== undefined;
     max-height: var(--editor-max-height) !important;
     margin: 0 !important; 
     padding: 1.5rem !important; 
-    background: transparent !important; /* Let container background show through */
-    overflow: visible !important; /* Let the wrapper pane handle the scrollbars instead */
+    background: transparent !important; 
+    overflow: visible !important; 
   }
 
   .code-scroll-pane :global(code),
   .code-scroll-pane :global(code[class*="language-"]) {
+    color: var(--theme-code-text, inherit);
     font-size: var(--editor-font-size) !important;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace !important;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
     line-height: 1.5 !important;
     background: transparent !important;
   }
@@ -193,12 +246,12 @@ const isFocusMode = startLine !== undefined && endLine !== undefined;
     height: 8px;
   }
   .code-scroll-pane::-webkit-scrollbar-track {
-    background: #020617;
+    background: var(--window-bg);
   }
   .code-scroll-pane::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: var(--window-border);
     border-radius: 4px;
-    border: 1px solid #334155;
+    border: 1px solid var(--window-border);
   }
   .code-scroll-pane::-webkit-scrollbar-thumb:hover {
     background: var(--window-accent);

@@ -1,0 +1,102 @@
+---
+interface Props {
+  /** Height value. Can be a raw number (treated as vh) or an explicit string (e.g., '15vh', '120px') */
+  height?: number | string;
+  /** Adds a 1px technical rule directly through the vertical center of the spacer */
+  line?: boolean;
+  /** Adds a 1px technical border to the top boundary edge */
+  borderTop?: boolean;
+  /** Adds a 1px technical border to the bottom boundary edge */
+  borderBottom?: boolean;
+}
+
+const { 
+  height = 10, 
+  line = false, 
+  borderTop = false, 
+  borderBottom = false 
+} = Astro.props;
+
+// Process height property to ensure it maps correctly to CSS units
+const spacerHeight = typeof height === 'number' ? `${height}vh` : height;
+---
+
+<div 
+  class="layout-spacer" 
+  style={`--spacer-height: ${spacerHeight};`}
+>
+  <div class="spacer-blueprint" aria-hidden="true">
+    <div class="v-line-left"></div>
+  </div>
+
+  {line && <div class="spacer-axis-line" aria-hidden="true"></div>}
+  {borderTop && <div class="spacer-border-top" aria-hidden="true"></div>}
+  {borderBottom && <div class="spacer-border-bottom" aria-hidden="true"></div>}
+</div>
+
+<style>
+  .layout-spacer {
+    position: relative;
+    width: 100%;
+    height: var(--spacer-height);
+    box-sizing: border-box;
+    pointer-events: none;
+    overflow: hidden;
+
+    /* Scaled and locked layout grid parameters to align natively across page sections */
+    background-image: radial-gradient(var(--theme-border, rgba(226, 232, 240, 0.25)) 1.5px, transparent 1.5px);
+    background-size: 40px 40px;
+    background-position: 0 0; /* Anchor strictly to top-left boundary */
+    background-repeat: repeat;
+  }
+
+  /* Structural Axis Continuation Layouts */
+  .spacer-blueprint {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Maps cleanly to the 33.333% layout guide baseline across your documents */
+  .spacer-blueprint .v-line-left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 33.333%;
+    border-left: 1px solid var(--theme-border, rgba(226, 232, 240, 0.12));
+  }
+
+  /* Center Horizontal Blueprint Split Rule */
+  .spacer-axis-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    transform: translateY(-50%);
+    background: linear-gradient(
+      to right, 
+      transparent, 
+      var(--theme-border, rgba(226, 232, 240, 0.1)) 20%, 
+      var(--theme-border, rgba(226, 232, 240, 0.1)) 80%, 
+      transparent
+    );
+  }
+
+  .spacer-border-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--theme-border, rgba(226, 232, 240, 0.08));
+  }
+
+  .spacer-border-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--theme-border, rgba(226, 232, 240, 0.08));
+  }
+</style>

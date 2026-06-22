@@ -1,9 +1,16 @@
 ---
+// src/layouts/BaseLayout.astro
 import { Font } from "astro:assets";
 import "../styles/global.css";
+
+interface Props {
+  theme?: string;
+}
+
+const { theme } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="en" data-theme={theme}>
   <Font cssVariable="--font-melo" preload />
   <Font cssVariable="--font-anton" preload />
   <Font cssVariable="--font-bebas" preload />
@@ -15,16 +22,21 @@ import "../styles/global.css";
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link 
-    rel="stylesheet" 
-    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" 
-  />
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" 
+    />
     <title>Continuous Portfolio</title>
     <style is:global>
       html {
         scroll-behavior: smooth;
         font-family: system-ui, sans-serif;
-        background-color: #0f172a;
-        color: #e2e8f0;
+        
+        /* Now properly tracks the variables mapped in your global.css selectors */
+        background-color: var(--theme-site-bg, transparent); 
+        color: var(--theme-text-heading, inherit);
+        
+        transition: background-color 0.4s cubic-bezier(.77,.12,.16,.95),
+                    color 0.4s cubic-bezier(.77,.12,.16,.95);
       }
       body { margin: 0; padding: 0; }
     </style>

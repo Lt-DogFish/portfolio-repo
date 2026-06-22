@@ -8,15 +8,20 @@ interface Props {
   learned: string;
   more?: string;
   images: string[]; // Pass your array of images here
+  theme?: string;
 }
 
-const { title, time, bodyText, learned, more, images } = Astro.props;
+const { title, time, bodyText, learned, more, images, theme } = Astro.props;
 
 // Duplicate the array if it's small to ensure a seamless infinite scrolling loop
 const scrollImages = images.length < 6 ? [...images, ...images, ...images] : images;
 ---
 
-<article class="project-view">
+<article class="project-view" data-theme={theme}>
+  <div class="project-blueprint" aria-hidden="true">
+    <div class="v-line-left-primary"></div>
+  </div>
+
   <div class="container">
     <div class="project-meta">
       <h3>{title}</h3>
@@ -59,24 +64,67 @@ const scrollImages = images.length < 6 ? [...images, ...images, ...images] : ima
 </article>
 
 <style>
-  /* Base Project Page Constraints */
+  /* --- Variable Mapping to Global Tokens --- */
   .project-view {
+    --p-primary: var(--theme-primary, #38bdf8);
+    --p-border: var(--theme-border, #1e293b);
+    --p-bg-main: var(--theme-code-bg, #0f172a); 
+    --p-text-heading: var(--theme-text-heading, #f8fafc);
+    --p-text-muted: var(--theme-text-muted, #94a3b8);
+    --p-box-bg: var(--theme-bg-accent, #1e293b);
+    
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 6rem 0; /* Changed to 0 on sides so carousel can expand safely */
+    position: relative; /* Anchor tracking lines properly */
+    padding: 6rem 0; 
     box-sizing: border-box;
-    border-bottom: 1px solid #1e293b;
-    overflow-x: hidden; /* Prevent horizontal page breaking */
+    border-bottom: 1px solid var(--p-border);
+    color: var(--p-text-heading);
+    overflow-x: hidden; 
+
+    /* Seamless Dot Matrix & Technical Square Grid Blueprint Architecture.
+      Layer 1: Dot markers
+      Layer 2: X/Y grid line intersections (subtle 0.5px layout lines spaced exactly at 40px)
+      Layer 3: Solid background fill
+    */
+    background: 
+      radial-gradient(var(--theme-border, rgba(226, 232, 240, 0.25)) 1.5px, transparent 1.5px),
+      linear-gradient(to right, var(--theme-border, rgba(226, 232, 240, 0.03)) 0.5px, transparent 0.5px),
+      linear-gradient(to bottom, var(--theme-border, rgba(226, 232, 240, 0.03)) 0.5px, transparent 0.5px),
+      var(--p-bg-main);
+    background-size: 40px 40px, 40px 40px, 40px 40px, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, center center; /* Force matching global placement coordinates */
+    background-repeat: repeat, repeat, repeat, no-repeat;
   }
 
+  /* --- Technical Alignment System Artifacts --- */
+  .project-blueprint {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Core 33.333% global layout guide line remains explicitly visible over the background grid pattern */
+  .project-blueprint .v-line-left-primary {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 33.333%;
+    border-left: 1px solid var(--theme-border, rgba(226, 232, 240, 0.12));
+  }
+
+  /* --- Structure & Container System --- */
   .container {
     max-width: 800px;
     margin: 0 auto;
     width: 100%;
     padding: 0 2rem;
     box-sizing: border-box;
+    position: relative;
+    z-index: 2; /* Layer clearly over the framework lines */
   }
 
   .project-meta {
@@ -88,18 +136,18 @@ const scrollImages = images.length < 6 ? [...images, ...images, ...images] : ima
 
   h3 {
     font-size: 2.25rem;
-    color: #f8fafc;
+    color: var(--p-text-heading);
     margin: 0;
   }
 
   .timeline {
-    color: #64748b;
+    color: var(--theme-secondary, #64748b);
     font-family: monospace;
     font-size: 1rem;
   }
 
   .project-body {
-    color: #94a3b8;
+    color: var(--p-text-muted);
     margin-bottom: 3rem;
     font-size: 1.1rem;
     line-height: 1.7;
@@ -108,51 +156,48 @@ const scrollImages = images.length < 6 ? [...images, ...images, ...images] : ima
   /* --- Edge-To-Edge Panoramic Carousel Mechanics --- */
   .panoramic-carousel-wrapper {
     position: relative;
-    /* Force expansion to exact width of the browser view viewport */
     width: 100vw;
     left: 50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
+    z-index: 2; /* Layer clearly over the framework lines */
     
-    height: 380px; /* Locked standard vertical layout height block */
+    height: 380px; 
     margin-top: 2rem;
     margin-bottom: 4rem;
-    background-color: #020617;
     overflow: hidden;
     display: flex;
     align-items: center;
   }
 
-  /* Infinite Scrolling Slider Track Engine */
   .infinite-scroll-track {
     display: flex;
     gap: 1.5rem;
     width: max-content;
     padding: 0 0.75rem;
-    /* Hardware accelerated linear marquee scroll layout loop */
     animation: gentlePan 35s linear infinite;
   }
 
-  /* Pause automatic panning movement when user rests cursor over it */
   .panoramic-carousel-wrapper:hover .infinite-scroll-track {
     animation-play-state: paused;
   }
 
   .panoramic-slide {
     height: 340px;
-    aspect-ratio: 16 / 9; /* Enforces clean proportions */
+    aspect-ratio: 16 / 9; 
     border-radius: 0.5rem;
     overflow: hidden;
-    background-color: #0b0f19;
-    border: 1px solid #1e293b;
+    background-color: var(--p-bg-main);
+    filter: brightness(1.1); 
+    border: 1px solid var(--p-border);
     flex-shrink: 0;
   }
 
   .panoramic-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Use cover to fill the 16:9 boxes cleanly side-by-side */
+    object-fit: cover; 
     pointer-events: none;
   }
 
@@ -167,36 +212,38 @@ const scrollImages = images.length < 6 ? [...images, ...images, ...images] : ima
   }
   .carousel-fade-overlay.left {
     left: 0;
-    background: linear-gradient(to right, #0f172a 0%, transparent 100%);
+    background: linear-gradient(to right, var(--p-bg-main) 0%, transparent 100%);
   }
   .carousel-fade-overlay.right {
     right: 0;
-    background: linear-gradient(to left, #0f172a 0%, transparent 100%);
+    background: linear-gradient(to left, var(--p-bg-main) 0%, transparent 100%);
   }
 
   /* --- Lessons & Additional Content Box --- */
   .lessons-box {
-    background: #1e293b;
+    background: var(--p-box-bg);
+    border: 1px solid var(--theme-bg-accent-border, transparent); 
     padding: 1.25rem;
     border-radius: 0.5rem;
-    border-left: 4px solid #38bdf8;
+    border-left: 4px solid var(--p-primary);
     margin-bottom: 1.5rem;
   }
 
   .lessons-box strong {
-    color: #38bdf8;
+    color: var(--p-primary);
     display: block;
     margin-bottom: 0.5rem;
   }
 
   .lessons-box p {
     margin: 0;
-    color: #cbd5e1;
+    color: var(--p-text-heading);
+    filter: brightness(0.9);
   }
 
   .additional-context {
     font-size: 0.95rem;
-    color: #64748b;
+    color: var(--theme-secondary, #64748b);
     font-style: italic;
   }
 
@@ -206,7 +253,6 @@ const scrollImages = images.length < 6 ? [...images, ...images, ...images] : ima
       transform: translate3d(0, 0, 0);
     }
     100% {
-      /* Pushes elements left exactly halfway across loop duplication point */
       transform: translate3d(-50%, 0, 0);
     }
   }

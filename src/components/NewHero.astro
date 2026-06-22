@@ -1,8 +1,31 @@
 ---
 // src/components/NewHero.astro
+
+interface Props {
+  theme?: string;
+}
+
+const { theme } = Astro.props;
 ---
 
-<section class="main">
+<section class="main" data-theme={theme}>
+  <div class="blueprint-grid" aria-hidden="true">
+    <div class="v-line-left"></div>
+    <div class="v-line-right"></div>
+    <div class="h-axis"></div>
+    <span class="coord-glyph">SRC_0xRAJGINESH</span>
+  </div>
+
+  <div class="matrix-frame" aria-hidden="true">
+    <div class="corner-tick top-left"></div>
+    <div class="corner-tick top-right"></div>
+  </div>
+
+  <div class="peripheral-layer" aria-hidden="true">
+    <div class="left-gutter">[01]</div>
+    <div class="right-gutter">&lt;//&gt;</div>
+  </div>
+  
   <div class="tag-row">
     <span>/creating</span>
     <span>/iterating</span>
@@ -18,45 +41,200 @@
 </section>
 
 <style>
-  /* --- Structural Core Config --- */
-  .main {
-    font-family: var(--font-melo), system-ui, -apple-system, sans-serif;
-    background: radial-gradient(circle at 5% 5%, var(--radial-inner, #1e1b4b) 0%, var(--radial-middle, #0f172a) 40%, var(--radial-outer, #020617) 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    height: 100vh;
-    padding: 3rem 2rem;
-    box-sizing: border-box;
-    overflow: hidden;
+  /* --- Variable Mapping to Robust Global Tokens --- */
+.main {
+  /* (Keep your existing variable mappings here...) */
+  --h-primary: var(--theme-primary, #f97316);
+  --h-secondary: var(--theme-secondary, #eab308);
+  --h-bg-main: var(--theme-site-bg, #020617);
+  --h-text-heading: var(--theme-text-heading, #ffffff);
+  --h-text-muted: var(--theme-text-muted, #64748b);
+  --h-radial-in: var(--radial-inner, #1e1b4b);
+  --h-radial-mid: var(--radial-middle, #0f172a);
+  --h-radial-out: var(--radial-outer, var(--h-bg-main));
+  font-family: var(--font-melo), system-ui, -apple-system, sans-serif;
+
+  /* (1) Maintain the layered background definition, keeping the dots on top) */
+  background: 
+    radial-gradient(var(--theme-border, rgba(226, 232, 240, 0.25)) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 5% 5%, var(--h-radial-in) 0%, var(--h-radial-mid) 40%, var(--h-radial-out) 100%);
+
+  /* (2) Set the default, stable state size for the matrix (the end state of the animation) */
+  background-size: 40px 40px, 100% 100%;
+  
+  /* (3) Define the central animation on the main container itself */
+  animation: matrixFocusIn 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  height: 100vh;
+  padding: 3rem 2rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* --- Motion Design Engine Additions --- */
+
+  @keyframes matrixFocusIn {
+    0% {
+      /* Dots start highly compressed (squished toward the center) */
+      /* background-size: 15px 15px, 100% 100%; */
+      opacity: 0;
+      filter: blur(20px); /* Optional soft start */
+    }
+    10% {
+        /* Subtle quick fade-in */
+        opacity: 1;
+    }
+    100% {
+      /* Expand the grid to the defined stable state (40px spacing) */
+      /* background-size: 40px 40px, 100% 100%; */
+      opacity: 1; /* Fully fades in the artifacts as it expands */
+      filter: blur(0);
+    }
   }
 
-  /* Tag Row Controls */
+  /* --- Artifact Styling Systems --- */
+
+  /* Prototype 1: Blueprint Axis lines */
+  .blueprint-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .blueprint-grid .v-line-left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 33.333%; /* Tracks perfectly directly to your scroll button edge */
+    width: 1px;
+    background: linear-gradient(to bottom, var(--theme-border, rgba(226, 232, 240, 0.12)) 70%, var(--h-primary) 100%);
+    opacity: 0.4;
+  }
+
+  .blueprint-grid .v-line-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 10%;
+    width: 1px;
+    background: var(--theme-border, rgba(226, 232, 240, 0.06));
+  }
+
+  .blueprint-grid .h-axis {
+    position: absolute;
+    top: 65%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--theme-border, rgba(226, 232, 240, 0.08)) 20%, transparent);
+  }
+
+  .blueprint-grid .coord-glyph {
+    position: absolute;
+    bottom: 5rem;
+    right: 3rem;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.75rem;
+    color: var(--h-text-muted);
+    letter-spacing: 0.1em;
+    opacity: 0.3;
+  }
+
+  /* Prototype 2: Structural Corners */
+  .matrix-frame {
+    position: absolute;
+    top: 12%;
+    bottom: 12%;
+    left: 5%;
+    right: 5%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .corner-tick {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--theme-border, rgba(226, 232, 240, 0.2));
+    opacity: 0.25;
+  }
+
+  .top-left {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .top-right {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+  }
+
+  /* Prototype 3: Terminal Gutters */
+  .peripheral-layer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 2;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.8rem;
+    color: var(--h-text-muted);
+    opacity: 0.25;
+  }
+
+  .peripheral-layer .left-gutter {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    writing-mode: vertical-rl;
+    text-combine-upright: all;
+    letter-spacing: 0.2em;
+    font-size: 2rem;
+  }
+
+  .peripheral-layer .right-gutter {
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    writing-mode: vertical-rl;
+    letter-spacing: 0.1em;
+    font-size: 1rem;
+  }
+
+  /* --- Core UI Geometry Layout --- */
   .tag-row {
     display: flex;
     justify-content: space-between;
     width: 100%;
     max-width: 1400px;
-    z-index: 2;
+    z-index: 3; /* Lifted above the peripheral layers */
   }
 
   .tag-row span {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: clamp(0.875rem, 1.5vw, 1.125rem);
     letter-spacing: 0.05em;
-    color: var(--sunset, #f97316);
+    color: var(--h-primary);
     opacity: 0;
     animation: blurIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  /* Staggered Timings for Tags */
   .tag-row span:nth-child(1) { animation-delay: 0.2s; }
   .tag-row span:nth-child(2) { animation-delay: 0.35s; }
   .tag-row span:nth-child(3) { animation-delay: 0.5s; }
 
-  /* --- Central Typography Core --- */
   .hero-center {
     position: absolute;
     top: 50%;
@@ -67,7 +245,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 1;
+    z-index: 2;
     pointer-events: none;
   }
 
@@ -85,38 +263,37 @@
 
   .main h1.name {
     position: absolute;
-    font-size: clamp(2.5rem, 7vw, 6.5rem);
+    font-size: clamp(5rem, 15vw, 20rem);
     font-weight: 800;
     margin: 0;
     letter-spacing: -0.03em;
-    z-index: 3;
+    z-index: 4;
     pointer-events: auto;
     white-space: nowrap;
-    background: linear-gradient(135deg, var(--txt, #ffffff) 20%, var(--txt-middle, #cbd5e1) 60%, var(--txt-end, #64748b) 100%);
+    background: linear-gradient(135deg, var(--h-text-heading) 20%, var(--h-text-muted) 60%, var(--theme-border, #cbd5e1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: blurInBig 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  /* --- Interactive Smooth Square Button --- */
   .smooth-square-btn {
-    z-index: 4;
+    z-index: 5;
     position: absolute;
-    bottom: -10px; /* Slight bleed off-screen to ground the look */
-    left: 33.333%; /* Left Rule of Thirds alignment */
+    bottom: -10px; 
+    left: 33.333%; 
     transform: translateX(-50%);
     width: 70px;
     height: 70px;
     background-color: transparent; 
-    border: 2px solid var(--sun, #eab308);
+    border: 2px solid var(--h-secondary);
     border-bottom: none;
-    border-radius: 16px 16px 0 0; /* Smooth squircle corner profiles */
+    border-radius: 16px 16px 0 0; 
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     opacity: 0;
-    padding-bottom: 10px; /* Offset the text/icon to compensate for the bottom bleed */
+    padding-bottom: 10px; 
     box-sizing: border-box;
     animation: popUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -127,25 +304,25 @@
   }
 
   .smooth-square-btn:hover {
-    background-color: rgba(15, 23, 42, 0.6);
-    border-color: var(--sunset, #f97316);
+    background-color: var(--theme-bg-accent, rgba(15, 23, 42, 0.6));
+    border-color: var(--h-primary);
     transform: translateX(-50%) translateY(-6px);
   }
 
   .smooth-square-btn:active {
-    background-color: var(--sunset, #f97316);
+    background-color: var(--h-primary);
     transform: translateX(-50%) translateY(0) scale(0.95);
   }
 
   .smooth-square-btn::before {
     content: "▼";
-    color: var(--sunset, #f97316);
+    color: var(--h-primary);
     font-size: 18px;
     transition: color 0.3s ease;
   }
 
   .smooth-square-btn:active::before {
-    color: var(--midnight, #0f172a);
+    color: var(--h-bg-main);
   }
 
   /* --- Motion Design Engine --- */
@@ -171,7 +348,6 @@
 </style>
 
 <script>
-  // Handle layout dynamic opacity shifts on scrolling actions safely
   window.addEventListener('scroll', () => {
     const arrow = document.querySelector('.smooth-square-btn');
     if (!arrow) return;
@@ -183,7 +359,6 @@
     }
   }, { passive: true });
 
-  // Smooth scroll configuration logic execution
   const scrollBtn = document.getElementById('scroll-btn');
   scrollBtn?.addEventListener('click', () => {
     window.scrollTo({

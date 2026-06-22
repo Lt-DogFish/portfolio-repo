@@ -50,42 +50,452 @@
 
 }
 
-/* Core structure groupings */
+
+/* ==================================================================
+   1. OCEAN THEME (Deep Dark Blue Matrix)
+   ================================================================== */
 [data-theme="ocean"]
 {
+	/* Site Canvas Layer */
+	--theme-site-bg: #0b0f19;
+	--theme-text-heading: #f8fafc;
+	--theme-text-muted: #94a3b8;
+	--theme-border: #1e293b;
+
+	/* Primary Accent Matrix */
 	--theme-primary: #38bdf8;
 	--theme-secondary: #0284c7;
-	--theme-bg-accent: #1e1b4b;
-	--theme-border: #334155;
+
+	/* Callouts & Alert Banners */
+	--theme-bg-accent: rgba(56, 189, 248, 0.08);
+	--theme-bg-accent-border: rgba(56, 189, 248, 0.2);
+
+	/* Isolated Code Window Core Styles */
+	--theme-code-bg: #020617;
+	--theme-code-header-bg: #070e24;
+	--theme-code-text: #64748b;
+
+	/* Component Selection Specifity */
+	--theme-card-shadow: rgba(0, 0, 0, 0.5);
+
+	/* Radial Gradient Stops (Hero & Section Vector Layouts) */
+	--radial-inner: #1e1b4b;
+	--radial-middle: #0f172a;
+	--radial-outer: #020617;
 }
 
+/* ==================================================================
+   2. SUNSET THEME (Volcanic Obsidian Matrix)
+   ================================================================== */
 [data-theme="sunset"]
 {
+	/* Site Canvas Layer */
+	--theme-site-bg: #120500;
+	--theme-text-heading: #fff7ed;
+	--theme-text-muted: #fdba74;
+	--theme-border: #2d1a0f;
+
+	/* Primary Accent Matrix */
 	--theme-primary: #f97316;
 	--theme-secondary: #ea580c;
-	--theme-bg-accent: #2d0b0b;
-	--theme-border: #f97316;
+
+	/* Callouts & Alert Banners */
+	--theme-bg-accent: rgba(249, 115, 22, 0.06);
+	--theme-bg-accent-border: rgba(249, 115, 22, 0.18);
+
+	/* Isolated Code Window Core Styles */
+	--theme-code-bg: #1c0a00;
+	--theme-code-header-bg: #2b1103;
+	--theme-code-text: #fca5a5;
+
+	/* Component Selection Specifity */
+	--theme-card-shadow: rgba(0, 0, 0, 0.65);
+
+	/* Radial Gradient Stops */
+	--radial-inner: #431407;
+	--radial-middle: #1a0b05;
+	--radial-outer: #0a0300;
 }
 
-
-html
+/* ==================================================================
+   3. NORDIC THEME (Arctic Frost & Ice Matrix)
+   ================================================================== */
+[data-theme="nordic"]
 {
-	scroll-behavior: smooth;
-	background-color: var(--bg);
-	font-family: var(--font-melo);
+	/* Site Canvas Layer */
+	--theme-site-bg: #242933;
+	--theme-text-heading: #eceff4;
+	--theme-text-muted: #d8dee9;
+	--theme-border: #3b4252;
+
+	/* Primary Accent Matrix */
+	--theme-primary: #88c0d0;
+	--theme-secondary: #81a1c1;
+
+	/* Callouts & Alert Banners */
+	--theme-bg-accent: rgba(136, 192, 208, 0.05);
+	--theme-bg-accent-border: rgba(136, 192, 208, 0.15);
+
+	/* Isolated Code Window Core Styles */
+	--theme-code-bg: #2e3440;
+	--theme-code-header-bg: #242933;
+	--theme-code-text: #e5e9f0;
+
+	/* Component Selection Specifity */
+	--theme-card-shadow: rgba(15, 17, 23, 0.4);
+
+	/* Radial Gradient Stops */
+	--radial-inner: #3b4252;
+	--radial-middle: #2e3440;
+	--radial-outer: #242933;
 }
 
-body
+/* ==================================================================
+   4. GITHUB DIMMED THEME (Minimal Slate Architecture)
+   ================================================================== */
+[data-theme="github-dimmed"]
 {
-	margin: 0;
-	font-family: var(--font-melo);
-	background: var(--bg);
-	color: var(--txt);
+	/* Site Canvas Layer */
+	--theme-site-bg: #1c2128;
+	--theme-text-heading: #adbac7;
+	--theme-text-muted: #768390;
+	--theme-border: #30363d;
+
+	/* Primary Accent Matrix */
+	--theme-primary: #58a6ff;
+	--theme-secondary: #1f6feb;
+
+	/* Callouts & Alert Banners */
+	--theme-bg-accent: rgba(88, 166, 255, 0.06);
+	--theme-bg-accent-border: rgba(88, 166, 255, 0.15);
+
+	/* Isolated Code Window Core Styles */
+	--theme-code-bg: #22272e;
+	--theme-code-header-bg: #1c2128;
+	--theme-code-text: #adbac7;
+
+	/* Component Selection Specifity */
+	--theme-card-shadow: rgba(0, 0, 0, 0.45);
+
+	/* Radial Gradient Stops */
+	--radial-inner: #2d333b;
+	--radial-middle: #22272e;
+	--radial-outer: #1c2128;
 }
 
-section
+/* ==================================================================
+   5. AMBER THEME (Obsidian Gold Matrix)
+   ================================================================== */
+[data-theme="amber"]
 {
-	min-height: 100vh;
-	padding: 4rem;
-	box-sizing: border-box;
+	/* Site Canvas Layer */
+	--theme-site-bg: #040405;
+	--theme-text-heading: #f4f4f5;
+	--theme-text-muted: #a1a1aa;
+	--theme-border: #27272a;
+
+	/* Primary Accent Matrix */
+	--theme-primary: #fbbf24;
+	--theme-secondary: #d97706;
+
+	/* Callouts & Alert Banners */
+	--theme-bg-accent: rgba(251, 191, 36, 0.05);
+	--theme-bg-accent-border: rgba(251, 191, 36, 0.15);
+
+	/* Isolated Code Window Core Styles */
+	--theme-code-bg: #09090b;
+	--theme-code-header-bg: #141417;
+	--theme-code-text: #e4e4e7;
+
+	/* Component Selection Specifity */
+	--theme-card-shadow: rgba(0, 0, 0, 0.8);
+
+	/* Radial Gradient Stops */
+	--radial-inner: #18181b;
+	--radial-middle: #09090b;
+	--radial-outer: #020203;
+}
+
+/* ==================================================================
+   6. EMERALD THEME (Velvet Spruce Architecture)
+   ================================================================== */
+[data-theme="emerald"]
+{
+	/* Site Canvas Layer */
+	--theme-site-bg: #030706;
+	--theme-text-heading: #f0fdf4;
+	--theme-text-muted: #a7f3d0;
+	--theme-border: #142820;
+
+	/* Primary Accent Matrix */
+	--theme-primary: #34d399;
+	--theme-secondary: #059669;
+
+	/* Callouts & Alert Banners */
+	--theme-bg-accent: rgba(52, 211, 153, 0.05);
+	--theme-bg-accent-border: rgba(52, 211, 153, 0.15);
+
+	/* Isolated Code Window Core Styles */
+	--theme-code-bg: #060f0c;
+	--theme-code-header-bg: #0c1f19;
+	--theme-code-text: #e6f4ea;
+
+	/* Component Selection Specifity */
+	--theme-card-shadow: rgba(0, 0, 0, 0.7);
+
+	/* Radial Gradient Stops */
+	--radial-inner: #064e3b;
+	--radial-middle: #060f0c;
+	--radial-outer: #020504;
+}
+
+/* ==================================================================
+   7. SHOGUN OBSIDIAN THEME (Crimson, Gold, White, & Jet Black)
+   ================================================================== */
+[data-theme="shogun"]
+{
+	/* Site Canvas Layer */
+	--theme-site-bg: #0a0a0c;
+	/* Deepest Obsidian Charcoal */
+	--theme-text-heading: #f8fafc;
+	/* Crisp Pure Off-White */
+	--theme-text-muted: #cbd5e1;
+	/* Clear Light Slate Gray */
+	--theme-border: #27272a;
+	/* Muted Zinc Border Edge */
+
+	/* Primary Accent Matrix */
+	--theme-primary: #dc2626;
+	/* Intense Crimson / Scarlet Red */
+	--theme-secondary: #eab308;
+	/* Rich Metallic Gold Accent */
+
+	/* Callouts & Alert Banners */
+	--theme-bg-accent: rgba(220, 38, 38, 0.05);
+	/* Ultra-soft Crimson Tint */
+	--theme-bg-accent-border: rgba(220, 38, 38, 0.18);
+
+	/* Isolated Code Window Core Styles */
+	--theme-code-bg: #111114;
+	/* Polished Jet Black Panel */
+	--theme-code-header-bg: #18181b;
+	/* Slightly lighter Zinc Header */
+	--theme-code-text: #eab308;
+	/* Golden Code Tokens for contrast */
+
+	/* Component Selection Specificity */
+	--theme-card-shadow: rgba(0, 0, 0, 0.85);
+	/* Deepest shadow matrix drop */
+
+	/* Radial Gradient Stops (Hero & Project Layouts) */
+	--radial-inner: #450a0a;
+	/* Burnt Crimson Core */
+	--radial-middle: #18181b;
+	/* Midnight Dark Gray */
+	--radial-outer: #09090b;
+	/* Obsidian Edge Falloff */
+}
+
+/* src/styles/global.css */
+
+/* Default / Dark Theme Variant Root */
+:root,
+[data-theme="gold-noir"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #000000;
+	/* Deep solid pitch black */
+	--theme-code-bg: #0a0a0a;
+	/* Slightly elevated jet black for window panels */
+	--theme-border: #1a1a1a;
+	/* Low-contrast dark grey border track */
+	--theme-card-shadow: rgba(0, 0, 0, 0.85);
+
+	/* Typography Layer */
+	--theme-text-heading: #ffffff;
+	/* Stark crisp white */
+	--theme-text-muted: #808080;
+	/* Mid-tone neutral grey */
+	--theme-code-text: #e5e5e5;
+	/* Off-white for semantic text strings */
+
+	/* Structural Ambient Light Systems (Projects Base Layout Elements) */
+	--radial-inner: #121212;
+	/* Subdued core dark grey layer */
+	--radial-middle: #050505;
+	/* Transitional near-black layer */
+	--radial-outer: #000000;
+	/* Merges seamlessly out to site background token */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #d4af37;
+	/* Classic Metallic Gold Accent */
+	--theme-primary-hover: #f3e5ab;
+	/* Soft silk champagne gold highlight */
+}
+
+/* Optional: Clean High-Contrast Light Mode Variant Alternative */
+[data-theme="gold-light"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #ffffff;
+	/* Pure pristine white canvas */
+	--theme-code-bg: #f5f5f5;
+	/* Light ash grey for window tracks */
+	--theme-border: #e5e5e5;
+	/* Soft light line work grey */
+	--theme-card-shadow: rgba(0, 0, 0, 0.08);
+
+	/* Typography Layer */
+	--theme-text-heading: #000000;
+	/* Solid ink jet black */
+	--theme-text-muted: #737373;
+	/* Slate text grey */
+	--theme-code-text: #171717;
+	/* High contrast body text */
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #fafafa;
+	--radial-middle: #f5f5f5;
+	--radial-outer: #ffffff;
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #aa7c11;
+	/* Deeper burnished gold for readability on white */
+	--theme-primary-hover: #d4af37;
+	/* Standard gold hover transition text state */
+}
+
+[data-theme="cyber-neon"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #05020c;
+	/* Deep midnight obsidian violet */
+	--theme-code-bg: #0d061a;
+	/* Slightly elevated synth window black */
+	--theme-border: #261338;
+	/* Low-contrast dark purple border track */
+	--theme-card-shadow: rgba(255, 0, 128, 0.25);
+
+	/* Typography Layer */
+	--theme-text-heading: #ffffff;
+	/* Stark white headings */
+	--theme-text-muted: #7d6391;
+	/* Muted twilight lavender */
+	--theme-code-text: #e2d9eb;
+	/* High-readability purple-tinted white */
+
+	/* Structural Ambient Light Systems (Radial Background) */
+	--radial-inner: #2c0835;
+	/* Electric violet core flare */
+	--radial-middle: #11051c;
+	/* Deep plum transition step */
+	--radial-outer: #05020c;
+	/* Merges cleanly out to solid site background */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #ff007f;
+	/* Neon Laser Pink Accent */
+	--theme-primary-hover: #00ffff;
+	/* Electric Cyan Hover State */
+}
+
+[data-theme="solar-flare"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #0c0a09;
+	/* Raw dark volcanic stone charcoal */
+	--theme-code-bg: #141210;
+	/* Warm-tinted window panels */
+	--theme-border: #292524;
+	/* Soft dark ash border line */
+	--theme-card-shadow: rgba(249, 115, 22, 0.2);
+
+	/* Typography Layer */
+	--theme-text-heading: #fafaf9;
+	/* Clean off-white headings */
+	--theme-text-muted: #878584;
+	/* Weathered stone grey */
+	--theme-code-text: #f5f5f4;
+	/* Sharp code text string clarity */
+
+	/* Structural Ambient Light Systems (Radial Background) */
+	--radial-inner: #451a03;
+	/* Smoldering magma core glow */
+	--radial-middle: #1c1917;
+	/* Translucent volcanic shadow layer */
+	--radial-outer: #0c0a09;
+	/* Fades out smoothly into site background */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #f97316;
+	/* Intense Safety Orange Accent */
+	--theme-primary-hover: #ec4899;
+	/* Hot Pink / Magenta Variant Hover State */
+}
+
+[data-theme="hyper-acid"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #020804;
+	/* Extremely dark matrix ink black */
+	--theme-code-bg: #051409;
+	/* Slightly lighter deep pine window track */
+	--theme-border: #0d2b15;
+	/* Low-contrast forest border line work */
+	--theme-card-shadow: rgba(132, 204, 22, 0.15);
+
+	/* Typography Layer */
+	--theme-text-heading: #f0fdf4;
+	/* Mint-tinted stark white headings */
+	--theme-text-muted: #527a5d;
+	/* Mossy green muted metadata gray */
+	--theme-code-text: #dcfce7;
+	/* Clean high-contrast coding text font color */
+
+	/* Structural Ambient Light Systems (Radial Background) */
+	--radial-inner: #062810;
+	/* Emerald undertone core glow */
+	--radial-middle: #031207;
+	/* Deep marsh gradient transition step */
+	--radial-outer: #020804;
+	/* Locks cleanly back to edge site background */
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #a3e635;
+	/* Hyper Neon Lime/Acid Green Accent */
+	--theme-primary-hover: #38bdf8;
+	/* Vivid Sky Blue Transition Hover State */
+}
+
+[data-theme="gold-light-new"]
+{
+	/* Core Surface Canvas Elements */
+	--theme-site-bg: #FFFFFF;
+	/* Pure pristine white canvas */
+	--theme-code-bg: #F4F4F6;
+	/* Crisp, cool-toned technical gray */
+	--theme-border: #D1D5DB;
+	/* Defined, high-visibility structural border */
+	--theme-card-shadow: rgba(0, 0, 0, 0.12);
+	/* Grounded, high-contrast structural shadow */
+
+	/* Typography Layer */
+	--theme-text-heading: #111827;
+	/* Deep obsidian black for maximum legibility */
+	--theme-text-muted: #4B5563;
+	/* Heavy iron gray for crisp secondary text */
+	--theme-code-text: #1F2937;
+	/* High-contrast charcoal for code clarity */
+
+	/* Structural Ambient Light Systems */
+	--radial-inner: #F9FAFB;
+	--radial-middle: #F3F4F6;
+	--radial-outer: #FFFFFF;
+
+	/* Themed Accent Point Vectors */
+	--theme-primary: #856404;
+	/* Deep, commanding burnished gold for AAA contrast */
+	--theme-primary-hover: #A07806;
+	/* Sharper, vibrant gold for distinct state transition */
 }
