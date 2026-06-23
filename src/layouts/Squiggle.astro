@@ -1,85 +1,164 @@
 ---
+import { generateSquigglePath } from "../lib/squiggle";
+
+
+
 interface Props {
-  path: string;
   id?: string;
   duration?: string;
+  windowLocation?: string; 
+  windowHeight?: string;
+  windowStart?: string;    // New: Expected as "0vw", "10px", etc.
+  start?: number;          
+  end?: number;            
+  startDirection?: "down" | "left" | "right" | "up";
+  endDirection?: "down" | "left" | "right" | "up";
+  waviness?: number;       // New: 0 to 100
+  shouldLoop?: boolean;    // New: true or false
 }
 
 const {
-  path,
   id = `squiggle-${Math.random().toString(36).slice(2, 11)}`,
-  duration = "3s"
+  duration = "3s",
+  windowLocation = "0vh",
+  windowHeight = "100vh",
+  windowStart = "0vw",
+  start = 10,
+  end = 90,
+  startDirection = "down",
+  endDirection = "down",
+  waviness = 50,
+  shouldLoop = false
 } = Astro.props;
 ---
 
-<svg
-  class="squiggly-path"
-  viewBox="0 0 300 150"
-  preserveAspectRatio="none"
+<div
+  id={`wrapper-${id}`}
+  class="squiggle-wrapper"
+  style={`
+    top: ${windowLocation};
+    left: ${windowStart};
+    height: ${windowHeight};
+  `}
 >
-  <defs>
-    <marker
-      id={`arrowhead-${id}`}
-      markerWidth="8"
-      markerHeight="8"
-      refX="6"
-      refY="3"
-      orient="auto"
-      markerUnits="strokeWidth"
-    >
-      <path
-        d="M0,0 L6,3 L0,6 Z"
-        fill="var(--theme-primary, #ff00ff)"
-      />
-    </marker>
-  </defs>
+  <svg
+    id={`svg-${id}`}
+    class="squiggly-canvas"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <marker
+        id={`arrowhead-${id}`}
+        markerWidth="8"
+        markerHeight="8"
+        refX="7"
+        refY="4"
+        orient="auto"
+        markerUnits="strokeWidth"
+      >
+        <path
+          d="M0,0 L8,4 L0,8 Z"
+          fill="var(--theme-primary, #ff00ff)"
+        />
+      </marker>
+    </defs>
 
-  <path
-    id={id}
-    class="squiggle-path-line"
-    d={path}
-    fill="none"
-    stroke="var(--theme-primary, #ff00ff)"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    marker-end={`url(#arrowhead-${id})`}
-  />
-</svg>
+    <path
+      id={id}
+      class="squiggle-path-line"
+      fill="none"
+      stroke="var(--theme-primary, #ff00ff)"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      marker-end={`url(#arrowhead-${id})`}
+    />
+  </svg>
+</div>
 
-<script define:vars={{ id, duration }}>
-  window.addEventListener("load", () => {
+<script define:vars={{ id, duration, start, end, startDirection, endDirection, waviness, shouldLoop }}>
+  const initSquiggle = () => {
+    const wrapper = document.getElementById(`wrapper-${id}`);
+    const svgEl = document.getElementById(`svg-${id}`);
     const pathEl = document.getElementById(id);
 
-    if (!pathEl) return;
+    if (!wrapper || !svgEl || !pathEl) return;
+
+    const w = wrapper.offsetWidth;
+    const h = wrapper.offsetHeight;
+
+    svgEl.setAttribute("viewBox", `0 0 ${w} ${h}`);
+
+// Replace lines 70-71 with this smart directional mapping:
+const isUpward = startDirection === "up";
+const pt1 = { x: (start / 100) * w, y: isUpward ? h : 0 };
+const pt2 = { x: (end / 100) * w, y: isUpward ? 0 : h };
+
+    let cp1 = { x: pt1.x, y: pt1.y };
+    let cp2 = { x: pt2.x, y: pt2.y };
+    
+    // 1. Map waviness (0-100) to a curve multiplier (0.0 to 1.5)
+    // 0 = rigid straight line, 100 = violently sweeping curves
+    const curveIntensity = (waviness / 100) * 1.5; 
+
+    if (startDirection === "down") cp1.y += h * curveIntensity;
+    if (startDirection === "up") cp1.y -= h * curveIntensity;
+    if (startDirection === "right") cp1.x += w * curveIntensity;
+    if (startDirection === "left") cp1.x -= w * curveIntensity;
+
+    if (endDirection === "down") cp2.y -= h * curveIntensity;
+    if (endDirection === "up") cp2.y += h * curveIntensity;
+    if (endDirection === "right") cp2.x -= w * curveIntensity;
+    if (endDirection === "left") cp2.x += w * curveIntensity;
+
+    // 2. Loop Logic: Twist the control points across each other's axes to force a loop-de-loop
+    if (shouldLoop) {
+      const tempX = cp1.x;
+      cp1.x = cp2.x;
+      cp2.x = tempX;
+
+      // Add a slight vertical push to ensure the loop has volume and doesn't crush itself flat
+      cp1.y += (h * curveIntensity * 0.3);
+      cp2.y -= (h * curveIntensity * 0.3);
+    }
+
+    const d = `M ${pt1.x},${pt1.y} C ${cp1.x},${cp1.y} ${cp2.x},${cp2.y} ${pt2.x},${pt2.y}`;
+    pathEl.setAttribute("d", d);
 
     const length = pathEl.getTotalLength();
+    
+    pathEl.style.animation = 'none';
+    void pathEl.offsetWidth;
 
+    pathEl.style.setProperty('--path-length', length);
     pathEl.style.strokeDasharray = `${length}`;
     pathEl.style.strokeDashoffset = `${length}`;
-    pathEl.style.animation =
-      `drawSquiggle ${duration} ease-in-out forwards`;
-  });
+    pathEl.style.animation = `drawSquiggle ${duration} ease-in-out forwards`;
+  };
+
+  window.addEventListener("load", initSquiggle);
+  window.addEventListener("resize", initSquiggle);
 </script>
 
 <style>
-  .squiggly-path {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
+  .squiggle-wrapper {
+    position: absolute;
+    width: 100vw;
     pointer-events: none;
-    display: block;
+    z-index: 100;
   }
 
-  .squiggle-path-line {
-    vector-effect: non-scaling-stroke;
+  .squiggly-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
   }
 
   @keyframes drawSquiggle {
     from {
       stroke-dashoffset: var(--path-length, 1000);
     }
-
     to {
       stroke-dashoffset: 0;
     }

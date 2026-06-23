@@ -58,10 +58,101 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
 
 
 
+  <!-- path="M 0,0 C 50,50 250,50 250,75 S 50,100 300,150" -->
+  <!-- <Squiggle 
+  windowHeight="150vh" 
+  start={20} 
+  end={80} 
+  startDirection="down" 
+  endDirection="down" 
+/>
 
-  <Squiggle 
-  id="hero-squiggle-1" 
-  path="M 50,0 C 50,50 250,50 250,75 S 50,100 250,150" />
+<Squiggle 
+  windowHeight="100vh" 
+  start={10} 
+  end={90} 
+  startDirection="right" 
+  endDirection="left" 
+/>
+
+<Squiggle 
+  windowHeight="200vh" 
+  start={50} 
+  end={50} 
+  startDirection="right" 
+  endDirection="left" 
+/> -->
+
+
+<Squiggle 
+  id="subtle-divider"
+  windowLocation="0vh" 
+  windowHeight="80vh" 
+  windowStart="0vw"
+  start={15} 
+  end={50} 
+  startDirection="down" 
+  endDirection="down" 
+  waviness={35}
+  shouldLoop={false}
+  duration="2.5s"
+/>
+
+<Squiggle 
+  id="playful-loop"
+  windowLocation="0vh" 
+  windowHeight="120vh" 
+  windowStart="0vw"
+  start={30} 
+  end={70} 
+  startDirection="right" 
+  endDirection="left" 
+  waviness={85}
+  shouldLoop={true}
+  duration="4s"
+/>
+
+<Squiggle 
+  id="wide-slingshot"
+  windowLocation="0vh" 
+  windowHeight="100vh" 
+  windowStart="0vw"
+  start={20} 
+  end={80} 
+  startDirection="right" 
+  endDirection="down" 
+  waviness={70}
+  shouldLoop={false}
+  duration="3.5s"
+/>
+
+<Squiggle 
+  id="offset-zigzag"
+  windowLocation="0vh" 
+  windowHeight="150vh" 
+  windowStart="10vw"
+  start={80} 
+  end={20} 
+  startDirection="down" 
+  endDirection="left" 
+  waviness={60}
+  shouldLoop={false}
+  duration="3s"
+/>
+
+<Squiggle 
+  id="upward-flow"
+  windowLocation="150vh"     
+  windowHeight="80vh"        
+  start={20}                 
+  end={80}                  
+  startDirection="up"       
+  endDirection="up"          
+  waviness={60}
+  shouldLoop={false}
+  duration="3s"
+/>
+
 
 
   <ProjectsSelection theme={currentTheme} />
