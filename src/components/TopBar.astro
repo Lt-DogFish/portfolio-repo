@@ -62,17 +62,19 @@ const { theme } = Astro.props;
   .top-bar {
     --nav-primary: var(--theme-primary, #ff00ff);
     --nav-secondary: var(--theme-secondary, #ff00ff);
-    --nav-bg: var(--theme-site-bg, #ff00ff);
+    --nav-bg: var(--theme-primary, #ff00ff);
     --nav-text: var(--theme-text-heading, #ff00ff);
     --nav-border: var(--theme-border, #ff00ff);
 
     z-index: 50;
     display: flex;
     position: absolute;
+    
     top: 90vh;
     left: 0;
     right: 0;
     box-sizing: border-box;
+    height: 5vh;
 
     opacity: 1;
     backdrop-filter: blur(0px);
@@ -84,7 +86,10 @@ const { theme } = Astro.props;
       backdrop-filter 0.5s cubic-bezier(.98,0,.06,.96),
       background-color 0.5s cubic-bezier(.98,0,.06,.96),
       border-bottom 0.5s cubic-bezier(.98,0,.06,.96),
-      opacity 0.5s cubic-bezier(.98,0,.06,.96);
+      opacity 0.5s cubic-bezier(.98,0,.06,.96),
+      height 0.5s cubic-bezier(.98,0,.06,.96),
+      background-color 0.5s cubic-bezier(.98,0,.06,.96);
+
 
     justify-content: space-between;
     align-items: center; 
@@ -98,8 +103,15 @@ const { theme } = Astro.props;
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     /* Translated the old RGBA background to use color-mix for the new hex themes */
-    background-color: color-mix(in srgb, var(--nav-bg) 75%, transparent); 
+    background-color: color-mix(in srgb, var(--nav-bg) 10%, transparent); 
     border-bottom: 1px solid var(--nav-border);
+  }
+
+  .top-bar.active:hover{
+    background-color: color-mix(in srgb, var(--nav-bg) 50%, transparent); 
+    height: 25vh;
+    transition: height 0.5s cubic-bezier(.98,0,.06,.96),
+    background-color 0.5s cubic-bezier(.98,0,.06,.96);
   }
 
   /* Handle contextual color fallback overrides using inline browser fallback strings */
@@ -139,7 +151,7 @@ const { theme } = Astro.props;
     opacity: 1;
     transform: translateX(0);
     letter-spacing: normal;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     filter: blur(0);
   }
 
@@ -266,7 +278,7 @@ const { theme } = Astro.props;
     filter: blur(0);
     /* Injected monospace font specifically for the pre-morph tags */
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 
   .social-grid-row .morph {
@@ -274,6 +286,7 @@ const { theme } = Astro.props;
     transform: translateX(20px);
     filter: blur(4px);
     color: var(--theme-text-muted, #ff00ff);
+    font-size: 1.25rem;
   }
 
   .top-bar.active .social-grid-row .initial {

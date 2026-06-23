@@ -37,8 +37,26 @@ const { theme } = Astro.props;
     <h1 class="name">Raj Jeyaram</h1>
   </div>
 
+  <div class="about">
+    <div class="about-title">Hi, I'm Raj!</div>
+    <p class="about-bio">
+      Building high-performance interfaces at the intersection of 
+      <span class="highlight">design</span> and <span class="highlight">system architecture</span>.
+    </p>
+    <div class="about-links">
+      <a href="#work">View Projects</a>
+      <a href="#contact">Connect</a>
+    </div>
+  </div>
+
   <button id="scroll-btn" class="smooth-square-btn" aria-label="Scroll to projects layout"></button>
 </section>
+
+
+
+
+
+
 
 <style>
 /* --- Variable Mapping to Robust Global Tokens --- */
@@ -67,7 +85,7 @@ const { theme } = Astro.props;
   justify-content: space-between;
   align-items: center;
   position: relative;
-  height: 100vh;
+  height: 200vh;
   padding: 3rem 2rem;
   box-sizing: border-box;
   overflow: hidden;
@@ -224,7 +242,7 @@ const { theme } = Astro.props;
 
 .hero-center {
   position: absolute;
-  top: 50%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
@@ -263,6 +281,81 @@ const { theme } = Astro.props;
   -webkit-text-fill-color: transparent;
   animation: blurInBig 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+
+
+
+
+
+.about {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  pointer-events: auto; /* Enable interaction */
+  gap: 1.5rem;
+  backdrop-filter: blur(20px);
+}
+
+.about-title {
+  font-family: ui-monospace, monospace;
+  font-size: 2rem;
+  letter-spacing: 0.3em;
+  color: var(--h-primary);
+  opacity: 0.6;
+  
+}
+
+.about-bio {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  line-height: 1.6;
+  color: var(--h-text-muted);
+  margin: 0;
+  max-width: 500px;
+}
+
+.highlight {
+  color: var(--h-primary);
+  border-bottom: 1px solid var(--h-primary);
+}
+
+.about-links {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.about-links a {
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--h-text-muted);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--h-text-muted), transparent 70%);
+  transition: all 0.3s ease;
+}
+
+.about-links a:hover {
+  border-color: var(--h-primary);
+  color: var(--h-primary);
+}
+
+
+
+
+
+
+
+
+
 
 .smooth-square-btn {
   z-index: 5;

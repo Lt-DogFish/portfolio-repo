@@ -8,6 +8,7 @@ import CodeWindow from '../layouts/CodeWindow.astro';
 import NewFooter from '../components/NewFooter.astro';
 import ProjectsSelection from "../components/ProjectsSection.astro";
 import Spacer from '../layouts/Spacer.astro';
+import Squiggle from '../layouts/Squiggle.astro';
 
 // Node.js File System module to read raw code files at compile time
 import fs from 'node:fs';
@@ -52,6 +53,15 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
   <TopBar theme={currentTheme} />
 
   <NewHero theme={currentTheme} />
+
+  <Spacer height='100vh' borderBottom = {true} borderTop={true}/>
+
+
+
+
+  <Squiggle 
+  id="hero-squiggle-1" 
+  path="M 50,0 C 50,50 250,50 250,75 S 50,100 250,150" />
 
 
   <ProjectsSelection theme={currentTheme} />
@@ -279,3 +289,4 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
   <NewFooter theme={currentTheme} />
 
 </BaseLayout>
+

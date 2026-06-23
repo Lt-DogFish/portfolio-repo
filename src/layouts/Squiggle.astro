@@ -1,0 +1,87 @@
+---
+interface Props {
+  path: string;
+  id?: string;
+  duration?: string;
+}
+
+const {
+  path,
+  id = `squiggle-${Math.random().toString(36).slice(2, 11)}`,
+  duration = "3s"
+} = Astro.props;
+---
+
+<svg
+  class="squiggly-path"
+  viewBox="0 0 300 150"
+  preserveAspectRatio="none"
+>
+  <defs>
+    <marker
+      id={`arrowhead-${id}`}
+      markerWidth="8"
+      markerHeight="8"
+      refX="6"
+      refY="3"
+      orient="auto"
+      markerUnits="strokeWidth"
+    >
+      <path
+        d="M0,0 L6,3 L0,6 Z"
+        fill="var(--theme-primary, #ff00ff)"
+      />
+    </marker>
+  </defs>
+
+  <path
+    id={id}
+    class="squiggle-path-line"
+    d={path}
+    fill="none"
+    stroke="var(--theme-primary, #ff00ff)"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    marker-end={`url(#arrowhead-${id})`}
+  />
+</svg>
+
+<script define:vars={{ id, duration }}>
+  window.addEventListener("load", () => {
+    const pathEl = document.getElementById(id);
+
+    if (!pathEl) return;
+
+    const length = pathEl.getTotalLength();
+
+    pathEl.style.strokeDasharray = `${length}`;
+    pathEl.style.strokeDashoffset = `${length}`;
+    pathEl.style.animation =
+      `drawSquiggle ${duration} ease-in-out forwards`;
+  });
+</script>
+
+<style>
+  .squiggly-path {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    display: block;
+  }
+
+  .squiggle-path-line {
+    vector-effect: non-scaling-stroke;
+  }
+
+  @keyframes drawSquiggle {
+    from {
+      stroke-dashoffset: var(--path-length, 1000);
+    }
+
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>
