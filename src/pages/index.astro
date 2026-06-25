@@ -9,6 +9,7 @@ import NewFooter from '../components/NewFooter.astro';
 import ProjectsSelection from "../components/ProjectsSection.astro";
 import Spacer from '../layouts/Spacer.astro';
 import Squiggle from '../layouts/Squiggle.astro';
+import SquiggleContainer from "../layouts/SquiggleContainer.astro";
 
 // Node.js File System module to read raw code files at compile time
 import fs from 'node:fs';
@@ -50,11 +51,15 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
 
 <BaseLayout theme={currentTheme}>
 
+  <SquiggleContainer/>
+
   <TopBar theme={currentTheme} />
 
   <NewHero theme={currentTheme} />
 
   <Spacer height='100vh' borderBottom = {true} borderTop={true}/>
+
+
 
 
 
@@ -84,7 +89,7 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
 /> -->
 
 
-<Squiggle 
+<!-- <Squiggle 
   id="subtle-divider"
   windowLocation="0vh" 
   windowHeight="80vh" 
@@ -151,6 +156,91 @@ const projectImagesGroupC = [img3.src, img1.src, img2.src];
   waviness={60}
   shouldLoop={false}
   duration="3s"
+/> -->
+
+<Squiggle 
+  id="subtle-divider"
+  windowLocation={0} 
+  windowHeight={300} 
+  start={20} 
+  end={50} 
+  startDirection="down" 
+  endDirection="down" 
+  waviness={20}
+  shouldLoop={true}
+  duration="2s"
+  lineStyle="dotted"
+  markerType="none"
+  isRolling={true}
+  rollDuration="1s"
+/>
+
+<Squiggle 
+  id="playful-loop"
+  windowLocation={0} 
+  windowHeight={120} 
+  start={30} 
+  end={70} 
+  startDirection="right" 
+  endDirection="left" 
+  waviness={85}
+  shouldLoop={true}
+  duration="4s"
+  lineStyle="dotted"
+  markerType="circle"
+  isRolling={true}
+  rollDuration="1s"
+/>
+
+<Squiggle 
+  id="wide-slingshot"
+  windowLocation={0} 
+  windowHeight={100}
+  start={20} 
+  end={80} 
+  startDirection="right" 
+  endDirection="down" 
+  waviness={70}
+  shouldLoop={false}
+  duration="3.5s"
+  lineStyle="solid"
+  markerType="arrow"
+  isRolling={true}
+  rollDuration="0.4s"
+/>
+
+<Squiggle 
+  id="offset-zigzag"
+  windowLocation={0} 
+  windowHeight={150} 
+  start={80} 
+  end={20} 
+  startDirection="down" 
+  endDirection="left" 
+  waviness={60}
+  shouldLoop={false}
+  duration="3s"
+  lineStyle="dashed"
+  markerType="square"
+  isRolling={true}
+  rollDuration="0.4s"
+/>
+
+<Squiggle 
+  id="upward-flow"
+  windowLocation={150}     
+  windowHeight={80}       
+  start={20}                 
+  end={80}                  
+  startDirection="up"       
+  endDirection="up"          
+  waviness={60}
+  shouldLoop={false}
+  duration="3s"
+  lineStyle="dotted"
+  markerType="arrow"
+  isRolling={true}
+  rollDuration="0.4s"
 />
 
 

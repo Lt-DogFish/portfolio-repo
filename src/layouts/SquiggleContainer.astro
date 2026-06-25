@@ -1,0 +1,454 @@
+---
+// SquiggleContainer.astro
+declare global {
+  interface Window {
+    SquiggleManager: {
+      register:   (cfg: any)   => void;
+      unregister: (id: string) => void;
+    };
+    __pendingSquiggles: any[];
+  }
+}
+---
+
+<canvas id="global-squiggle-canvas"></canvas>
+
+<script>
+(() => {
+  if (window.SquiggleManager) return;
+
+  const canvas = document.getElementById("global-squiggle-canvas") as HTMLCanvasElement;
+  const gl = canvas.getContext("webgl2", {
+    antialias: true,
+    premultipliedAlpha: true,
+    alpha: true,
+  })!;
+  if (!gl) { console.warn("WebGL2 unavailable, squiggles disabled"); return; }
+
+  // ─── Config ───────────────────────────────────────────────────────────────
+  const CONFIG = {
+    curveMultiplier: 1.5,
+    loopVolumePush:  0.3,
+    cullMargin:      400,
+    segments:        48,   // vertices per squiggle curve (tweak: 32 fast, 64 smooth)
+    strokeWidth:     2.0,
+  };
+
+  // Each squiggle becomes a triangle strip of (segments+1)*2 vertices.
+  // We pack instance data per-vertex so one draw call renders everything.
+  const VERTS_PER_PATH = (CONFIG.segments + 1) * 2;
+
+  // ─── Shaders ──────────────────────────────────────────────────────────────
+  // Vertex shader evaluates the cubic Bezier on the GPU. The CPU only uploads
+  // 4 control points + metadata per squiggle, not 48 tessellated vertices.
+  const VS = `#version 300 es
+  precision highp float;
+
+  // Per-vertex attributes (only t-parameter and side, repeated for every path)
+  in float a_t;        // 0..1 along curve
+  in float a_side;     // -1 or +1 (left/right of stroke)
+
+  // Per-instance attributes (one set per squiggle)
+  in vec2  a_p0;
+  in vec2  a_p1;
+  in vec2  a_p2;
+  in vec2  a_p3;
+  in vec4  a_color;
+  in vec4  a_params;   // x=strokeWidth, y=drawProgress(0..1), z=dashScale, w=dashOffset
+
+  uniform vec2 u_viewport;   // (width, height) in CSS px
+  uniform float u_scrollY;
+
+  out vec4  v_color;
+  out float v_t;
+  out vec4  v_params;
+  out float v_arcLen;       // approx arc length up to this vertex
+
+  vec2 bezier(float t) {
+    float u = 1.0 - t;
+    return u*u*u*a_p0 + 3.0*u*u*t*a_p1 + 3.0*u*t*t*a_p2 + t*t*t*a_p3;
+  }
+  vec2 bezierDeriv(float t) {
+    float u = 1.0 - t;
+    return 3.0*u*u*(a_p1-a_p0) + 6.0*u*t*(a_p2-a_p1) + 3.0*t*t*(a_p3-a_p2);
+  }
+
+  void main() {
+    vec2  p   = bezier(a_t);
+    vec2  d   = bezierDeriv(a_t);
+    vec2  n   = normalize(vec2(-d.y, d.x));
+    float w   = a_params.x * 0.5;
+
+    p += n * w * a_side;
+
+    // Convert CSS px (with scroll offset) → clip space
+    vec2 px = p - vec2(0.0, u_scrollY);
+    vec2 clip = (px / u_viewport) * 2.0 - 1.0;
+    clip.y = -clip.y;
+    gl_Position = vec4(clip, 0.0, 1.0);
+
+    v_color  = a_color;
+    v_t      = a_t;
+    v_params = a_params;
+
+    // Rough arc length estimate (good enough for dash patterns)
+    v_arcLen = a_t * length(a_p3 - a_p0) * 1.2;
+  }`;
+
+  const FS = `#version 300 es
+  precision highp float;
+
+  in vec4  v_color;
+  in float v_t;
+  in vec4  v_params;   // x=w, y=drawProgress, z=dashScale, w=dashOffset
+  in float v_arcLen;
+
+  out vec4 outColor;
+
+  void main() {
+    // Draw-on reveal
+    if (v_t > v_params.y) discard;
+
+    // Dash pattern: z=0 means solid, otherwise pattern length in px
+    if (v_params.z > 0.0) {
+      float cycle = mod(v_arcLen + v_params.w, v_params.z * 2.0);
+      if (cycle > v_params.z) discard;
+    }
+
+    outColor = v_color;
+  }`;
+
+  function compile(type: number, src: string) {
+    const s = gl.createShader(type)!;
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(s));
+    }
+    return s;
+  }
+  const prog = gl.createProgram()!;
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER,   VS));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  const uViewport = gl.getUniformLocation(prog, "u_viewport");
+  const uScrollY  = gl.getUniformLocation(prog, "u_scrollY");
+
+  const locT     = gl.getAttribLocation(prog, "a_t");
+  const locSide  = gl.getAttribLocation(prog, "a_side");
+  const locP0    = gl.getAttribLocation(prog, "a_p0");
+  const locP1    = gl.getAttribLocation(prog, "a_p1");
+  const locP2    = gl.getAttribLocation(prog, "a_p2");
+  const locP3    = gl.getAttribLocation(prog, "a_p3");
+  const locColor = gl.getAttribLocation(prog, "a_color");
+  const locParam = gl.getAttribLocation(prog, "a_params");
+
+  // ─── Static per-vertex template (t, side) shared by every instance ────────
+  const template = new Float32Array(VERTS_PER_PATH * 2);
+  for (let i = 0; i <= CONFIG.segments; i++) {
+    const t = i / CONFIG.segments;
+    template[(i*2  )*2  ] = t; template[(i*2  )*2+1] = -1;
+    template[(i*2+1)*2  ] = t; template[(i*2+1)*2+1] = +1;
+  }
+  const templateBuf = gl.createBuffer()!;
+  gl.bindBuffer(gl.ARRAY_BUFFER, templateBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, template, gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(locT);
+  gl.vertexAttribPointer(locT,    1, gl.FLOAT, false, 8, 0);
+  gl.enableVertexAttribArray(locSide);
+  gl.vertexAttribPointer(locSide, 1, gl.FLOAT, false, 8, 4);
+
+  // ─── Instance buffer (one entry per visible squiggle) ─────────────────────
+  // Layout per instance (floats): p0(2) p1(2) p2(2) p3(2) color(4) params(4) = 16
+  const FLOATS_PER_INSTANCE = 16;
+  const instanceBuf = gl.createBuffer()!;
+  gl.bindBuffer(gl.ARRAY_BUFFER, instanceBuf);
+
+  function setupInstanceAttrib(loc: number, size: number, offset: number) {
+    if (loc < 0) return;
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, size, gl.FLOAT, false, FLOATS_PER_INSTANCE*4, offset*4);
+    gl.vertexAttribDivisor(loc, 1);
+  }
+  setupInstanceAttrib(locP0,    2,  0);
+  setupInstanceAttrib(locP1,    2,  2);
+  setupInstanceAttrib(locP2,    2,  4);
+  setupInstanceAttrib(locP3,    2,  6);
+  setupInstanceAttrib(locColor, 4,  8);
+  setupInstanceAttrib(locParam, 4, 12);
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+  // ─── State ────────────────────────────────────────────────────────────────
+  let vpW = window.innerWidth;
+  let vpH = window.innerHeight;
+  let vpScrollY = window.scrollY;
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  const squiggles = new Map<string, any>();
+  let instanceData = new Float32Array(0);
+  let instanceCount = 0;
+  let dirty = true;
+
+  // Parse "#rrggbb" or rgb(...) into [r,g,b,a] 0..1
+  function parseColor(): [number, number, number, number] {
+    const css = getComputedStyle(document.documentElement)
+      .getPropertyValue("--theme-primary").trim() || "#ff00ff";
+    if (css.startsWith("#")) {
+      const hex = css.slice(1);
+      const n = parseInt(hex.length === 3
+        ? hex.split("").map(c => c+c).join("")
+        : hex, 16);
+      return [((n>>16)&255)/255, ((n>>8)&255)/255, (n&255)/255, 1];
+    }
+    const m = css.match(/\d+(\.\d+)?/g);
+    if (m) return [+m[0]/255, +m[1]/255, +m[2]/255, m[3] ? +m[3] : 1];
+    return [1, 0, 1, 1];
+  }
+  let themeColor = parseColor();
+
+  function vh(v: number) { return (vpH * v) / 100; }
+
+  // ─── Geometry: compute the 4 bezier control points ────────────────────────
+  function computeControlPoints(cfg: any) {
+    const top    = vh(cfg.windowLocation);
+    const height = vh(cfg.windowHeight);
+    const width  = vpW;
+    const upward = cfg.startDirection === "up";
+
+    const p0x = (cfg.start / 100) * width;
+    const p0y = top + (upward ? height : 0);
+    const p3x = (cfg.end   / 100) * width;
+    const p3y = top + (upward ? 0 : height);
+
+    const intensity = (cfg.waviness / 100) * CONFIG.curveMultiplier;
+    let p1x = p0x, p1y = p0y, p2x = p3x, p2y = p3y;
+
+    if (cfg.startDirection === "down")  p1y += height * intensity;
+    if (cfg.startDirection === "up")    p1y -= height * intensity;
+    if (cfg.startDirection === "left")  p1x -= width  * intensity;
+    if (cfg.startDirection === "right") p1x += width  * intensity;
+    if (cfg.endDirection   === "down")  p2y -= height * intensity;
+    if (cfg.endDirection   === "up")    p2y += height * intensity;
+    if (cfg.endDirection   === "left")  p2x += width  * intensity;
+    if (cfg.endDirection   === "right") p2x -= width  * intensity;
+
+    if (cfg.shouldLoop) {
+      const tx = p1x; p1x = p2x; p2x = tx;
+      p1y += height * intensity * CONFIG.loopVolumePush;
+      p2y -= height * intensity * CONFIG.loopVolumePush;
+    }
+
+    return { p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y };
+  }
+
+  // ─── Dash patterns (in CSS px, matching the SVG version roughly) ──────────
+  function dashScaleFor(style: string): number {
+    // 0 == solid. Otherwise this is the length of one dash AND one gap in px.
+    switch (style) {
+      case "dashed": return 16;
+      case "dotted": return 2; // tiny dot, big gap — we fudge by using 2 cycle
+      default:       return 0;
+    }
+  }
+
+  // ─── Visibility cull + instance buffer rebuild ────────────────────────────
+  function rebuildInstances(time: number) {
+    const top    = vpScrollY - CONFIG.cullMargin;
+    const bottom = vpScrollY + vpH + CONFIG.cullMargin;
+
+    // First pass: count visible
+    let visible = 0;
+    squiggles.forEach((cfg) => {
+      const pt = vh(cfg.windowLocation);
+      const pb = pt + vh(cfg.windowHeight);
+      cfg._visible = pb > top && pt < bottom;
+      if (cfg._visible) visible++;
+    });
+
+    if (instanceData.length < visible * FLOATS_PER_INSTANCE) {
+      instanceData = new Float32Array(visible * FLOATS_PER_INSTANCE * 2); // grow with headroom
+    }
+
+    let i = 0;
+    squiggles.forEach((cfg) => {
+      if (!cfg._visible) return;
+
+      const cp = computeControlPoints(cfg);
+
+      // Draw-on progress
+      if (cfg._drawStart == null) cfg._drawStart = time;
+      const drawDurMs = (parseFloat(cfg.duration) || 1) * 1000;
+      const progress  = Math.min(1, (time - cfg._drawStart) / drawDurMs);
+
+      // Rolling dash offset (animated only if isRolling + non-solid)
+      const dashScale = dashScaleFor(cfg.lineStyle);
+      let dashOffset = 0;
+      if (cfg.isRolling && dashScale > 0) {
+        const rollDurMs = (parseFloat(cfg.rollDuration) || 1) * 1000;
+        // -16 px per cycle to match the original keyframes
+        dashOffset = -((time % rollDurMs) / rollDurMs) * 16;
+      }
+
+      const o = i * FLOATS_PER_INSTANCE;
+      instanceData[o+ 0] = cp.p0x; instanceData[o+ 1] = cp.p0y;
+      instanceData[o+ 2] = cp.p1x; instanceData[o+ 3] = cp.p1y;
+      instanceData[o+ 4] = cp.p2x; instanceData[o+ 5] = cp.p2y;
+      instanceData[o+ 6] = cp.p3x; instanceData[o+ 7] = cp.p3y;
+      instanceData[o+ 8] = themeColor[0];
+      instanceData[o+ 9] = themeColor[1];
+      instanceData[o+10] = themeColor[2];
+      instanceData[o+11] = themeColor[3];
+      instanceData[o+12] = CONFIG.strokeWidth;
+      instanceData[o+13] = progress;
+      instanceData[o+14] = dashScale;
+      instanceData[o+15] = dashOffset;
+      i++;
+    });
+
+    instanceCount = visible;
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, instanceBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, instanceData, gl.DYNAMIC_DRAW);
+  }
+
+  // ─── Canvas sizing ────────────────────────────────────────────────────────
+  function resizeCanvas() {
+    vpW = window.innerWidth;
+    vpH = window.innerHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.style.width  = vpW + "px";
+    canvas.style.height = vpH + "px";
+    canvas.width  = Math.floor(vpW * dpr);
+    canvas.height = Math.floor(vpH * dpr);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+
+  // ─── Render loop ──────────────────────────────────────────────────────────
+  let needsRender = true;
+  let animating   = false;   // true while any path is drawing-in or rolling
+
+  function anyAnimating(time: number): boolean {
+    let active = false;
+    squiggles.forEach((cfg) => {
+      if (!cfg._visible) return;
+      if (cfg.isRolling && dashScaleFor(cfg.lineStyle) > 0) { active = true; return; }
+      if (cfg._drawStart != null) {
+        const dur = (parseFloat(cfg.duration) || 1) * 1000;
+        if (time - cfg._drawStart < dur) active = true;
+      }
+    });
+    return active;
+  }
+
+  function frame(time: number) {
+    vpScrollY = window.scrollY; 
+
+    if (dirty) {
+      rebuildInstances(time);
+      dirty = false;
+    } else if (animating) {
+      rebuildInstances(time);
+    }
+
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    if (instanceCount > 0) {
+      gl.useProgram(prog);
+      gl.uniform2f(uViewport, vpW, vpH);
+      gl.uniform1f(uScrollY, vpScrollY);
+      gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, VERTS_PER_PATH, instanceCount);
+  	}
+
+	animating = anyAnimating(time);
+    if (animating || dirty) requestAnimationFrame(frame);
+    else                    renderingScheduled = false;
+	
+}
+
+  let renderingScheduled = false;
+  function scheduleRender() {
+    if (renderingScheduled) return;
+    renderingScheduled = true;
+    requestAnimationFrame(frame);
+  }
+  function markDirty() {
+    dirty = true;
+    scheduleRender();
+  }
+
+  // ─── Events ───────────────────────────────────────────────────────────────
+  let resizeTimer = -1;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => {
+      resizeCanvas();
+      markDirty();
+    }, 150);
+  });
+
+  let scrollPending = false;
+  window.addEventListener("scroll", () => {
+    if (scrollPending) return;
+    scrollPending = true;
+    requestAnimationFrame(() => {
+      vpScrollY = window.scrollY;
+      markDirty();
+      scrollPending = false;
+    });
+  }, { passive: true });
+
+  // Re-read theme color if it might change (e.g. dark-mode toggle)
+  const themeObserver = new MutationObserver(() => {
+    themeColor = parseColor();
+    markDirty();
+  });
+  themeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class", "data-theme", "style"],
+  });
+
+  // ─── Public API ───────────────────────────────────────────────────────────
+  window.SquiggleManager = {
+    register(cfg) {
+      squiggles.set(cfg.id, {
+        ...cfg,
+        _drawStart: null,
+        _visible: false,
+      });
+      markDirty();
+    },
+    unregister(id) {
+      squiggles.delete(id);
+      markDirty();
+    },
+  };
+
+  (window.__pendingSquiggles ?? []).forEach((cfg) =>
+    window.SquiggleManager.register(cfg)
+  );
+  window.__pendingSquiggles = [];
+
+  // Initial paint
+  resizeCanvas();
+  markDirty();
+})();
+</script>
+
+<style is:global>
+  #global-squiggle-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 100;
+    /* No `contain` here — a single fixed canvas is already cheap to composite.
+       Browsers promote it to its own GPU layer automatically. */
+  }
+</style>
